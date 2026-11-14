@@ -244,7 +244,10 @@ function showHome() {
 
   home.innerHTML = `
     <section class="hero grain" aria-labelledby="hero-title">
-      <div class="hero-sky" id="hero-sky" aria-hidden="true"></div>
+      <div class="hero-sky" id="hero-sky" aria-hidden="true">
+        <img class="nebula-img" src="img/carina-2000.jpg" srcset="img/carina-1100.jpg 1100w, img/carina-2000.jpg 2000w" sizes="100vw" alt="" decoding="async" fetchpriority="high">
+      </div>
+      <div class="hero-shade" aria-hidden="true"></div>
       <div class="hero-inner">
         <div class="hero-copy">
           <p class="kicker">SPHEREx · 102 infrared colours · the whole sky every 6 months</p>
@@ -262,7 +265,7 @@ function showHome() {
       </div>
       <div class="hero-foot">
         <a class="ul-link" href="index.html#log" data-nav>Open the observing log</a>
-        <span class="hero-scroll" aria-hidden="true">Scroll down</span>
+        <p class="hero-credit">Background: the “Cosmic Cliffs” of the Carina Nebula, seen in infrared by the James Webb Space Telescope. NASA, ESA, CSA, STScI.</p>
       </div>
     </section>
 
@@ -410,20 +413,19 @@ async function renderHomeMedia() {
   // Hero + slow plate: the slow-mover frames.
   const slowT = state.targets.find(t => t.id === HERO_SOURCE.target && (t.modes || []).includes("slow")) || exampleTarget("slow");
   const heroDir = modeDir(HERO_SOURCE.target, HERO_SOURCE.mode);
+  const nebula = $("#hero-sky .nebula-img");
+  if (nebula) {
+    trackLoader([nebula]);
+    if (window.SkyNebula) homeCleanup.push(window.SkyNebula.mount($("#hero-sky"), nebula));
+  } else trackLoader([]);
   const heroM = await fetchJSON(`${heroDir}/manifest.json`);
   if (!$("#hero-sky")) return;
   const okFrames = m => m && Array.isArray(m.frames) && m.frames.length;
 
   if (okFrames(heroM)) {
-    const sky = $("#hero-sky");
-    sky.innerHTML = heroM.frames.map((f, i) => `<img src="${heroDir}/${encodeURIComponent(f.file)}" alt="" data-i="${i}"${i ? "" : ` class="is-on"`}>`).join("");
-    const imgs = [...sky.querySelectorAll("img")];
-    trackLoader(imgs);
-    blinkers.push({ n: heroM.frames.length, set: i => imgs.forEach((im, j) => im.classList.toggle("is-on", j === i)) });
     const heroT = state.targets.find(t => t.id === HERO_SOURCE.target);
     blinkers.push(...framePlate("hero-preview", heroT || { id: HERO_SOURCE.target, name: null }, heroDir, heroM, { hero: true }));
   } else {
-    trackLoader([]);
     const pv = $("#hero-preview");
     if (pv) pv.innerHTML = `<div class="plate plate-empty"><span>Preview coming soon</span></div>${spectralRuler(null)}`;
   }
@@ -1293,7 +1295,7 @@ function drawStage() {
       ctx.strokeStyle = ember; ctx.lineWidth = lw * 1.3;
       ctx.beginPath(); ctx.arc(cx, cy, ringR, 0, Math.PI * 2); ctx.stroke();
       ctx.save();
-      ctx.shadowColor = "rgba(255,138,76,.8)"; ctx.shadowBlur = 10 * dpr;
+      ctx.shadowColor = "rgba(242,162,92,.85)"; ctx.shadowBlur = 10 * dpr;
       ctx.fillStyle = ember;
       ctx.beginPath(); ctx.arc(cx, cy, 2.5 * dpr, 0, Math.PI * 2); ctx.fill();
       ctx.restore();
@@ -1313,7 +1315,7 @@ function label(ctx, text, cx, cy, r, color, dpr) {
   let x = cx + r * 0.75, y = cy - r - h / 2;
   if (x + tw + pad * 2 > W - 4 * dpr) x = cx - r * 0.75 - tw - pad * 2;
   if (y < 4 * dpr) y = cy + r + 4 * dpr;
-  ctx.fillStyle = "rgba(10,10,11,.85)";
+  ctx.fillStyle = "rgba(7,10,19,.85)";
   ctx.fillRect(x, y, tw + pad * 2, h);
   ctx.fillStyle = color;
   ctx.textBaseline = "middle"; ctx.textAlign = "left";
