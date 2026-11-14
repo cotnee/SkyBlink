@@ -110,7 +110,12 @@ export function parseCoordText(raw) {
  */
 export async function resolveName(name) {
   let reached = false;
-  for (const base of S.resolvers || []) {
+  // Defaults here too, so a visitor with an older cached config.js still gets name lookup.
+  const resolvers = Array.isArray(S.resolvers) && S.resolvers.length ? S.resolvers : [
+    "https://cds.unistra.fr/cgi-bin/nph-sesame/-oxp/SNV?",
+    "https://vizier.cfa.harvard.edu/viz-bin/nph-sesame/-oxp/SNV?",
+  ];
+  for (const base of resolvers) {
     const ctl = new AbortController();
     const timer = setTimeout(() => ctl.abort(), S.resolveTimeoutMs || 8000);
     try {
@@ -179,7 +184,7 @@ export function findMatch(ra, dec, targets = []) {
 export const isProcessed = (t) => (t.ready != null ? t.ready === true : Array.isArray(t.modes) && t.modes.length > 0);
 
 export function searchPageUrl(raText, decText, name) {
-  return pageUrl(CFG.pages.search, { [P.ra]: raText, [P.dec]: decText, [P.name]: name });
+  return pageUrl(CFG.pages.search, { [P.ra]: raText, [P.dec]: decText, [P.name || "name"]: name });
 }
 
 /** Where a coordinate search should go: the matching target page or the not-processed page. */
@@ -198,7 +203,7 @@ export function keepCoordsInUrl(raText, decText, name) {
     const u = new URL(location.href);
     u.searchParams.set(P.ra, raText);
     u.searchParams.set(P.dec, decText);
-    if (name) u.searchParams.set(P.name, name); else u.searchParams.delete(P.name);
+    if (name) u.searchParams.set(P.name || "name", name); else u.searchParams.delete(P.name || "name");
     history.replaceState(history.state, "", u.pathname + u.search + u.hash);
   } catch { /* file:// or sandboxed iframe */ }
 }

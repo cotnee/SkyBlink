@@ -110,7 +110,7 @@ async function render(root) {
     fill(out, message(`${c.message} Fix the coordinates in the box above and press Search.`, "warn"));
     return;
   }
-  const name = getParam(P.name);
+  const name = getParam(P.name || "name");
   renderResult(out, name ? { ...c, name } : c, targets);
 }
 
