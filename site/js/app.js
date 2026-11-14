@@ -487,6 +487,8 @@ async function showViewer(targetId, modeParam) {
   state.manifest = null;
   state.candidates = null;
   state.frame = 0;
+  state.fov = null;
+  state.diffCache = {};
   document.title = `${t.name} · ${MODES[mode].name} · SkyBlink`;
 
   renderHead(t, mode, modes);
@@ -590,6 +592,10 @@ function renderBody(t, mode) {
               ${[0.5, 1, 2].map(s => `<button type="button" class="pill pill-sm" data-speed="${s}" aria-pressed="${s === state.speed}">${s}×</button>`).join("")}
             </div>
           </div>
+          <div class="control-row" id="fov-row" hidden>
+            <span class="control-label" id="fov-label">Field</span>
+            <div class="pills" role="group" aria-labelledby="fov-label"></div>
+          </div>
           <p class="kbd-hint">Keyboard: <kbd>Space</kbd> play/pause · <kbd>←</kbd> <kbd>→</kbd> step</p>
         </div>
         <div class="side" id="side">${sideStatic(m, mode)}</div>
@@ -610,6 +616,13 @@ function renderBody(t, mode) {
   }));
 
   wireSide();
+  $("#fov-row").addEventListener("click", e => {
+    const b = e.target.closest("[data-fov]");
+    if (!b) return;
+    state.fov = b.dataset.fov ? +b.dataset.fov : null;
+    renderFovPills();
+    drawStage();
+  });
   loadFrameImages(t, mode, m);
   if (stageObserver) stageObserver.disconnect();
   stageObserver = new ResizeObserver(() => { drawStage(); updateSide(); });
@@ -673,6 +686,7 @@ function sideStatic(m, mode) {
         ${layer("highlights", "Highlights", hasHl, "none for this target", "hl")}
         ${layer("gaia", "Known stars (Gaia DR3)", hasGaia, "none in this field", "gaia")}
         ${layer("flagged", "Flagged pixels", anyFlag, "none flagged", "flag")}
+        ${layer("diff", "Difference view", m.frames.length > 1, "needs 2+ frames", "diff")}
       </div>
     </section>
     ${m.notes ? `<section class="card" aria-labelledby="nt-title"><h2 id="nt-title">Notes</h2><p class="notes">${esc(m.notes)}</p></section>` : ""}`;
@@ -681,7 +695,7 @@ function sideStatic(m, mode) {
 function wireSide() {
   document.querySelectorAll("[data-layer]").forEach(cb => cb.addEventListener("change", () => {
     state.layers[cb.dataset.layer] = cb.checked;
-    drawStage();
+    showFrame(state.frame);
   }));
   // Timeline dots, brightness points and detector bars jump to their frame.
   $("#side").addEventListener("click", e => {
@@ -816,7 +830,11 @@ function loadFrameImages(t, mode, m) {
   state.images = m.frames.map((f, i) => {
     const img = new Image();
     img.decoding = "async";
-    img.onload = () => { if (state.manifest === m && state.frame === i) drawStage(); };
+    img.onload = () => {
+      if (state.manifest !== m) return;
+      if (i === 0) renderFovPills();
+      if (state.frame === i || (i === 0 && state.layers.diff)) drawStage();
+    };
     img.onerror = () => { img.failed = true; if (state.manifest === m && state.frame === i) drawStage(); };
     img.src = `${dir}/${encodeURIComponent(f.file)}`;
     return img;
@@ -843,6 +861,64 @@ function flaggedPixels(img) {
 function pixelScale(m, f) {
   const v = (f && f.pixel_scale_arcsec) ?? m.pixel_scale_arcsec;
   return typeof v === "number" && v > 0 ? v : null;
+}
+
+// Difference view: this frame minus the first frame, on a mid-grey background,
+// so anything that stayed the same disappears. Blank (flagged) pixels stay grey.
+function differenceCanvas(i) {
+  state.diffCache = state.diffCache || {};
+  if (state.diffCache[i]) return state.diffCache[i];
+  const a = state.images[0], b = state.images[i];
+  if (!a || !b || !a.naturalWidth || !b.naturalWidth || a.failed || b.failed) return null;
+  if (a.naturalWidth !== b.naturalWidth || a.naturalHeight !== b.naturalHeight) return null;
+  const w = a.naturalWidth, h = a.naturalHeight;
+  const read = img => {
+    const c = document.createElement("canvas"); c.width = w; c.height = h;
+    const x = c.getContext("2d"); x.drawImage(img, 0, 0);
+    return x.getImageData(0, 0, w, h);
+  };
+  const A = read(a).data, B = read(b);
+  const D = B.data;
+  for (let k = 0; k < D.length; k += 4) {
+    const ok = A[k + 3] >= 128 && D[k + 3] >= 128;
+    const ga = (A[k] + A[k + 1] + A[k + 2]) / 3, gb = (D[k] + D[k + 1] + D[k + 2]) / 3;
+    const v = ok ? Math.max(0, Math.min(255, Math.round(128 + gb - ga))) : 128;
+    D[k] = D[k + 1] = D[k + 2] = v; D[k + 3] = 255;
+  }
+  const out = document.createElement("canvas"); out.width = w; out.height = h;
+  out.getContext("2d").putImageData(B, 0, 0);
+  state.diffCache[i] = out;
+  return out;
+}
+
+// Field of view: offered only when the data gives a pixel scale, and only sizes that fit.
+const FOV_CHOICES = [3, 6, 12];
+function fullFovArcmin(m) {
+  const img = state.images && state.images[0];
+  const ps = pixelScale(m, m.frames[0]);
+  if (!ps || !img || !img.naturalWidth) return null;
+  return (Math.min(img.naturalWidth, img.naturalHeight) * ps) / 60;
+}
+
+function viewRect(m, f, iw, ih) {
+  const ps = pixelScale(m, f);
+  if (!state.fov || !ps) return { x: 0, y: 0, w: iw, h: ih };
+  const size = Math.min((state.fov * 60) / ps, iw, ih);
+  return { x: (iw - size) / 2, y: (ih - size) / 2, w: size, h: size };
+}
+
+function renderFovPills() {
+  const row = $("#fov-row");
+  const m = state.manifest;
+  if (!row || !m) return;
+  const full = fullFovArcmin(m);
+  if (!full) { row.hidden = true; return; }
+  const fits = FOV_CHOICES.filter(v => v < full - 0.05);
+  if (state.fov && !fits.includes(state.fov)) state.fov = null;
+  row.hidden = false;
+  row.querySelector(".pills").innerHTML =
+    fits.map(v => `<button type="button" class="pill pill-sm" data-fov="${v}" aria-pressed="${state.fov === v}">${v}′</button>`).join("") +
+    `<button type="button" class="pill pill-sm" data-fov="" aria-pressed="${!state.fov}">${full.toFixed(1)}′ full</button>`;
 }
 
 function drawStage() {
@@ -872,15 +948,25 @@ function drawStage() {
   if (!img.complete || !img.naturalWidth) return;
 
   const iw = img.naturalWidth, ih = img.naturalHeight;
-  // View rectangle in image pixels (field-of-view crop comes in step 6).
-  const view = { x: 0, y: 0, w: iw, h: ih };
+  // View rectangle in image pixels: the field-of-view crop around the centre.
+  const view = viewRect(m, f, iw, ih);
   const s = Math.min(W / view.w, H / view.h);
   const ox = (W - view.w * s) / 2, oy = (H - view.h * s) / 2;
   // Image pixel coordinates (pixel centres at integers) → canvas.
   const toC = (x, y) => [ox + (x + 0.5 - view.x) * s, oy + (y + 0.5 - view.y) * s];
 
+  const diff = state.layers.diff && state.frame > 0 ? differenceCanvas(state.frame) : null;
   ctx.imageSmoothingEnabled = false;
-  ctx.drawImage(img, view.x, view.y, view.w, view.h, ox, oy, view.w * s, view.h * s);
+  if (state.layers.diff) {
+    ctx.fillStyle = "#808080";
+    ctx.fillRect(ox, oy, view.w * s, view.h * s);
+  }
+  if (!state.layers.diff || diff) {
+    ctx.drawImage(diff || img, view.x, view.y, view.w, view.h, ox, oy, view.w * s, view.h * s);
+  }
+  // Keep overlays inside the image area.
+  ctx.save();
+  ctx.beginPath(); ctx.rect(ox, oy, view.w * s, view.h * s); ctx.clip();
 
   const L = state.layers;
   const lw = Math.max(1.5, 1.5 * dpr);
@@ -902,7 +988,7 @@ function drawStage() {
   // Known Gaia stars: blue squares.
   if (L.gaia && Array.isArray(m.gaia)) {
     ctx.strokeStyle = blue; ctx.lineWidth = lw;
-    const half = Math.max(7 * dpr, s * 1.2);
+    const half = Math.min(14 * dpr, Math.max(7 * dpr, s * 1.2));
     for (const g of m.gaia) {
       const [cx, cy] = toC(g.x, g.y);
       ctx.strokeRect(cx - half, cy - half, half * 2, half * 2);
@@ -910,7 +996,7 @@ function drawStage() {
   }
 
   if (L.highlights && Array.isArray(m.highlights)) {
-    const ringR = Math.max(14 * dpr, s * 3);
+    const ringR = Math.min(36 * dpr, Math.max(14 * dpr, s * 3));
     const current = highlightsForFrame(m, state.frame);
 
     // Slow mode: dashed blue circles where the target was in earlier frames.
@@ -941,6 +1027,7 @@ function drawStage() {
     }
   }
 
+  ctx.restore();
   drawScaleBar(m, f, s / dpr);
 }
 
@@ -988,7 +1075,9 @@ function showFrame(i) {
   $("#stage-chips").innerHTML =
     (f.date ? `<span class="chip chip-mono">${esc(f.date)}</span>` : "") +
     (f.label ? `<span class="chip chip-mono">${esc(f.label)}</span>` : "");
-  $("#stage-chips-right").innerHTML = m.fake ? `<span class="chip chip-mono chip-warn">Sample data</span>` : "";
+  $("#stage-chips-right").innerHTML =
+    (state.layers.diff ? `<span class="chip chip-mono">${state.frame > 0 ? `Difference: frame ${state.frame + 1} − frame 1` : "Difference: step to a later frame"}</span>` : "") +
+    (m.fake ? `<span class="chip chip-mono chip-warn">Sample data</span>` : "");
   $("#frame-count").textContent = `Frame ${state.frame + 1} / ${n}`;
   document.querySelectorAll(".strip-bar").forEach((b, j) => {
     if (j === state.frame) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current");

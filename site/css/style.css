@@ -383,6 +383,9 @@ kbd {
 .layer-flag::before, .layer-flag::after { content: ""; position: absolute; left: 6px; top: -1px; width: 2px; height: 16px; background: var(--d6); transform: rotate(45deg); }
 .layer-flag::after { transform: rotate(-45deg); }
 
+.layer-diff { position: relative; border-radius: 3px; background: #808080; border: 1px solid var(--line-2); overflow: hidden; }
+.layer-diff::after { content: ""; position: absolute; inset: 0 50% 0 0; background: var(--text); }
+
 /* ---------- Phone ---------- */
 @media (max-width: 860px) {
   .viewer-grid { grid-template-columns: minmax(0, 1fr); }
