@@ -200,6 +200,17 @@ const MODE_INFO = {
   },
 };
 
+// The four lenses, in plain words.
+const LENS = {
+  fast:     { word: "Fast",     short: "Faint objects moving across the sky, found by stacking many photos." },
+  slow:     { word: "Slow",     short: "Nearby stars crawling across the sky between 2010 and 2026." },
+  variable: { word: "Blinking", short: "Stars that get brighter and dimmer over time." },
+  color:    { word: "Colour",   short: "How an object looks from blue to red across six detectors." },
+};
+
+// First target that has this lens (for "Open the lens" links).
+const firstTargetWith = mode => state.targets.find(t => (t.modes || []).includes(mode)) || null;
+
 const HOW = [
   { title: "Match the colour", text: "We only blink images taken in the same infrared colour, so a change you see is real, not a trick of the filter." },
   { title: "Stack the photos", text: "For hidden movers, our software adds up about 120 exposures along possible paths, so something too faint for one photo starts to show." },
@@ -253,6 +264,11 @@ function showHome() {
         <a class="ul-link" href="index.html#log" data-nav>Open the observing log</a>
         <span class="hero-scroll" aria-hidden="true">Scroll down</span>
       </div>
+    </section>
+
+    <section class="lenses" id="lenses" aria-labelledby="lenses-title">
+      <h2 class="kicker" id="lenses-title">Choose a lens</h2>
+      <ol class="lens-grid" id="lens-grid"></ol>
     </section>
 
     <section class="statement" aria-label="What SkyBlink does">
@@ -309,14 +325,17 @@ function renderModeCards() {
   $("#mode-grid").innerHTML = MODE_ORDER.map((m, k) => {
     const info = MODE_INFO[m];
     const examples = state.targets.filter(t => (t.modes || []).includes(m)).map(t => t.name);
-    return `<article class="chapter${k % 2 ? " is-flip" : ""} reveal" aria-labelledby="ch-${m}">
+    const ex = firstTargetWith(m);
+    return `<article class="chapter${k % 2 ? " is-flip" : ""} reveal" id="lens-${m}" aria-labelledby="ch-${m}">
       <div class="chapter-media" id="plate-${m}"><div class="plate plate-empty"><span>Loading…</span></div></div>
       <div class="chapter-copy">
-        <p class="chapter-num"><svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">${info.icon}</svg>${String(k + 1).padStart(2, "0")} / ${n}</p>
-        <h3 class="chapter-lead" id="ch-${m}">${info.lead}</h3>
+        <p class="chapter-num"><svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">${info.icon}</svg>Lens ${String(k + 1).padStart(2, "0")} / ${n} · ${LENS[m].word} <span class="chapter-tag">· ${info.tag}</span></p>
+        <h3 class="chapter-name" id="ch-${m}">${MODES[m].name}</h3>
+        <p class="chapter-lead">${info.lead}</p>
         <div class="chapter-links">
-          <button type="button" class="ul-link" data-mode="${m}" aria-pressed="${hunt === m}">${MODES[m].name}</button>
-          <span class="chapter-tag">${info.tag}</span>
+          ${ex ? `<a class="lens-open" href="${viewerURL(ex.id, m)}" data-nav>Open the ${LENS[m].word.toLowerCase()} lens <span aria-hidden="true">→</span></a>`
+               : `<span class="lens-open is-off">Coming soon</span>`}
+          ${ex ? `<button type="button" class="ul-link" data-mode="${m}" aria-pressed="${hunt === m}">Show its targets</button>` : ""}
         </div>
         <p class="chapter-ex">${examples.length ? esc(examples.join(" · ")) : "Targets coming soon"}</p>
       </div>
@@ -328,6 +347,24 @@ function renderModeCards() {
     setHunt(next);
     if (next) $("#log").scrollIntoView({ behavior: reduceMotion() ? "auto" : "smooth" });
   }));
+  renderLensPicker();
+}
+
+function renderLensPicker() {
+  const grid = $("#lens-grid");
+  if (!grid) return;
+  grid.innerHTML = MODE_ORDER.map((m, k) => {
+    const ex = firstTargetWith(m);
+    const inner = `
+      <span class="lens-top"><svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">${MODE_INFO[m].icon}</svg><span class="lens-num">${String(k + 1).padStart(2, "0")}</span></span>
+      <span class="lens-word">${LENS[m].word}</span>
+      <span class="lens-name">${MODES[m].name}</span>
+      <span class="lens-short">${LENS[m].short}</span>
+      <span class="lens-go">${ex ? `Open with ${esc(ex.name)} <span aria-hidden="true">→</span>` : "Coming soon"}</span>`;
+    return `<li>${ex
+      ? `<a class="lens-tile" href="${viewerURL(ex.id, m)}" data-nav>${inner}</a>`
+      : `<div class="lens-tile is-off" aria-disabled="true">${inner}</div>`}</li>`;
+  }).join("");
 }
 
 function renderLog() {
@@ -743,14 +780,17 @@ function renderHead(t, mode, modes) {
           ${coords ? `<p class="target-coords">${coords}</p>` : ""}
         </div>
       </div>
-      <nav class="mode-tabs" aria-label="Modes">
-        ${MODE_ORDER.map((m, k) => {
-          const n = `<span class="tab-num">${String(k + 1).padStart(2, "0")}</span>`;
+      <p class="kicker lens-label" id="lens-label">Lens</p>
+      <nav class="mode-tabs" aria-labelledby="lens-label">
+        ${MODE_ORDER.map(m => {
+          const inner = `<svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">${MODE_INFO[m].icon}</svg>
+            <span class="tab-text"><span class="tab-word">${LENS[m].word}</span><span class="tab-name">${MODES[m].name}${modes.includes(m) ? "" : " · coming soon"}</span></span>`;
           return modes.includes(m)
-            ? `<a class="mode-tab" href="${viewerURL(t.id, m)}" data-nav${m === mode ? ' aria-current="page"' : ""}>${n}${MODES[m].name}</a>`
-            : `<a class="mode-tab" role="link" aria-disabled="true" title="Coming soon for this target">${n}${MODES[m].name}<span class="tab-soon">soon</span></a>`;
+            ? `<a class="mode-tab" href="${viewerURL(t.id, m)}" data-nav${m === mode ? ' aria-current="page"' : ""}>${inner}</a>`
+            : `<a class="mode-tab" role="link" aria-disabled="true" title="Coming soon for this target">${inner}</a>`;
         }).join("")}
       </nav>
+      <p class="lens-now"><span class="lens-now-label">You're using the ${LENS[mode].word.toLowerCase()} lens.</span> ${MODE_INFO[mode].lead}</p>
       <div class="share">
         <span class="kicker share-label">Share</span>
         <output class="share-url" aria-label="Shareable link">${esc(url)}</output>
