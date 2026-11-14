@@ -95,6 +95,7 @@ function navigate(url, { replace = false } = {}) {
 
 async function route() {
   stopPlaying();
+  clearInterval(heroTimer);
   const { target, mode } = params();
   if (!state.targets.length && !state.targetsMissing) await loadTargets();
   if (target) await showViewer(target, mode);
@@ -119,11 +120,92 @@ function announce() {
     ra: t ? t.ra : null, dec: t ? t.dec : null } }));
 }
 
-/* ---------- Home ---------- */
-
 function fmtCoord(v, digits = 3) {
   return typeof v === "number" ? v.toFixed(digits) : "–";
 }
+
+/* ---------- Spectral ruler ---------- */
+
+// SPHEREx detectors D1–D6: wavelength ranges in µm; flex-grow ∝ range width.
+const DETECTORS = [
+  { id: "D1", lo: 0.75, hi: 1.09, grow: 34 },
+  { id: "D2", lo: 1.10, hi: 1.62, grow: 52 },
+  { id: "D3", lo: 1.63, hi: 2.41, grow: 78 },
+  { id: "D4", lo: 2.42, hi: 3.82, grow: 140 },
+  { id: "D5", lo: 3.83, hi: 4.41, grow: 58 },
+  { id: "D6", lo: 4.42, hi: 5.00, grow: 58 },
+];
+const WL_MIN = 0.75, WL_MAX = 5.0;
+
+function detectorFor(wl) {
+  if (typeof wl !== "number") return null;
+  return DETECTORS.find(d => wl >= d.lo && wl < d.hi + 0.01) || null;
+}
+
+// One reusable ruler. wl = wavelength in µm to mark (or null for no marker).
+function spectralRuler(wl, { compact = false } = {}) {
+  const has = typeof wl === "number" && wl >= WL_MIN && wl <= WL_MAX;
+  const det = has ? detectorFor(wl) : null;
+  const pos = has ? ((wl - WL_MIN) / (WL_MAX - WL_MIN)) * 100 : 0;
+  const label = has
+    ? `Spectral ruler from ${WL_MIN} to ${WL_MAX.toFixed(1)} µm, marker at ${wl} µm${det ? `, detector ${det.id}` : ""}`
+    : `Spectral ruler from ${WL_MIN} to ${WL_MAX.toFixed(1)} µm`;
+  return `
+    <div class="ruler${compact ? " ruler-compact" : ""}" role="img" aria-label="${esc(label)}">
+      <div class="ruler-bar">
+        ${DETECTORS.map(d => `<span class="ruler-seg${det && det.id === d.id ? " is-current" : ""}"
+          style="flex-grow:${d.grow};background:var(--${d.id.toLowerCase()})"><span class="ruler-seg-label">${d.id}</span></span>`).join("")}
+        ${has ? `<span class="ruler-marker" style="left:${pos.toFixed(2)}%"></span>` : ""}
+      </div>
+      <div class="ruler-ends"><span>${WL_MIN} µm</span>${has ? `<span class="ruler-now">${wl} µm</span>` : ""}<span>${WL_MAX.toFixed(1)} µm</span></div>
+    </div>`;
+}
+
+// Which highlights belong to frame i: those whose label names the frame's year;
+// otherwise, if there's one highlight per frame, the one with the same index.
+function highlightsForFrame(m, i) {
+  const hl = Array.isArray(m.highlights) ? m.highlights : [];
+  const f = m.frames[i];
+  const year = f && f.date ? String(f.date).slice(0, 4) : "";
+  const byYear = year ? hl.filter(h => String(h.label || "").includes(year)) : [];
+  if (byYear.length) return byYear;
+  if (hl.length === m.frames.length && hl.length > 1) return [hl[i]];
+  return hl;
+}
+
+/* ---------- Home ---------- */
+
+const MODE_INFO = {
+  fast: {
+    desc: "Faint objects drifting across the sky, too faint to see in a single photo until our software stacks them.",
+    pill: "Our engine",
+    icon: `<path d="M4 20 L20 4" stroke-dasharray="2 3"/><circle cx="20" cy="4" r="2.5"/><circle cx="6" cy="8" r="1"/><circle cx="16" cy="18" r="1"/>`,
+  },
+  slow: {
+    desc: "Blink a 2010 WISE image against SPHEREx in the same colour and watch nearby stars crawl.",
+    pill: "2010 → 2026",
+    icon: `<circle cx="7" cy="14" r="3" stroke-dasharray="2 2"/><circle cx="17" cy="10" r="3"/><path d="M10 13 L14 11"/>`,
+  },
+  variable: {
+    desc: "Follow one star's brightness over time, always with the same detector.",
+    pill: "same detector only",
+    icon: `<path d="M3 15 L7 15 L9 8 L12 18 L15 6 L17 15 L21 15"/>`,
+  },
+  color: {
+    desc: "Step through SPHEREx's 6 detectors from blue to red and see how an object's colour changes.",
+    pill: "experimental",
+    icon: `<circle cx="12" cy="12" r="8"/><path d="M12 4 V20 M4 12 H20"/>`,
+  },
+};
+
+const HOW = [
+  { title: "Match the colour", text: "We only blink images taken in the same infrared colour, so a change you see is real, not a trick of the filter." },
+  { title: "Stack the photos", text: "For hidden movers, our software adds up about 120 exposures along possible paths, so something too faint for one photo starts to show." },
+  { title: "Check, then you decide", text: "Each find is checked against known Gaia stars and bad pixels. Then you look at it yourself and decide." },
+];
+
+const HERO_SOURCE = { target: "barnard", mode: "slow" };
+let heroTimer = null;
 
 function showHome() {
   state.target = null;
@@ -132,56 +214,230 @@ function showHome() {
   state.candidates = null;
   document.title = "SkyBlink · Watch the sky change";
   $("#viewer").hidden = true;
+  setSlots(null);
   const home = $("#home");
   home.hidden = false;
 
-  const { hunt } = params();
-  const list = hunt && MODES[hunt]
-    ? state.targets.filter(t => (t.modes || []).includes(hunt))
-    : state.targets;
-
-  let log;
-  if (state.targetsMissing) {
-    log = `<div class="notice"><p>The target list (<code>data/targets.json</code>) hasn't been published yet.</p></div>`;
-  } else if (!list.length) {
-    log = `<p>No targets for this mode yet.</p>`;
-  } else {
-    log = `<ol class="log-list">${list.map((t, i) => `
-      <li class="card log-row">
-        <span class="log-num">${String(i + 1).padStart(2, "0")}</span>
-        <div>
-          <h3 class="log-name"><a href="${viewerURL(t.id, (t.modes || [])[0] || "slow")}" data-nav>${esc(t.name)}</a></h3>
-          ${t.mission ? `<p class="log-mission">${esc(t.mission)}</p>` : ""}
-          <div class="pills">${(t.modes || []).filter(m => MODES[m]).map(m =>
-            `<a class="pill" href="${viewerURL(t.id, m)}" data-nav>${MODES[m].name}</a>`).join("")}</div>
-        </div>
-        <span class="log-coords">RA ${fmtCoord(t.ra)}°<br>Dec ${fmtCoord(t.dec)}°</span>
-      </li>`).join("")}</ol>`;
-  }
-
   home.innerHTML = `
     <div class="wrap">
-      <section class="section">
-        <p class="eyebrow">SPHEREx · 102 infrared colours · the whole sky every 6 months</p>
-        <h1 class="section-title" style="font-size:clamp(36px,7vw,64px)">Watch the sky change.</h1>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">SPHEREx · 102 infrared colours · the whole sky every 6 months</p>
+          <h1 id="hero-title" class="hero-title">Watch the sky change.</h1>
+          <p class="hero-sub">Flip through NASA infrared images of the same patch of sky, years apart, and spot what moves, blinks or changes colour.</p>
+          <form class="search" id="search" role="search">
+            <label class="visually-hidden" for="search-input">Star name or coordinates</label>
+            <input id="search-input" type="search" placeholder="Star name or coordinates" autocomplete="off" spellcheck="false">
+            <button class="btn btn-primary" type="submit">Start exploring</button>
+          </form>
+          <p class="search-msg" id="search-msg" role="status"></p>
+          <p class="hero-mission">Or start with a mission: <a href="${viewerURL("barnard", "slow")}" data-nav>find the fastest star in the sky</a></p>
+        </div>
+        <figure class="hero-preview" id="hero-preview"></figure>
       </section>
+
+      <section class="section" id="hunt" aria-labelledby="hunt-title">
+        <h2 class="section-title" id="hunt-title">What are you hunting?</h2>
+        <div class="mode-grid" id="mode-grid"></div>
+      </section>
+
       <section class="section" id="log" aria-labelledby="log-title">
-        <h2 class="section-title" id="log-title">Observing log${hunt && MODES[hunt] ? ` · ${MODES[hunt].name}` : ""}</h2>
-        ${log}
+        <h2 class="section-title" id="log-title">Observing log</h2>
+        <div id="log-body"></div>
       </section>
+
       <section class="section" id="how" aria-labelledby="how-title">
         <h2 class="section-title" id="how-title">How it works, in 30 seconds</h2>
+        <ol class="how-grid">
+          ${HOW.map((h, i) => `<li class="card how-card">
+            <span class="how-num">${String(i + 1).padStart(2, "0")}</span>
+            <h3>${h.title}</h3><p>${h.text}</p></li>`).join("")}
+        </ol>
       </section>
     </div>`;
 
+  renderModeCards();
+  renderLog();
+  renderHeroPreview();
+  $("#search").addEventListener("submit", onSearch);
+
   // Honour #log / #how after re-render.
-  if (location.hash) {
-    const el = document.getElementById(location.hash.slice(1));
-    if (el) el.scrollIntoView();
-  } else {
-    window.scrollTo(0, 0);
-  }
+  const el = location.hash && document.getElementById(location.hash.slice(1));
+  if (el) el.scrollIntoView(); else window.scrollTo(0, 0);
   announce();
+}
+
+function currentHunt() {
+  const { hunt } = params();
+  return MODES[hunt] ? hunt : null;
+}
+
+function setHunt(mode) {
+  const url = mode ? `index.html?hunt=${mode}#log` : "index.html#log";
+  history.replaceState(null, "", url);
+  renderModeCards();
+  renderLog();
+}
+
+function renderModeCards() {
+  const hunt = currentHunt();
+  const grid = $("#mode-grid");
+  grid.innerHTML = MODE_ORDER.map(m => {
+    const info = MODE_INFO[m];
+    const examples = state.targets.filter(t => (t.modes || []).includes(m)).map(t => t.name);
+    return `<button type="button" class="card mode-card" data-mode="${m}" aria-pressed="${hunt === m}">
+      <span class="mode-card-top">
+        <svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">${info.icon}</svg>
+        <span class="chip chip-mono${m === "fast" ? " chip-accent" : ""}">${info.pill}</span>
+      </span>
+      <span class="mode-name">${MODES[m].name}</span>
+      <span class="mode-desc">${info.desc}</span>
+      <span class="mode-examples">${examples.length ? esc(examples.join(" · ")) : "Targets coming soon"}</span>
+    </button>`;
+  }).join("");
+  grid.querySelectorAll(".mode-card").forEach(b => b.addEventListener("click", () => {
+    const m = b.dataset.mode;
+    setHunt(currentHunt() === m ? null : m);
+  }));
+}
+
+function renderLog() {
+  const hunt = currentHunt();
+  $("#log-title").textContent = hunt ? `Observing log · ${MODES[hunt].name}` : "Observing log";
+  const list = hunt ? state.targets.filter(t => (t.modes || []).includes(hunt)) : state.targets;
+  const body = $("#log-body");
+
+  if (state.targetsMissing) {
+    body.innerHTML = `<div class="notice"><p>The target list (<code>data/targets.json</code>) hasn't been published yet.</p></div>`;
+    return;
+  }
+  const clear = hunt ? `<p class="log-filter">Showing targets with ${MODES[hunt].name.toLowerCase()}. <button type="button" class="link-btn" id="clear-hunt">Show all targets</button></p>` : "";
+  body.innerHTML = clear + (list.length ? `<ol class="log-list">${list.map((t, i) => `
+      <li class="card log-row">
+        <span class="log-num">${String(i + 1).padStart(2, "0")}</span>
+        <div class="log-main">
+          <h3 class="log-name"><a href="${viewerURL(t.id, hunt || (t.modes || [])[0] || "slow")}" data-nav>${esc(t.name)}</a></h3>
+          ${t.mission ? `<p class="log-mission">${esc(t.mission)}</p>` : ""}
+          <div class="mode-chips">${(t.modes || []).filter(m => MODES[m]).map(m =>
+            `<a class="chip mode-chip${m === hunt ? " is-on" : ""}" href="${viewerURL(t.id, m)}" data-nav>${MODES[m].name}</a>`).join("")}</div>
+        </div>
+        <span class="log-coords">RA ${fmtCoord(t.ra)}°<br>Dec ${fmtCoord(t.dec)}°</span>
+      </li>`).join("")}</ol>` : `<p>No targets for this mode yet.</p>`);
+  const c = $("#clear-hunt");
+  if (c) c.addEventListener("click", () => setHunt(null));
+}
+
+async function renderHeroPreview() {
+  clearInterval(heroTimer);
+  const fig = $("#hero-preview");
+  const dir = modeDir(HERO_SOURCE.target, HERO_SOURCE.mode);
+  const m = await fetchJSON(`${dir}/manifest.json`);
+  if (!fig.isConnected) return;
+  if (!m || !Array.isArray(m.frames) || !m.frames.length) {
+    fig.innerHTML = `<div class="hero-stage reticle"></div>${spectralRuler(null)}`;
+    return;
+  }
+  fig.innerHTML = `
+    <div class="hero-stage reticle">
+      ${m.frames.map((f, i) => `<img src="${dir}/${encodeURIComponent(f.file)}" alt="" data-i="${i}"${i ? " hidden" : ""}>`).join("")}
+      <div class="hero-rings" id="hero-rings"></div>
+      <div class="stage-chips" id="hero-chips"></div>
+    </div>
+    <figcaption id="hero-cap"></figcaption>`;
+
+  const imgs = fig.querySelectorAll("img");
+  const show = i => {
+    const f = m.frames[i];
+    imgs.forEach((im, j) => { im.hidden = j !== i; });
+    // Rings sit at pixel positions; convert to % of the image's natural size.
+    const im = imgs[i];
+    const place = () => {
+      const w = im.naturalWidth || 1, h = im.naturalHeight || 1;
+      $("#hero-rings").innerHTML = highlightsForFrame(m, i).map(p =>
+        `<span class="ring" style="left:${(p.x / w) * 100}%;top:${(p.y / h) * 100}%"></span>`).join("");
+    };
+    if (im.complete) place(); else im.onload = place;
+    $("#hero-chips").innerHTML = m.frames.map((g, j) =>
+      `<span class="chip chip-mono${j === i ? " is-on" : ""}">${esc(telescopeOf(g))} · ${esc(String(g.date || "").slice(0, 4))}</span>`).join("") +
+      (m.fake ? `<span class="chip chip-mono chip-warn">Sample data</span>` : "");
+    $("#hero-cap").innerHTML = spectralRuler(f.wavelength_um) +
+      `<span class="hero-cap-text">Barnard's Star, ${esc(f.label || "")}</span>`;
+    imgs.forEach(x => { x.alt = ""; });
+    im.alt = `Infrared image of the sky around Barnard's Star: ${f.label || ""}, ${f.date || ""}`;
+  };
+  let i = 0;
+  show(0);
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (m.frames.length > 1 && !reduce) {
+    heroTimer = setInterval(() => {
+      if (!fig.isConnected) { clearInterval(heroTimer); return; }
+      i = (i + 1) % m.frames.length;
+      show(i);
+    }, 1400);
+  }
+}
+
+// "WISE" / "SPHEREx" from the frame label (e.g. "WISE W2 (4.6 µm)").
+function telescopeOf(f) {
+  const s = String(f.label || "");
+  if (/wise/i.test(s)) return "WISE";
+  if (/spherex/i.test(s)) return "SPHEREx";
+  return s.split(" ")[0] || "Frame";
+}
+
+/* ---------- Search ---------- */
+
+function angularSepDeg(ra1, dec1, ra2, dec2) {
+  const r = Math.PI / 180;
+  const c = Math.sin(dec1 * r) * Math.sin(dec2 * r) + Math.cos(dec1 * r) * Math.cos(dec2 * r) * Math.cos((ra1 - ra2) * r);
+  return Math.acos(Math.min(1, Math.max(-1, c))) / r;
+}
+
+const norm = s => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
+
+function onSearch(e) {
+  e.preventDefault();
+  const q = $("#search-input").value.trim();
+  const msg = $("#search-msg");
+  msg.textContent = "";
+  if (!q) { msg.textContent = "Type a star name, like Barnard's Star, or coordinates like 269.45 4.77."; return; }
+
+  const nums = q.replace(/,/g, " ").split(/\s+/).filter(Boolean);
+  const isCoords = nums.length === 2 && nums.every(n => !isNaN(parseFloat(n)) && isFinite(n));
+
+  if (state.targetsMissing || !state.targets.length) {
+    msg.textContent = "Our target list isn't published yet. Try the mission link below for now.";
+    return;
+  }
+
+  let hit = null;
+  if (isCoords) {
+    const [ra, dec] = nums.map(parseFloat);
+    if (ra < 0 || ra >= 360 || dec < -90 || dec > 90) {
+      msg.textContent = "Coordinates should be RA 0–360° and Dec −90–90°, in degrees.";
+      return;
+    }
+    let best = null;
+    for (const t of state.targets) {
+      if (typeof t.ra !== "number" || typeof t.dec !== "number") continue;
+      const d = angularSepDeg(ra, dec, t.ra, t.dec);
+      if (!best || d < best.d) best = { t, d };
+    }
+    if (best && best.d <= 0.5) hit = best.t;
+  } else {
+    const nq = norm(q);
+    hit = state.targets.find(t => norm(t.name) === nq || norm(t.id) === nq)
+       || state.targets.find(t => norm(t.name).includes(nq) || norm(t.id).includes(nq) || nq.includes(norm(t.id)));
+  }
+
+  if (hit) {
+    navigate(viewerURL(hit.id, (hit.modes || [])[0] || "slow"));
+  } else {
+    const names = state.targets.map(t => t.name).join(", ");
+    msg.textContent = isCoords
+      ? `Nothing in our observing log near those coordinates yet. Try one of: ${names}.`
+      : `We couldn't find “${q}” yet. Try one of: ${names}.`;
+  }
 }
 
 /* ---------- Viewer ---------- */
