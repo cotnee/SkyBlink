@@ -1,0 +1,431 @@
+{
+ "frames": [
+  {
+   "file": "f01.png",
+   "date": "2026-08-22",
+   "label": "SPHEREx detector D1 (~0.93 µm)",
+   "wavelength_um": 0.93
+  },
+  {
+   "file": "f02.png",
+   "date": "2026-08-22",
+   "label": "SPHEREx detector D2 (~1.37 µm)",
+   "wavelength_um": 1.37
+  },
+  {
+   "file": "f03.png",
+   "date": "2026-08-22",
+   "label": "SPHEREx detector D3 (~2.03 µm)",
+   "wavelength_um": 2.03
+  },
+  {
+   "file": "f04.png",
+   "date": "2026-08-22",
+   "label": "SPHEREx detector D4 (~3.12 µm)",
+   "wavelength_um": 3.12
+  },
+  {
+   "file": "f05.png",
+   "date": "2026-08-22",
+   "label": "SPHEREx detector D5 (~4.13 µm)",
+   "wavelength_um": 4.13
+  },
+  {
+   "file": "f06.png",
+   "date": "2026-08-22",
+   "label": "SPHEREx detector D6 (~4.71 µm)",
+   "wavelength_um": 4.71
+  }
+ ],
+ "highlights": [],
+ "image_size": [
+  60,
+  60
+ ],
+ "sources": [
+  {
+   "x": 43,
+   "y": 46,
+   "ra": 269.42486,
+   "dec": 4.79819,
+   "times_redder": 1.1,
+   "lower_limit": false,
+   "red_snr": 82.9,
+   "d4_dip": 1.0,
+   "strange": false,
+   "brightness": {
+    "D1": 32.2101,
+    "D2": 47.8532,
+    "D3": 45.4512,
+    "D4": 23.6777,
+    "D5": 13.7314,
+    "D6": 9.6867
+   }
+  },
+  {
+   "x": 24,
+   "y": 54,
+   "ra": 269.45743,
+   "dec": 4.81185,
+   "times_redder": 1.1,
+   "lower_limit": false,
+   "red_snr": 189.4,
+   "d4_dip": 0.99,
+   "strange": false,
+   "brightness": {
+    "D1": 69.8582,
+    "D2": 109.3183,
+    "D3": 106.4607,
+    "D4": 55.229,
+    "D5": 32.0973,
+    "D6": 22.1279
+   }
+  },
+  {
+   "x": 7,
+   "y": 25,
+   "ra": 269.48657,
+   "dec": 4.76231,
+   "times_redder": 1.06,
+   "lower_limit": false,
+   "red_snr": 7.4,
+   "d4_dip": 1.0,
+   "strange": false,
+   "brightness": {
+    "D1": 3.5615,
+    "D2": 4.3776,
+    "D3": 3.5395,
+    "D4": 1.8543,
+    "D5": 1.0867,
+    "D6": 0.859
+   }
+  },
+  {
+   "x": 10,
+   "y": 19,
+   "ra": 269.48143,
+   "dec": 4.75206,
+   "times_redder": 1.04,
+   "lower_limit": false,
+   "red_snr": 21.1,
+   "d4_dip": 1.04,
+   "strange": false,
+   "brightness": {
+    "D1": 8.3729,
+    "D2": 12.8024,
+    "D3": 11.6627,
+    "D4": 6.2069,
+    "D5": 3.366,
+    "D6": 2.4711
+   }
+  },
+  {
+   "x": 38,
+   "y": 11,
+   "ra": 269.43343,
+   "dec": 4.7384,
+   "times_redder": 1.03,
+   "lower_limit": false,
+   "red_snr": 23.7,
+   "d4_dip": 1.03,
+   "strange": false,
+   "brightness": {
+    "D1": 10.7035,
+    "D2": 14.5697,
+    "D3": 12.4645,
+    "D4": 6.6267,
+    "D5": 3.6524,
+    "D6": 2.7708
+   }
+  },
+  {
+   "x": 11,
+   "y": 42,
+   "ra": 269.47971,
+   "dec": 4.79135,
+   "times_redder": 1.02,
+   "lower_limit": false,
+   "red_snr": 61.8,
+   "d4_dip": 0.99,
+   "strange": false,
+   "brightness": {
+    "D1": 28.976,
+    "D2": 38.4328,
+    "D3": 34.0791,
+    "D4": 17.4139,
+    "D5": 10.021,
+    "D6": 7.2264
+   }
+  },
+  {
+   "x": 35,
+   "y": 39,
+   "ra": 269.43857,
+   "dec": 4.78623,
+   "times_redder": 1.0,
+   "lower_limit": false,
+   "red_snr": 55.1,
+   "d4_dip": 1.0,
+   "strange": false,
+   "brightness": {
+    "D1": 25.0987,
+    "D2": 34.8705,
+    "D3": 28.5028,
+    "D4": 14.9977,
+    "D5": 8.7,
+    "D6": 6.4425
+   }
+  },
+  {
+   "x": 32,
+   "y": 45,
+   "ra": 269.44371,
+   "dec": 4.79648,
+   "times_redder": 1.0,
+   "lower_limit": false,
+   "red_snr": 260.2,
+   "d4_dip": 0.97,
+   "strange": false,
+   "brightness": {
+    "D1": 122.4774,
+    "D2": 164.6026,
+    "D3": 141.2673,
+    "D4": 71.5425,
+    "D5": 42.2738,
+    "D6": 30.4061
+   }
+  },
+  {
+   "x": 46,
+   "y": 7,
+   "ra": 269.41972,
+   "dec": 4.73156,
+   "times_redder": 0.99,
+   "lower_limit": false,
+   "red_snr": 93.4,
+   "d4_dip": 1.02,
+   "strange": false,
+   "brightness": {
+    "D1": 41.4175,
+    "D2": 59.9676,
+    "D3": 50.9191,
+    "D4": 26.995,
+    "D5": 15.3444,
+    "D6": 10.9158
+   }
+  },
+  {
+   "x": 43,
+   "y": 51,
+   "ra": 269.42486,
+   "dec": 4.80673,
+   "times_redder": 0.98,
+   "lower_limit": false,
+   "red_snr": 16.9,
+   "d4_dip": 0.99,
+   "strange": false,
+   "brightness": {
+    "D1": 7.331,
+    "D2": 10.8767,
+    "D3": 9.4931,
+    "D4": 4.8502,
+    "D5": 2.7739,
+    "D6": 1.9715
+   }
+  },
+  {
+   "x": 28,
+   "y": 51,
+   "ra": 269.45057,
+   "dec": 4.80673,
+   "times_redder": 0.97,
+   "lower_limit": false,
+   "red_snr": 44.1,
+   "d4_dip": 1.01,
+   "strange": false,
+   "brightness": {
+    "D1": 20.5047,
+    "D2": 28.7649,
+    "D3": 24.0805,
+    "D4": 12.8059,
+    "D5": 7.4191,
+    "D6": 5.1517
+   }
+  },
+  {
+   "x": 44,
+   "y": 19,
+   "ra": 269.42314,
+   "dec": 4.75206,
+   "times_redder": 0.96,
+   "lower_limit": false,
+   "red_snr": 35.6,
+   "d4_dip": 1.01,
+   "strange": false,
+   "brightness": {
+    "D1": 18.2853,
+    "D2": 23.3058,
+    "D3": 19.2682,
+    "D4": 9.8416,
+    "D5": 5.4235,
+    "D6": 4.1538
+   }
+  },
+  {
+   "x": 33,
+   "y": 8,
+   "ra": 269.442,
+   "dec": 4.73327,
+   "times_redder": 0.96,
+   "lower_limit": false,
+   "red_snr": 6.4,
+   "d4_dip": 0.97,
+   "strange": false,
+   "brightness": {
+    "D1": 3.2379,
+    "D2": 4.1807,
+    "D3": 3.4066,
+    "D4": 1.7428,
+    "D5": 1.0457,
+    "D6": 0.7422
+   }
+  },
+  {
+   "x": 8,
+   "y": 52,
+   "ra": 269.48486,
+   "dec": 4.80844,
+   "times_redder": 0.92,
+   "lower_limit": false,
+   "red_snr": 3.8,
+   "d4_dip": 0.94,
+   "strange": false,
+   "brightness": {
+    "D1": 2.5928,
+    "D2": 2.621,
+    "D3": 1.9674,
+    "D4": 1.0439,
+    "D5": 0.689,
+    "D6": 0.4476
+   }
+  },
+  {
+   "x": 49,
+   "y": 21,
+   "ra": 269.41457,
+   "dec": 4.75548,
+   "times_redder": 0.91,
+   "lower_limit": false,
+   "red_snr": 8.8,
+   "d4_dip": 1.0,
+   "strange": false,
+   "brightness": {
+    "D1": 6.0489,
+    "D2": 6.1031,
+    "D3": 4.3611,
+    "D4": 2.1716,
+    "D5": 1.2006,
+    "D6": 1.0281
+   }
+  },
+  {
+   "x": 4,
+   "y": 15,
+   "ra": 269.49171,
+   "dec": 4.74523,
+   "times_redder": 0.9,
+   "lower_limit": false,
+   "red_snr": 13.7,
+   "d4_dip": 0.95,
+   "strange": false,
+   "brightness": {
+    "D1": 10.3996,
+    "D2": 9.6579,
+    "D3": 7.1346,
+    "D4": 3.5315,
+    "D5": 2.1374,
+    "D6": 1.5972
+   }
+  },
+  {
+   "x": 54,
+   "y": 50,
+   "ra": 269.406,
+   "dec": 4.80502,
+   "times_redder": 0.87,
+   "lower_limit": false,
+   "red_snr": 6.1,
+   "d4_dip": 0.98,
+   "strange": false,
+   "brightness": {
+    "D1": 3.5515,
+    "D2": 4.4633,
+    "D3": 3.2592,
+    "D4": 1.6511,
+    "D5": 0.9731,
+    "D6": 0.7163
+   }
+  },
+  {
+   "x": 13,
+   "y": 30,
+   "ra": 269.47629,
+   "dec": 4.77085,
+   "times_redder": 0.83,
+   "lower_limit": false,
+   "red_snr": 6.7,
+   "d4_dip": 1.03,
+   "strange": false,
+   "brightness": {
+    "D1": 4.8272,
+    "D2": 5.1126,
+    "D3": 3.4065,
+    "D4": 1.8687,
+    "D5": 1.068,
+    "D6": 0.7859
+   }
+  },
+  {
+   "x": 20,
+   "y": 31,
+   "ra": 269.46429,
+   "dec": 4.77256,
+   "times_redder": 0.78,
+   "lower_limit": false,
+   "red_snr": 3.2,
+   "d4_dip": 1.03,
+   "strange": false,
+   "brightness": {
+    "D1": 2.5634,
+    "D2": 2.6374,
+    "D3": 1.8761,
+    "D4": 1.1569,
+    "D5": 0.7496,
+    "D6": 0.3793
+   }
+  },
+  {
+   "x": 5,
+   "y": 50,
+   "ra": 269.49,
+   "dec": 4.80502,
+   "times_redder": 0.75,
+   "lower_limit": false,
+   "red_snr": 4.2,
+   "d4_dip": 1.05,
+   "strange": false,
+   "brightness": {
+    "D1": 3.319,
+    "D2": 3.5626,
+    "D3": 2.5251,
+    "D4": 1.2566,
+    "D5": 0.6242,
+    "D6": 0.4911
+   }
+  }
+ ],
+ "typical_log_red": -0.733,
+ "red_limit": 10.0,
+ "experimental": true,
+ "notes": "Step from detector D1 (blue, 0.9 µm) to D6 (red, 4.7 µm). 0 source(s) in this field are at least 10 times redder than a typical star, as cold brown dwarfs are. Barnard's Star could not be measured in all six detectors. Colours are compared within the same field, so differences between detectors cancel out. Experimental."
+}

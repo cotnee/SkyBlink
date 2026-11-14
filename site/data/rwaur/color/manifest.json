@@ -1,0 +1,437 @@
+{
+ "frames": [
+  {
+   "file": "f01.png",
+   "date": "2026-09-11",
+   "label": "SPHEREx detector D1 (~0.93 µm)",
+   "wavelength_um": 0.93
+  },
+  {
+   "file": "f02.png",
+   "date": "2026-09-11",
+   "label": "SPHEREx detector D2 (~1.37 µm)",
+   "wavelength_um": 1.37
+  },
+  {
+   "file": "f03.png",
+   "date": "2026-09-11",
+   "label": "SPHEREx detector D3 (~2.03 µm)",
+   "wavelength_um": 2.03
+  },
+  {
+   "file": "f04.png",
+   "date": "2026-09-11",
+   "label": "SPHEREx detector D4 (~3.12 µm)",
+   "wavelength_um": 3.12
+  },
+  {
+   "file": "f05.png",
+   "date": "2026-09-11",
+   "label": "SPHEREx detector D5 (~4.13 µm)",
+   "wavelength_um": 4.13
+  },
+  {
+   "file": "f06.png",
+   "date": "2026-09-11",
+   "label": "SPHEREx detector D6 (~4.71 µm)",
+   "wavelength_um": 4.71
+  }
+ ],
+ "highlights": [
+  {
+   "x": 29.0,
+   "y": 29.0,
+   "label": "RW Aurigae · 23x redder"
+  }
+ ],
+ "image_size": [
+  60,
+  60
+ ],
+ "sources": [
+  {
+   "x": 29,
+   "y": 30,
+   "ra": 76.95699,
+   "dec": 30.40185,
+   "times_redder": 23.36,
+   "lower_limit": false,
+   "red_snr": 18080.3,
+   "d4_dip": 1.24,
+   "strange": true,
+   "brightness": {
+    "D1": 253.6725,
+    "D2": 369.2468,
+    "D3": 578.0013,
+    "D4": 975.875,
+    "D5": 1319.4357,
+    "D6": 1592.9508
+   }
+  },
+  {
+   "x": 46,
+   "y": 53,
+   "ra": 76.92331,
+   "dec": 30.44114,
+   "times_redder": 3.05,
+   "lower_limit": false,
+   "red_snr": 3.1,
+   "d4_dip": 1.27,
+   "strange": false,
+   "brightness": {
+    "D1": 0.4271,
+    "D2": 0.485,
+    "D3": 0.4095,
+    "D4": 0.188,
+    "D5": 0.0663,
+    "D6": 0.2735
+   }
+  },
+  {
+   "x": 25,
+   "y": 35,
+   "ra": 76.96491,
+   "dec": 30.4104,
+   "times_redder": 2.41,
+   "lower_limit": false,
+   "red_snr": 24.3,
+   "d4_dip": 0.93,
+   "strange": false,
+   "brightness": {
+    "D1": 4.4487,
+    "D2": 4.8108,
+    "D3": 3.5895,
+    "D4": 2.2334,
+    "D5": 1.9767,
+    "D6": 2.1379
+   }
+  },
+  {
+   "x": 52,
+   "y": 45,
+   "ra": 76.91142,
+   "dec": 30.42747,
+   "times_redder": 1.62,
+   "lower_limit": false,
+   "red_snr": 1.7,
+   "d4_dip": 1.06,
+   "strange": false,
+   "brightness": {
+    "D1": 0.2338,
+    "D2": 0.494,
+    "D3": 0.5898,
+    "D4": 0.3565,
+    "D5": 0.235,
+    "D6": 0.1476
+   }
+  },
+  {
+   "x": 50,
+   "y": 27,
+   "ra": 76.9154,
+   "dec": 30.39672,
+   "times_redder": 1.6,
+   "lower_limit": false,
+   "red_snr": 2.5,
+   "d4_dip": 1.11,
+   "strange": false,
+   "brightness": {
+    "D1": 0.6646,
+    "D2": 0.7458,
+    "D3": 0.5605,
+    "D4": 0.2913,
+    "D5": 0.1508,
+    "D6": 0.2198
+   }
+  },
+  {
+   "x": 4,
+   "y": 29,
+   "ra": 77.00651,
+   "dec": 30.40014,
+   "times_redder": 1.55,
+   "lower_limit": false,
+   "red_snr": 9.1,
+   "d4_dip": 0.97,
+   "strange": false,
+   "brightness": {
+    "D1": 1.5731,
+    "D2": 2.7832,
+    "D3": 2.6642,
+    "D4": 1.5278,
+    "D5": 1.1384,
+    "D6": 0.7989
+   }
+  },
+  {
+   "x": 34,
+   "y": 38,
+   "ra": 76.94709,
+   "dec": 30.41552,
+   "times_redder": 1.51,
+   "lower_limit": false,
+   "red_snr": 7.4,
+   "d4_dip": 1.0,
+   "strange": false,
+   "brightness": {
+    "D1": 2.0637,
+    "D2": 2.3532,
+    "D3": 1.7417,
+    "D4": 0.9533,
+    "D5": 0.6377,
+    "D6": 0.6556
+   }
+  },
+  {
+   "x": 8,
+   "y": 16,
+   "ra": 76.99857,
+   "dec": 30.37793,
+   "times_redder": 1.27,
+   "lower_limit": false,
+   "red_snr": 4.6,
+   "d4_dip": 0.98,
+   "strange": false,
+   "brightness": {
+    "D1": 0.9904,
+    "D2": 1.7412,
+    "D3": 1.8626,
+    "D4": 0.9691,
+    "D5": 0.6517,
+    "D6": 0.4068
+   }
+  },
+  {
+   "x": 55,
+   "y": 9,
+   "ra": 76.90551,
+   "dec": 30.36597,
+   "times_redder": 1.26,
+   "lower_limit": false,
+   "red_snr": 3.8,
+   "d4_dip": 0.95,
+   "strange": false,
+   "brightness": {
+    "D1": 0.8245,
+    "D2": 1.4526,
+    "D3": 1.4411,
+    "D4": 0.6867,
+    "D5": 0.4453,
+    "D6": 0.3374
+   }
+  },
+  {
+   "x": 6,
+   "y": 51,
+   "ra": 77.00256,
+   "dec": 30.43772,
+   "times_redder": 1.24,
+   "lower_limit": false,
+   "red_snr": 8.4,
+   "d4_dip": 0.93,
+   "strange": false,
+   "brightness": {
+    "D1": 2.1218,
+    "D2": 3.2176,
+    "D3": 3.0838,
+    "D4": 1.4291,
+    "D5": 0.9385,
+    "D6": 0.7373
+   }
+  },
+  {
+   "x": 55,
+   "y": 40,
+   "ra": 76.90548,
+   "dec": 30.41893,
+   "times_redder": 1.11,
+   "lower_limit": false,
+   "red_snr": 31.0,
+   "d4_dip": 0.98,
+   "strange": false,
+   "brightness": {
+    "D1": 9.3502,
+    "D2": 13.3569,
+    "D3": 11.5085,
+    "D4": 5.7711,
+    "D5": 3.6993,
+    "D6": 2.7354
+   }
+  },
+  {
+   "x": 12,
+   "y": 25,
+   "ra": 76.99066,
+   "dec": 30.39331,
+   "times_redder": 1.09,
+   "lower_limit": false,
+   "red_snr": 5.1,
+   "d4_dip": 1.06,
+   "strange": false,
+   "brightness": {
+    "D1": 1.7106,
+    "D2": 2.2172,
+    "D3": 1.6514,
+    "D4": 0.872,
+    "D5": 0.5064,
+    "D6": 0.4469
+   }
+  },
+  {
+   "x": 14,
+   "y": 7,
+   "ra": 76.98669,
+   "dec": 30.36256,
+   "times_redder": 1.09,
+   "lower_limit": false,
+   "red_snr": 2.8,
+   "d4_dip": 0.91,
+   "strange": false,
+   "brightness": {
+    "D1": 0.6113,
+    "D2": 1.2352,
+    "D3": 1.14,
+    "D4": 0.5197,
+    "D5": 0.3513,
+    "D6": 0.2482
+   }
+  },
+  {
+   "x": 15,
+   "y": 26,
+   "ra": 76.98472,
+   "dec": 30.39502,
+   "times_redder": 1.08,
+   "lower_limit": false,
+   "red_snr": 36.2,
+   "d4_dip": 1.0,
+   "strange": false,
+   "brightness": {
+    "D1": 10.443,
+    "D2": 15.9973,
+    "D3": 14.8597,
+    "D4": 7.5846,
+    "D5": 4.7412,
+    "D6": 3.1871
+   }
+  },
+  {
+   "x": 30,
+   "y": 14,
+   "ra": 76.95501,
+   "dec": 30.37452,
+   "times_redder": 1.06,
+   "lower_limit": false,
+   "red_snr": 5.2,
+   "d4_dip": 1.09,
+   "strange": false,
+   "brightness": {
+    "D1": 1.6945,
+    "D2": 2.3341,
+    "D3": 1.9342,
+    "D4": 1.0906,
+    "D5": 0.6317,
+    "D6": 0.457
+   }
+  },
+  {
+   "x": 22,
+   "y": 47,
+   "ra": 76.97086,
+   "dec": 30.43089,
+   "times_redder": 1.02,
+   "lower_limit": false,
+   "red_snr": 17.9,
+   "d4_dip": 1.02,
+   "strange": false,
+   "brightness": {
+    "D1": 7.122,
+    "D2": 8.3309,
+    "D3": 6.3679,
+    "D4": 3.1458,
+    "D5": 1.8329,
+    "D6": 1.5749
+   }
+  },
+  {
+   "x": 10,
+   "y": 8,
+   "ra": 76.99461,
+   "dec": 30.36427,
+   "times_redder": 1.02,
+   "lower_limit": false,
+   "red_snr": 6.0,
+   "d4_dip": 1.06,
+   "strange": false,
+   "brightness": {
+    "D1": 1.8719,
+    "D2": 2.7844,
+    "D3": 2.6215,
+    "D4": 1.3803,
+    "D5": 0.7991,
+    "D6": 0.525
+   }
+  },
+  {
+   "x": 20,
+   "y": 26,
+   "ra": 76.97482,
+   "dec": 30.39502,
+   "times_redder": 1.01,
+   "lower_limit": false,
+   "red_snr": 1.6,
+   "d4_dip": null,
+   "strange": false,
+   "brightness": {
+    "D1": 0.5399,
+    "D2": 0.7482,
+    "D3": 0.3311,
+    "D4": -0.0311,
+    "D5": 0.047,
+    "D6": 0.1395
+   }
+  },
+  {
+   "x": 4,
+   "y": 16,
+   "ra": 77.0065,
+   "dec": 30.37793,
+   "times_redder": 0.99,
+   "lower_limit": false,
+   "red_snr": 1.0,
+   "d4_dip": 0.97,
+   "strange": false,
+   "brightness": {
+    "D1": 0.3128,
+    "D2": 0.4961,
+    "D3": 0.4543,
+    "D4": 0.2151,
+    "D5": 0.1339,
+    "D6": 0.0903
+   }
+  },
+  {
+   "x": 19,
+   "y": 15,
+   "ra": 76.97679,
+   "dec": 30.37623,
+   "times_redder": 0.98,
+   "lower_limit": false,
+   "red_snr": 296.5,
+   "d4_dip": 0.96,
+   "strange": false,
+   "brightness": {
+    "D1": 115.817,
+    "D2": 144.8394,
+    "D3": 117.3228,
+    "D4": 57.0496,
+    "D5": 37.2648,
+    "D6": 26.1261
+   }
+  }
+ ],
+ "typical_log_red": -0.734,
+ "red_limit": 10.0,
+ "experimental": true,
+ "notes": "Step from detector D1 (blue, 0.9 µm) to D6 (red, 4.7 µm). 1 source(s) in this field are at least 10 times redder than a typical star, as cold brown dwarfs are. RW Aurigae is 23 times redder than a typical star here and is flagged as strange. Colours are compared within the same field, so differences between detectors cancel out. Experimental."
+}
