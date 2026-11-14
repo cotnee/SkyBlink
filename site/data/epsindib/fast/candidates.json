@@ -1,0 +1,136 @@
+{
+ "field": {
+  "name": "epsindib",
+  "ra": 331.096,
+  "dec": -56.801,
+  "exposures": 74,
+  "threshold": 7.1,
+  "dates": [
+   "2026-04-18",
+   "2026-05-04"
+  ]
+ },
+ "candidates": [
+  {
+   "id": "epsindib_cand_1",
+   "demo": true,
+   "ra": 331.12877,
+   "dec": -56.81722,
+   "date_ref": "2026-04-18",
+   "x": 19,
+   "y": 20,
+   "vx": -0.2,
+   "vy": 0.25,
+   "sig": 7.6,
+   "speed_arcsec_day": 1.97,
+   "halves": [
+    5.4,
+    5.3
+   ],
+   "verdict": "rejected",
+   "reasons": [
+    "barely above the noise threshold: likely noise"
+   ],
+   "sed": {
+    "D1": 0.0047,
+    "D2": 0.0175,
+    "D3": 0.0049,
+    "D4": 0.0371,
+    "D5": 0.0346,
+    "D6": -0.0413
+   },
+   "sed_wave_um": {
+    "D1": 0.93,
+    "D2": 1.37,
+    "D3": 2.03,
+    "D4": 3.12,
+    "D5": 4.13,
+    "D6": 4.71
+   },
+   "color_class": "normal color: similar to an asteroid in reflected sunlight, or a star",
+   "image": "epsindib_cand_1.png",
+   "animation": "epsindib_cand_1.gif"
+  },
+  {
+   "id": "epsindib_cand_2",
+   "demo": false,
+   "ra": 331.02579,
+   "dec": -56.80525,
+   "date_ref": "2026-04-18",
+   "x": 52,
+   "y": 27,
+   "vx": -0.25,
+   "vy": -0.45,
+   "sig": 7.3,
+   "speed_arcsec_day": 3.17,
+   "halves": [
+    6.7,
+    -0.2
+   ],
+   "verdict": "rejected",
+   "reasons": [
+    "signal present in only one half of the observations",
+    "barely above the noise threshold: likely noise"
+   ],
+   "sed": {
+    "D1": 0.0063,
+    "D2": 0.0332,
+    "D3": -0.1941,
+    "D4": -0.0464,
+    "D5": 0.0354,
+    "D6": -0.0728
+   },
+   "sed_wave_um": {
+    "D1": 0.93,
+    "D2": 1.37,
+    "D3": 2.03,
+    "D4": 3.12,
+    "D5": 4.13,
+    "D6": 4.71
+   },
+   "color_class": "normal color: similar to an asteroid in reflected sunlight, or a star",
+   "image": "epsindib_cand_2.png",
+   "animation": "epsindib_cand_2.gif"
+  },
+  {
+   "id": "epsindib_cand_3",
+   "demo": false,
+   "ra": 331.01327,
+   "dec": -56.82233,
+   "date_ref": "2026-04-18",
+   "x": 56,
+   "y": 17,
+   "vx": -0.25,
+   "vy": -0.25,
+   "sig": 7.1,
+   "speed_arcsec_day": 2.17,
+   "halves": [
+    6.5,
+    3.5
+   ],
+   "verdict": "rejected",
+   "reasons": [
+    "barely above the noise threshold: likely noise"
+   ],
+   "sed": {
+    "D1": 0.0002,
+    "D2": -0.0233,
+    "D3": 0.0613,
+    "D4": 0.0269,
+    "D5": 0.0414,
+    "D6": 0.0753
+   },
+   "sed_wave_um": {
+    "D1": 0.93,
+    "D2": 1.37,
+    "D3": 2.03,
+    "D4": 3.12,
+    "D5": 4.13,
+    "D6": 4.71
+   },
+   "color_class": "very red: similar to a cold brown dwarf or a distant cold body",
+   "image": "epsindib_cand_3.png",
+   "animation": "epsindib_cand_3.gif"
+  }
+ ]
+}
