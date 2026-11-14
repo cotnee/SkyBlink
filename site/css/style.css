@@ -278,13 +278,41 @@ main:focus { outline: none; }
   position: relative; aspect-ratio: 1 / 1;
   background: #000; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
 }
-.stage img { display: block; width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+.stage canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
 .stage-chips { position: absolute; top: 12px; left: 12px; right: 12px; display: flex; flex-wrap: wrap; gap: 6px; pointer-events: none; }
 .stage-chips .chip { background: rgba(7, 10, 18, .8); }
-.stage-chips .chip-warn { margin-left: auto; background: var(--warn-bg); }
+.stage-chips-right { left: auto; justify-content: flex-end; }
+.stage-chips .chip-warn { background: var(--warn-bg); }
+.scale-bar {
+  position: absolute; right: 24px; bottom: 24px; z-index: 2;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+  padding: 6px 8px; border-radius: 8px; background: rgba(7, 10, 18, .8);
+  font-family: var(--font-mono); font-size: 12px; color: var(--text);
+}
+.scale-line { display: block; height: 6px; border: 2px solid var(--text); border-top: 0; }
 
 .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+.play-btn { min-width: 96px; }
 .frame-count { font-family: var(--font-mono); font-size: 13px; color: var(--muted); margin-left: 4px; }
+
+.strip { display: flex; gap: 3px; margin-top: 12px; overflow-x: auto; }
+.strip-bar {
+  flex: 1 1 0; min-width: 12px; max-width: 64px; height: 44px; padding: 0;
+  background: transparent; border: 0; cursor: pointer;
+  display: flex; align-items: center;
+}
+.strip-bar span { display: block; width: 100%; height: 18px; border-radius: 4px; background: var(--line-2); }
+.strip-bar:hover span { background: var(--muted); }
+.strip-bar[aria-current="true"] span { background: var(--accent); height: 28px; }
+
+.control-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 12px; }
+.control-label { font-family: var(--font-mono); font-size: 12px; color: var(--muted); min-width: 56px; }
+.pill-sm { min-height: 44px; padding: 0 14px; font-family: var(--font-mono); font-size: 13px; }
+.kbd-hint { margin-top: 12px; font-size: 13px; color: var(--muted); }
+kbd {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-2);
+  border: 1px solid var(--line-2); border-radius: 5px; padding: 1px 6px;
+}
 
 .intro { max-width: 760px; }
 .intro p { color: var(--text-2); }

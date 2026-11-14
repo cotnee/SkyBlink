@@ -25,6 +25,8 @@ const state = {
   playing: false,
   timer: null,
   speed: 1,
+  images: [],           // preloaded Image objects for the current manifest
+  layers: { highlights: true, gaia: true, flagged: true, diff: false },
 };
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -354,7 +356,7 @@ async function renderHeroPreview() {
     const place = () => {
       const w = im.naturalWidth || 1, h = im.naturalHeight || 1;
       $("#hero-rings").innerHTML = highlightsForFrame(m, i).map(p =>
-        `<span class="ring" style="left:${(p.x / w) * 100}%;top:${(p.y / h) * 100}%"></span>`).join("");
+        `<span class="ring" style="left:${((p.x + 0.5) / w) * 100}%;top:${((p.y + 0.5) / h) * 100}%"></span>`).join("");
     };
     if (im.complete) place(); else im.onload = place;
     $("#hero-chips").innerHTML = m.frames.map((g, j) =>
@@ -558,22 +560,39 @@ function renderBody(t, mode) {
   const m = state.manifest;
   if (!m || !Array.isArray(m.frames) || !m.frames.length) { body.innerHTML = comingSoon(t, mode); return; }
 
+  const n = m.frames.length;
   body.innerHTML = `
     <div class="wrap">
       <div class="viewer-grid">
-        <div>
-          <div class="stage" id="stage">
-            <img id="frame-img" alt="">
+        <div class="stage-col">
+          <div class="stage reticle" id="stage">
+            <canvas id="stage-canvas" role="img"></canvas>
             <div class="stage-chips" id="stage-chips"></div>
+            <div class="stage-chips stage-chips-right" id="stage-chips-right"></div>
+            <div class="scale-bar" id="scale-bar" hidden></div>
           </div>
+
           <div class="controls">
             <button class="btn btn-icon" type="button" id="prev" aria-label="Previous frame">◀</button>
-            <button class="btn btn-primary" type="button" id="play">Play</button>
+            <button class="btn btn-primary play-btn" type="button" id="play" aria-label="Play">Play</button>
             <button class="btn btn-icon" type="button" id="next" aria-label="Next frame">▶</button>
             <span class="frame-count" id="frame-count" aria-live="polite"></span>
           </div>
+
+          <div class="strip" id="strip" role="group" aria-label="Frames">
+            ${m.frames.map((f, i) => `<button type="button" class="strip-bar" data-i="${i}"
+              aria-label="Frame ${i + 1} of ${n}: ${esc(f.date || "")} ${esc(f.label || "")}" title="${esc(f.date || "")} · ${esc(f.label || "")}"><span></span></button>`).join("")}
+          </div>
+
+          <div class="control-row">
+            <span class="control-label" id="speed-label">Speed</span>
+            <div class="pills" role="group" aria-labelledby="speed-label">
+              ${[0.5, 1, 2].map(s => `<button type="button" class="pill pill-sm" data-speed="${s}" aria-pressed="${s === state.speed}">${s}×</button>`).join("")}
+            </div>
+          </div>
+          <p class="kbd-hint">Keyboard: <kbd>Space</kbd> play/pause · <kbd>←</kbd> <kbd>→</kbd> step</p>
         </div>
-        <div class="side">
+        <div class="side" id="side">
           ${m.notes ? `<section class="card"><h2>Notes</h2><p>${esc(m.notes)}</p></section>` : ""}
         </div>
       </div>
@@ -582,7 +601,187 @@ function renderBody(t, mode) {
   $("#prev").addEventListener("click", () => { stopPlaying(); step(-1); });
   $("#next").addEventListener("click", () => { stopPlaying(); step(1); });
   $("#play").addEventListener("click", togglePlay);
+  $("#strip").addEventListener("click", e => {
+    const b = e.target.closest(".strip-bar");
+    if (b) { stopPlaying(); showFrame(+b.dataset.i); }
+  });
+  body.querySelectorAll("[data-speed]").forEach(b => b.addEventListener("click", () => {
+    state.speed = +b.dataset.speed;
+    body.querySelectorAll("[data-speed]").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    if (state.playing) { stopPlaying(); startPlaying(); }
+  }));
+
+  loadFrameImages(t, mode, m);
+  if (stageObserver) stageObserver.disconnect();
+  stageObserver = new ResizeObserver(() => drawStage());
+  stageObserver.observe($("#stage"));
   showFrame(0);
+}
+
+/* ---------- Stage (canvas) ---------- */
+
+let stageObserver = null;
+
+function loadFrameImages(t, mode, m) {
+  const dir = modeDir(t.id, mode);
+  state.images = m.frames.map((f, i) => {
+    const img = new Image();
+    img.decoding = "async";
+    img.onload = () => { if (state.manifest === m && state.frame === i) drawStage(); };
+    img.onerror = () => { img.failed = true; if (state.manifest === m && state.frame === i) drawStage(); };
+    img.src = `${dir}/${encodeURIComponent(f.file)}`;
+    return img;
+  });
+}
+
+const cssVar = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+// Pixels the pipeline left blank (NaN → transparent in the PNG) count as flagged.
+function flaggedPixels(img) {
+  if (img._flagged) return img._flagged;
+  const c = document.createElement("canvas");
+  c.width = img.naturalWidth; c.height = img.naturalHeight;
+  const x = c.getContext("2d");
+  x.drawImage(img, 0, 0);
+  const d = x.getImageData(0, 0, c.width, c.height).data;
+  const out = [];
+  for (let i = 3; i < d.length; i += 4) if (d[i] < 128) out.push([((i - 3) / 4) % c.width, Math.floor((i - 3) / 4 / c.width)]);
+  img._flagged = out;
+  return out;
+}
+
+// Pixel scale in arcsec/pixel, only if the data provides it.
+function pixelScale(m, f) {
+  const v = (f && f.pixel_scale_arcsec) ?? m.pixel_scale_arcsec;
+  return typeof v === "number" && v > 0 ? v : null;
+}
+
+function drawStage() {
+  const canvas = $("#stage-canvas");
+  const m = state.manifest;
+  if (!canvas || !m) return;
+  const f = m.frames[state.frame];
+  const img = state.images && state.images[state.frame];
+
+  const rect = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  const W = Math.max(1, Math.round(rect.width * dpr));
+  const H = Math.max(1, Math.round(rect.height * dpr));
+  if (canvas.width !== W || canvas.height !== H) { canvas.width = W; canvas.height = H; }
+  const ctx = canvas.getContext("2d");
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, W, H);
+
+  if (!img || img.failed) {
+    ctx.fillStyle = cssVar("--muted");
+    ctx.font = `${14 * dpr}px ${cssVar("--font-mono")}`;
+    ctx.textAlign = "center";
+    ctx.fillText(img && img.failed ? "Image not available" : "Loading…", W / 2, H / 2);
+    return;
+  }
+  if (!img.complete || !img.naturalWidth) return;
+
+  const iw = img.naturalWidth, ih = img.naturalHeight;
+  // View rectangle in image pixels (field-of-view crop comes in step 6).
+  const view = { x: 0, y: 0, w: iw, h: ih };
+  const s = Math.min(W / view.w, H / view.h);
+  const ox = (W - view.w * s) / 2, oy = (H - view.h * s) / 2;
+  // Image pixel coordinates (pixel centres at integers) → canvas.
+  const toC = (x, y) => [ox + (x + 0.5 - view.x) * s, oy + (y + 0.5 - view.y) * s];
+
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(img, view.x, view.y, view.w, view.h, ox, oy, view.w * s, view.h * s);
+
+  const L = state.layers;
+  const lw = Math.max(1.5, 1.5 * dpr);
+  const ember = cssVar("--accent"), blue = cssVar("--known"), warn = cssVar("--d6");
+
+  // Flagged pixels: small crosses.
+  if (L.flagged && typeof f.flagged_fraction === "number" && f.flagged_fraction > 0) {
+    ctx.strokeStyle = warn; ctx.lineWidth = Math.max(1, dpr);
+    const r = Math.max(2 * dpr, s * 0.3);
+    ctx.beginPath();
+    for (const [px, py] of flaggedPixels(img)) {
+      const [cx, cy] = toC(px, py);
+      ctx.moveTo(cx - r, cy - r); ctx.lineTo(cx + r, cy + r);
+      ctx.moveTo(cx + r, cy - r); ctx.lineTo(cx - r, cy + r);
+    }
+    ctx.stroke();
+  }
+
+  // Known Gaia stars: blue squares.
+  if (L.gaia && Array.isArray(m.gaia)) {
+    ctx.strokeStyle = blue; ctx.lineWidth = lw;
+    const half = Math.max(7 * dpr, s * 1.2);
+    for (const g of m.gaia) {
+      const [cx, cy] = toC(g.x, g.y);
+      ctx.strokeRect(cx - half, cy - half, half * 2, half * 2);
+    }
+  }
+
+  if (L.highlights && Array.isArray(m.highlights)) {
+    const ringR = Math.max(14 * dpr, s * 3);
+    const current = highlightsForFrame(m, state.frame);
+
+    // Slow mode: dashed blue circles where the target was in earlier frames.
+    if (state.mode === "slow") {
+      const earlier = new Set();
+      for (let j = 0; j < state.frame; j++) highlightsForFrame(m, j).forEach(h => earlier.add(h));
+      current.forEach(h => earlier.delete(h));
+      ctx.strokeStyle = blue; ctx.lineWidth = lw; ctx.setLineDash([5 * dpr, 4 * dpr]);
+      for (const h of earlier) {
+        const [cx, cy] = toC(h.x, h.y);
+        ctx.beginPath(); ctx.arc(cx, cy, ringR, 0, Math.PI * 2); ctx.stroke();
+        label(ctx, h.label, cx, cy, ringR, blue, dpr);
+      }
+      ctx.setLineDash([]);
+    }
+
+    // Highlight: ember ring with a soft glow on the centre dot.
+    for (const h of current) {
+      const [cx, cy] = toC(h.x, h.y);
+      ctx.strokeStyle = ember; ctx.lineWidth = lw * 1.3;
+      ctx.beginPath(); ctx.arc(cx, cy, ringR, 0, Math.PI * 2); ctx.stroke();
+      ctx.save();
+      ctx.shadowColor = "rgba(255,138,76,.8)"; ctx.shadowBlur = 10 * dpr;
+      ctx.fillStyle = ember;
+      ctx.beginPath(); ctx.arc(cx, cy, 2.5 * dpr, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+      label(ctx, h.label, cx, cy, ringR, ember, dpr);
+    }
+  }
+
+  drawScaleBar(m, f, s / dpr);
+}
+
+function label(ctx, text, cx, cy, r, color, dpr) {
+  if (!text) return;
+  const W = ctx.canvas.width;
+  ctx.font = `500 ${12 * dpr}px ${cssVar("--font-mono")}`;
+  const tw = ctx.measureText(text).width, pad = 5 * dpr, h = 20 * dpr;
+  let x = cx + r * 0.75, y = cy - r - h / 2;
+  if (x + tw + pad * 2 > W - 4 * dpr) x = cx - r * 0.75 - tw - pad * 2;
+  if (y < 4 * dpr) y = cy + r + 4 * dpr;
+  ctx.fillStyle = "rgba(7,10,18,.85)";
+  ctx.fillRect(x, y, tw + pad * 2, h);
+  ctx.fillStyle = color;
+  ctx.textBaseline = "middle"; ctx.textAlign = "left";
+  ctx.fillText(text, x + pad, y + h / 2);
+}
+
+// Scale bar + "N up": only when the manifest gives a pixel scale.
+function drawScaleBar(m, f, cssPerPixel) {
+  const el = $("#scale-bar");
+  const ps = pixelScale(m, f);
+  if (!el) return;
+  if (!ps) { el.hidden = true; return; }
+  const target = 120 / cssPerPixel * ps;              // arcsec covered by ~120 CSS px
+  const nice = [10, 15, 30, 60, 120, 180, 300, 600].reduce((a, b) => (Math.abs(b - target) < Math.abs(a - target) ? b : a));
+  const px = (nice / ps) * cssPerPixel;
+  el.hidden = false;
+  el.innerHTML = `<span class="scale-line" style="width:${px.toFixed(1)}px"></span>
+    <span>${nice >= 60 ? `${nice / 60}′` : `${nice}″`} · N up</span>`;
 }
 
 /* ---------- Flipbook ---------- */
@@ -593,15 +792,19 @@ function showFrame(i) {
   const n = m.frames.length;
   state.frame = ((i % n) + n) % n;
   const f = m.frames[state.frame];
-  const img = $("#frame-img");
-  if (!img) return;
-  img.src = `${modeDir(state.target.id, state.mode)}/${encodeURIComponent(f.file)}`;
-  img.alt = `${state.target.name}, ${f.label || "frame"}${f.date ? `, ${f.date}` : ""}`;
+
+  const canvas = $("#stage-canvas");
+  if (!canvas) return;
+  canvas.setAttribute("aria-label", `${state.target.name}, frame ${state.frame + 1} of ${n}: ${f.label || "image"}${f.date ? `, ${f.date}` : ""}`);
   $("#stage-chips").innerHTML =
     (f.date ? `<span class="chip chip-mono">${esc(f.date)}</span>` : "") +
-    (f.label ? `<span class="chip chip-mono">${esc(f.label)}</span>` : "") +
-    (m.fake ? `<span class="chip chip-mono chip-warn">Sample data</span>` : "");
+    (f.label ? `<span class="chip chip-mono">${esc(f.label)}</span>` : "");
+  $("#stage-chips-right").innerHTML = m.fake ? `<span class="chip chip-mono chip-warn">Sample data</span>` : "";
   $("#frame-count").textContent = `Frame ${state.frame + 1} / ${n}`;
+  document.querySelectorAll(".strip-bar").forEach((b, j) => {
+    if (j === state.frame) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current");
+  });
+  drawStage();
 }
 
 function step(d) { showFrame(state.frame + d); }
@@ -610,11 +813,17 @@ function togglePlay() {
   if (state.playing) stopPlaying(); else startPlaying();
 }
 
-function startPlaying() {
-  if (!state.manifest) return;
-  state.playing = true;
+function setPlayButton(playing) {
   const btn = $("#play");
-  if (btn) btn.textContent = "Pause";
+  if (!btn) return;
+  btn.textContent = playing ? "Pause" : "Play";
+  btn.setAttribute("aria-label", playing ? "Pause" : "Play");
+}
+
+function startPlaying() {
+  if (!state.manifest || state.manifest.frames.length < 2) return;
+  state.playing = true;
+  setPlayButton(true);
   const tick = () => { step(1); state.timer = setTimeout(tick, 800 / state.speed); };
   state.timer = setTimeout(tick, 800 / state.speed);
 }
@@ -623,9 +832,25 @@ function stopPlaying() {
   state.playing = false;
   clearTimeout(state.timer);
   state.timer = null;
-  const btn = $("#play");
-  if (btn) btn.textContent = "Play";
+  setPlayButton(false);
 }
+
+// Keyboard: Space plays/pauses, ← → step. Leaves typing and focused controls alone.
+document.addEventListener("keydown", e => {
+  if (!state.manifest || $("#viewer").hidden || !$("#stage-canvas")) return;
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const tag = (e.target.tagName || "").toLowerCase();
+  if (tag === "input" || tag === "textarea" || tag === "select" || e.target.isContentEditable) return;
+  if (e.key === " " || e.code === "Space") {
+    if (tag === "button" || tag === "a") return;   // let Space activate the focused control
+    e.preventDefault();
+    togglePlay();
+  } else if (e.key === "ArrowRight") {
+    e.preventDefault(); stopPlaying(); step(1);
+  } else if (e.key === "ArrowLeft") {
+    e.preventDefault(); stopPlaying(); step(-1);
+  }
+});
 
 /* ---------- Start ---------- */
 
