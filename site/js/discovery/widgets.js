@@ -11,7 +11,7 @@
 // or call window.SkyBlinkDiscovery.autoInit() / mountSearch() / mountSlowBox() yourself.
 
 import { CFG } from "./config.js";
-import { getTarget, getParam, onReady, links } from "./util.js";
+import { getTarget, getParam, onReady, links, loadTargets } from "./util.js";
 import { mountAladin } from "./aladin.js";
 import { mountSlowBox, slowResult } from "./slow-box.js";
 import { mountReviewToolbar, Reviews, exportJSON, exportCSV } from "./review.js";
@@ -86,18 +86,25 @@ window.SkyBlinkDiscovery = {
   updateViewerSlots, Reviews, exportJSON, exportCSV,
 };
 
-// C's hero search box (form#search) keeps handling names. Valid coordinates go through D's search,
-// so coordinates far from every target open search.html instead of a dead end. Capture phase runs
-// before C's own submit handler on the form.
+// C's hero search box (form#search) keeps handling our own target names (fast, in-page).
+// Coordinates (any format) and other object names go through D's search: names are looked up in
+// SIMBAD/NED/VizieR, and anything far from our targets opens search.html instead of a dead end.
+// Capture phase runs before C's own submit handler on the form.
 const C_SEARCH_FORM = "search";
+let knownTargets = null;
+loadTargets().then((ts) => { knownTargets = ts; });
 document.addEventListener("submit", (e) => {
   const form = e.target;
   if (!(form instanceof HTMLFormElement) || form.id !== C_SEARCH_FORM) return;
   const text = form.querySelector("input")?.value || "";
-  if (parseQuery(text).kind !== "coords") return;
+  if (!text.trim()) return;
+  const kind = parseQuery(text, knownTargets || []).kind;
+  if (kind === "target" || (kind === "error" && !knownTargets)) return;
   e.preventDefault();
   e.stopImmediatePropagation();
-  runSearch(text);
+  const msg = document.getElementById("search-msg");
+  runSearch(text, { onStatus: (t) => { if (msg) msg.textContent = t; } })
+    .then((q) => { if (q.kind === "error") showCSearchError(q); });
 }, true);
 
 function showCSearchError(q) {

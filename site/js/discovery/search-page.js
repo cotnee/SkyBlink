@@ -59,24 +59,25 @@ function nearestList(c, targets) {
 }
 
 function renderResult(out, c, targets) {
-  document.title = `Sky at ${c.raText}, ${c.decText} · SkyBlink`;
+  document.title = c.name ? `${c.name} · SkyBlink` : `Sky at ${c.raText}, ${c.decText} · SkyBlink`;
   const match = findMatch(c.ra, c.dec, targets);
   const sky = h("div", { class: "sbd-sky" });
   const linkBtn = h("button", { type: "button", class: "sbd-btn" }, "Copy link to this view");
-  const viewUrl = new URL(searchPageUrl(c.raText, c.decText), location.href).href;
+  const viewUrl = new URL(searchPageUrl(c.raText, c.decText, c.name), location.href).href;
   linkBtn.addEventListener("click", () => copyText(viewUrl, linkBtn, "Copy link to this view"));
 
   const intro = match
     ? h("div", { class: "sbd-match-banner" },
-      h("p", {}, `These coordinates are ${match.arcmin.toFixed(1)} arcmin from ${match.target.name || match.target.id}, which we have results for.`),
+      h("p", {}, `${c.name || "These coordinates"} ${c.name ? "is" : "are"} ${match.arcmin.toFixed(1)} arcmin from ${match.target.name || match.target.id}, which we have results for.`),
       h("a", { href: targetUrl(match.target, { [P.fromRa]: c.raText, [P.fromDec]: c.decText }), class: "sbd-btn sbd-btn-primary" }, `Open ${match.target.name || match.target.id} results →`))
     : h("p", { class: "sbd-honest" }, "Our engine hasn't processed this part of the sky yet. Here is what other telescopes see there. You can run our engine on it yourself in about 15 minutes.");
 
   fill(out,
     h("header", { class: "sbd-hero" },
       h("p", { class: "sbd-eyebrow" }, match ? "Near a processed field" : "Not processed yet"),
-      h("h1", {}, "The sky at your coordinates"),
+      h("h1", {}, c.name ? `The sky around ${c.name}` : "The sky at your coordinates"),
       h("p", { class: "sbd-coords-line" }, coordsText(c)),
+      c.name ? h("p", { class: "sbd-muted sbd-small" }, "Position from the CDS Sesame name lookup (SIMBAD, NED, VizieR), the same kind of lookup NASA's IRSA archive uses.") : null,
       intro,
       h("div", { class: "sbd-share-row" }, linkBtn)),
     h("section", { class: "sbd-section" },
@@ -86,7 +87,7 @@ function renderResult(out, c, targets) {
     match ? null : processSection(c),
     nearestList(c, targets));
 
-  mountAladin(sky, { ra: c.ra, dec: c.dec, fovDeg: S.notProcessedFovDeg, markers: [{ ra: c.ra, dec: c.dec, label: "Your coordinates", color: "#ffd166" }] });
+  mountAladin(sky, { ra: c.ra, dec: c.dec, fovDeg: S.notProcessedFovDeg, markers: [{ ra: c.ra, dec: c.dec, label: c.name || "Your coordinates", color: "#ffd166" }] });
   window.scrollTo(0, 0);
 }
 
@@ -101,7 +102,7 @@ async function render(root) {
   if (ra == null || dec == null) {
     fill(out, h("header", { class: "sbd-hero" },
       h("h1", {}, "Search any part of the sky"),
-      h("p", { class: "sbd-lede" }, "Type sky coordinates above. If we've already processed that part of the sky, you'll go straight to the results. If not, you'll see what other telescopes see there, and how to run our engine on it yourself.")));
+      h("p", { class: "sbd-lede" }, "Type an object name or sky coordinates above. If we've already processed that part of the sky, you'll go straight to the results. If not, you'll see what other telescopes see there, and how to run our engine on it yourself.")));
     return;
   }
   const c = checkCoords(ra, dec);
@@ -109,7 +110,8 @@ async function render(root) {
     fill(out, message(`${c.message} Fix the coordinates in the box above and press Search.`, "warn"));
     return;
   }
-  renderResult(out, c, targets);
+  const name = getParam(P.name);
+  renderResult(out, name ? { ...c, name } : c, targets);
 }
 
 onReady(() => {

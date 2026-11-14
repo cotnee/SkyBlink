@@ -14,7 +14,7 @@ const DEFAULTS = {
   // Set a different folder (e.g. "fast/media/") only if that ever changes; null = same as fastDir.
   fastMediaDir: null,
 
-  params: { target: "target", id: "id", ra: "ra", dec: "dec", fromRa: "from_ra", fromDec: "from_dec" },
+  params: { target: "target", id: "id", ra: "ra", dec: "dec", fromRa: "from_ra", fromDec: "from_dec", name: "name" },
 
   pages: {
     home: "index.html",
@@ -33,6 +33,13 @@ const DEFAULTS = {
     nearestCount: 5,
     colabUrl: "https://colab.research.google.com/github/cotnee/SkyBlink/blob/main/pipeline/engine.ipynb",
     example: "269.448 4.770",
+    // Object names (M31, Vega, Proxima Centauri...) are looked up like IRSA does: CDS Sesame,
+    // which asks SIMBAD, NED and VizieR. Tried in order; mirrors answer when the main site is down.
+    resolvers: [
+      "https://cds.unistra.fr/cgi-bin/nph-sesame/-oxp/SNV?",
+      "https://vizier.cfa.harvard.edu/viz-bin/nph-sesame/-oxp/SNV?",
+    ],
+    resolveTimeoutMs: 8000,
   },
 
   defaultSlowYears: 16,
