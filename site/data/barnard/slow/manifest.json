@@ -25,10 +25,14 @@
    "label": "2026 position"
   }
  ],
+ "image_size": [
+  80,
+  80
+ ],
  "measured_shift_arcsec": 167.4,
  "expected_shift_arcsec": 167.7,
- "notes": "Barnard's Star moved 167 arcseconds in 16 years, between 2010 and 2026 (expected 168 from its known motion). Only positions are compared: the two telescopes measure brightness differently.",
  "epoch_from": 2010.5,
  "epoch_to": 2026.6,
- "years": 16.1
+ "years": 16.1,
+ "notes": "Barnard's Star moved 167 arcseconds in 16 years, between 2010 and 2026 (expected 168 from its known motion). Only positions are compared: the two telescopes measure brightness differently."
 }
