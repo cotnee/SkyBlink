@@ -592,9 +592,7 @@ function renderBody(t, mode) {
           </div>
           <p class="kbd-hint">Keyboard: <kbd>Space</kbd> play/pause · <kbd>←</kbd> <kbd>→</kbd> step</p>
         </div>
-        <div class="side" id="side">
-          ${m.notes ? `<section class="card"><h2>Notes</h2><p>${esc(m.notes)}</p></section>` : ""}
-        </div>
+        <div class="side" id="side">${sideStatic(m, mode)}</div>
       </div>
     </div>`;
 
@@ -611,11 +609,202 @@ function renderBody(t, mode) {
     if (state.playing) { stopPlaying(); startPlaying(); }
   }));
 
+  wireSide();
   loadFrameImages(t, mode, m);
   if (stageObserver) stageObserver.disconnect();
-  stageObserver = new ResizeObserver(() => drawStage());
+  stageObserver = new ResizeObserver(() => { drawStage(); updateSide(); });
   stageObserver.observe($("#stage"));
   showFrame(0);
+}
+
+/* ---------- Right column ---------- */
+
+// "2010" → 2010.5, "2026-08-22" → 2026.64. Year-only dates sit mid-year.
+function decimalYear(s) {
+  const str = String(s || "");
+  const m = str.match(/^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?/);
+  if (!m) return null;
+  const y = +m[1];
+  if (!m[2]) return y + 0.5;
+  const start = Date.UTC(y, 0, 1), end = Date.UTC(y + 1, 0, 1);
+  const t = Date.UTC(y, +m[2] - 1, m[3] ? +m[3] : 15);
+  return y + (t - start) / (end - start);
+}
+
+function sideStatic(m, mode) {
+  const anyFlag = m.frames.some(f => typeof f.flagged_fraction === "number" && f.flagged_fraction > 0);
+  const hasHl = Array.isArray(m.highlights) && m.highlights.length > 0;
+  const hasGaia = Array.isArray(m.gaia) && m.gaia.length > 0;
+  const layer = (key, name, available, note, swatch) => `
+    <label class="layer${available ? "" : " is-off"}">
+      <input type="checkbox" data-layer="${key}"${state.layers[key] && available ? " checked" : ""}${available ? "" : " disabled"}>
+      <span class="layer-swatch layer-${swatch}" aria-hidden="true"></span>
+      <span>${name}${available ? "" : ` <span class="layer-note">(${note})</span>`}</span>
+    </label>`;
+  const lc = Array.isArray(m.lightcurve) && m.lightcurve.length ? m.lightcurve : null;
+
+  return `
+    <section class="card" aria-labelledby="tf-title">
+      <h2 id="tf-title">This frame</h2>
+      <div id="this-frame"></div>
+    </section>
+    <section class="card" aria-labelledby="tl-title">
+      <h2 id="tl-title">Timeline</h2>
+      <div class="chart" id="timeline"></div>
+      <p class="legend"><span class="key key-wise"></span>WISE <span class="key key-spx"></span>SPHEREx <span class="key key-now"></span>this frame</p>
+    </section>
+    ${mode === "variable" && lc ? `
+    <section class="card" aria-labelledby="bc-title">
+      <h2 id="bc-title">Brightness over time</h2>
+      <div class="chart" id="brightness"></div>
+      <details class="table-view"><summary>Show as table</summary>
+        <table><thead><tr><th scope="col">Date</th><th scope="col">Flux</th><th scope="col">Detector</th></tr></thead>
+        <tbody>${lc.map(p => `<tr><td>${esc(p.date)}</td><td>${esc(p.flux)}</td><td>${esc(p.detector ?? "–")}</td></tr>`).join("")}</tbody></table>
+      </details>
+    </section>` : ""}
+    ${mode === "color" ? `
+    <section class="card" aria-labelledby="db-title">
+      <h2 id="db-title">Detectors</h2>
+      <div class="det-bars" id="det-bars"></div>
+    </section>` : ""}
+    <section class="card" aria-labelledby="ly-title">
+      <h2 id="ly-title">Layers</h2>
+      <div class="layers">
+        ${layer("highlights", "Highlights", hasHl, "none for this target", "hl")}
+        ${layer("gaia", "Known stars (Gaia DR3)", hasGaia, "none in this field", "gaia")}
+        ${layer("flagged", "Flagged pixels", anyFlag, "none flagged", "flag")}
+      </div>
+    </section>
+    ${m.notes ? `<section class="card" aria-labelledby="nt-title"><h2 id="nt-title">Notes</h2><p class="notes">${esc(m.notes)}</p></section>` : ""}`;
+}
+
+function wireSide() {
+  document.querySelectorAll("[data-layer]").forEach(cb => cb.addEventListener("change", () => {
+    state.layers[cb.dataset.layer] = cb.checked;
+    drawStage();
+  }));
+  // Timeline dots, brightness points and detector bars jump to their frame.
+  $("#side").addEventListener("click", e => {
+    const b = e.target.closest("[data-frame]");
+    if (b) { stopPlaying(); showFrame(+b.dataset.frame); }
+  });
+  $("#side").addEventListener("keydown", e => {
+    const b = e.target.closest("svg [data-frame]");
+    if (b && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); e.stopPropagation(); stopPlaying(); showFrame(+b.dataset.frame); }
+  });
+}
+
+function updateSide() {
+  const m = state.manifest;
+  if (!m || !$("#side")) return;
+  const f = m.frames[state.frame];
+  // Keep keyboard focus on the same chart element after re-render.
+  const focused = document.activeElement && document.activeElement.closest && document.activeElement.closest("#side [data-focus-key]");
+  const focusKey = focused && focused.getAttribute("data-focus-key");
+
+  const det = detectorFor(f.wavelength_um);
+  const flagged = typeof f.flagged_fraction === "number" ? `${(f.flagged_fraction * 100).toFixed(1)} %` : "–";
+  const sentence = state.mode === "color"
+    ? "Each frame here is a different detector, from blue to red: the colour change IS the signal."
+    : "Every frame here was taken in the same colour, so a star that changes is really changing.";
+  $("#this-frame").innerHTML = `
+    <dl class="facts">
+      <div><dt>Date</dt><dd>${esc(f.date || "–")}</dd></div>
+      <div><dt>Telescope</dt><dd>${esc(telescopeOf(f))}</dd></div>
+      <div><dt>Colour</dt><dd>${typeof f.wavelength_um === "number" ? `${f.wavelength_um} µm${det && /spherex/i.test(f.label || "") ? ` · ${det.id}` : ""}` : "–"}</dd></div>
+      <div><dt>Flagged</dt><dd>${flagged}</dd></div>
+    </dl>
+    ${spectralRuler(f.wavelength_um)}
+    <p class="frame-sentence">${sentence}</p>`;
+
+  const tl = $("#timeline");
+  tl.innerHTML = timelineSVG(m, tl.clientWidth || 320);
+  const bc = $("#brightness");
+  if (bc) bc.innerHTML = brightnessSVG(m, bc.clientWidth || 320);
+  const db = $("#det-bars");
+  if (db) db.innerHTML = detectorBars(m);
+
+  if (focusKey) {
+    const el = document.querySelector(`#side [data-focus-key="${CSS.escape(focusKey)}"]`);
+    if (el) el.focus();
+  }
+}
+
+/* Timeline: 2010 → 2027, one dot per frame. */
+function timelineSVG(m, W) {
+  const H = 64, x0 = 12, x1 = W - 12, y = 26;
+  const Y0 = 2010, Y1 = 2027;
+  const X = yr => x0 + ((Math.min(Math.max(yr, Y0), Y1) - Y0) / (Y1 - Y0)) * (x1 - x0);
+  const ticks = [2010, 2014, 2018, 2022, 2026];
+  const dots = m.frames.map((f, i) => ({ f, i, yr: decimalYear(f.date) })).filter(d => d.yr !== null);
+  // Current frame drawn last so it sits on top.
+  dots.sort((a, b) => (a.i === state.frame) - (b.i === state.frame));
+  return `<svg viewBox="0 0 ${W} ${H}" class="tl-svg" role="group" aria-label="Timeline of frame dates from 2010 to 2027">
+    <line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" class="axis"/>
+    ${ticks.map(t => `<line x1="${X(t)}" y1="${y - 4}" x2="${X(t)}" y2="${y + 4}" class="axis"/>
+      <text x="${X(t)}" y="${y + 22}" class="tick" text-anchor="middle">${t}</text>`).join("")}
+    ${dots.map(({ f, i, yr }) => {
+      const cls = i === state.frame ? "dot-now" : /wise/i.test(f.label || "") ? "dot-wise" : "dot-spx";
+      const label = `Frame ${i + 1}: ${f.date || ""} ${f.label || ""}`;
+      return `<g class="hit" tabindex="0" role="button" data-frame="${i}" data-focus-key="tl-${i}" aria-label="${esc(label)}">
+        <title>${esc(label)}</title>
+        <circle cx="${X(yr)}" cy="${y}" r="12" class="hit-area"/>
+        <circle cx="${X(yr)}" cy="${y}" r="${i === state.frame ? 6 : 5}" class="${cls}"/>
+      </g>`;
+    }).join("")}
+  </svg>`;
+}
+
+/* Brightness chart (variable mode): flux over time from the manifest's lightcurve. */
+function brightnessSVG(m, W) {
+  const lc = m.lightcurve.map(p => ({ ...p, yr: decimalYear(p.date) })).filter(p => p.yr !== null && typeof p.flux === "number");
+  if (!lc.length) return `<p class="muted">No brightness measurements yet.</p>`;
+  const H = 180, L = 44, R = 12, T = 12, B = 30;
+  let xmin = Math.min(...lc.map(p => p.yr)), xmax = Math.max(...lc.map(p => p.yr));
+  if (xmax - xmin < 1e-6) { xmin -= 0.5; xmax += 0.5; }
+  let ymin = Math.min(...lc.map(p => p.flux)), ymax = Math.max(...lc.map(p => p.flux));
+  const pad = (ymax - ymin) * 0.12 || Math.abs(ymax) * 0.1 || 1;
+  ymin -= pad; ymax += pad;
+  const X = v => L + ((v - xmin) / (xmax - xmin)) * (W - L - R);
+  const Y = v => T + (1 - (v - ymin) / (ymax - ymin)) * (H - T - B);
+  const fmt = v => Math.abs(v) >= 100 ? v.toFixed(0) : Math.abs(v) >= 1 ? v.toFixed(2) : v.toPrecision(2);
+  const grid = [0, 0.5, 1].map(k => ymin + pad + k * (ymax - ymin - 2 * pad));
+
+  const curDate = m.frames[state.frame].date;
+  const frameOf = p => m.frames.findIndex(f => f.date === p.date);
+  const pts = lc.slice().sort((a, b) => a.yr - b.yr);
+
+  return `<svg viewBox="0 0 ${W} ${H}" class="bc-svg" role="group" aria-label="Brightness over time, ${pts.length} measurements">
+    ${grid.map(g => `<line x1="${L}" x2="${W - R}" y1="${Y(g)}" y2="${Y(g)}" class="grid"/>
+      <text x="${L - 6}" y="${Y(g) + 4}" class="tick" text-anchor="end">${fmt(g)}</text>`).join("")}
+    <text x="${L}" y="${H - 8}" class="tick">${esc(pts[0].date)}</text>
+    <text x="${W - R}" y="${H - 8}" class="tick" text-anchor="end">${esc(pts[pts.length - 1].date)}</text>
+    <polyline class="series" points="${pts.map(p => `${X(p.yr).toFixed(1)},${Y(p.flux).toFixed(1)}`).join(" ")}"/>
+    ${pts.map((p, k) => {
+      const fi = frameOf(p);
+      const now = p.date === curDate;
+      const label = `${p.date}: flux ${p.flux}${p.detector ? `, detector ${p.detector}` : ""}`;
+      const attrs = fi >= 0 ? ` tabindex="0" role="button" data-frame="${fi}" data-focus-key="bc-${k}"` : "";
+      return `<g class="hit"${attrs} aria-label="${esc(label)}"><title>${esc(label)}</title>
+        <circle cx="${X(p.yr)}" cy="${Y(p.flux)}" r="12" class="hit-area"/>
+        <circle cx="${X(p.yr)}" cy="${Y(p.flux)}" r="${now ? 5.5 : 4}" class="${now ? "pt-now" : "pt"}"/></g>`;
+    }).join("")}
+  </svg>`;
+}
+
+/* Detector bars (colour mode): D1–D6, the current frame's detector fully opaque. */
+function detectorBars(m) {
+  const cur = detectorFor(m.frames[state.frame].wavelength_um);
+  return DETECTORS.map(d => {
+    const fi = m.frames.findIndex(f => { const x = detectorFor(f.wavelength_um); return x && x.id === d.id; });
+    const isCur = cur && cur.id === d.id;
+    const range = `${d.lo.toFixed(2)}–${d.hi.toFixed(2)} µm`;
+    return `<button type="button" class="det-bar${isCur ? " is-current" : ""}"${fi >= 0 ? ` data-frame="${fi}"` : " disabled"}
+      data-focus-key="db-${d.id}" aria-pressed="${!!isCur}" aria-label="Detector ${d.id}, ${range}${fi >= 0 ? "" : ", no frame"}">
+      <span class="det-fill" style="background:var(--${d.id.toLowerCase()})"></span>
+      <span class="det-id">${d.id}</span><span class="det-range">${range}</span>
+    </button>`;
+  }).join("");
 }
 
 /* ---------- Stage (canvas) ---------- */
@@ -805,6 +994,7 @@ function showFrame(i) {
     if (j === state.frame) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current");
   });
   drawStage();
+  updateSide();
 }
 
 function step(d) { showFrame(state.frame + d); }
