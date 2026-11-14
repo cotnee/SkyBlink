@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SkyBlink · Watch the sky change</title>
+  <meta name="description" content="Explore NASA SPHEREx infrared sky images as a flipbook: hidden movers, slow movers, blinking stars and strange colours.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Person D: discoveries.css goes here, after style.css -->
+  <!-- <link rel="stylesheet" href="css/discoveries.css"> -->
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html" data-nav aria-label="SkyBlink home">
+        <svg class="logo" viewBox="0 0 40 28" aria-hidden="true">
+          <circle cx="14" cy="14" r="10" fill="none" stroke="var(--known)" stroke-width="2"/>
+          <circle cx="26" cy="14" r="10" fill="none" stroke="var(--accent)" stroke-width="2"/>
+          <circle cx="26" cy="14" r="2.5" fill="var(--accent)"/>
+        </svg>
+        <span class="brand-name">SkyBlink</span>
+      </a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="index.html#log" data-nav>Explore</a>
+        <a href="index.html?hunt=fast#log" data-nav>Hidden movers</a>
+        <a href="index.html#how" data-nav>How it works</a>
+        <a href="index.html#data" data-nav>About the data</a>
+      </nav>
+      <span class="chip chip-mono nav-chip">NASA Space Apps 2026 · Planet X and SPHEREx</span>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- Home: shown when no target is selected -->
+    <div id="home" hidden></div>
+
+    <!-- Viewer: shown for ?target=…&mode=… -->
+    <div id="viewer" hidden>
+      <div id="viewer-head"></div>
+      <div id="viewer-body"></div>
+
+      <!-- Person D's containers: SkyBlink shows/hides them per mode, D fills them. -->
+      <div class="sb-d-slot">
+        <div id="sb-slow-result"></div>
+        <div id="sb-fast-candidates"></div>
+        <div id="sb-fast-rejected"></div>
+        <div id="sb-target-aladin"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer" id="data">
+    <div class="footer-inner">
+      <div>
+        <h2 class="footer-title">About the data</h2>
+        <p>Images: NASA/IPAC Infrared Science Archive (IRSA): SPHEREx and WISE. Known stars: ESA Gaia DR3. Sky atlas: CDS Aladin Lite.</p>
+        <p>Images are precomputed into this site because the archive can be slow or unavailable. Frames marked "sample data" are placeholders, not real observations.</p>
+      </div>
+      <div>
+        <h2 class="footer-title">Made for NASA Space Apps 2026</h2>
+        <p>Challenge: Planet X and SPHEREx. The code for this site was written with help from AI tools (Claude, Cursor).</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <!-- Person D: Aladin Lite and discoveries.js go here, after app.js -->
+  <!-- <script src="https://aladin.cds.unistra.fr/AladinLite/api/v3/latest/aladin.js" charset="utf-8"></script> -->
+  <!-- <script src="js/discoveries.js"></script> -->
+</body>
+</html>
