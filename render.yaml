@@ -1,0 +1,10 @@
+# Render Blueprint: serves the /site folder as a static site. No build step.
+services:
+  - type: web
+    name: skyblink
+    runtime: static
+    branch: main
+    buildCommand: ""
+    staticPublishPath: ./site
+    autoDeploy: true
+    pullRequestPreviewsEnabled: false
