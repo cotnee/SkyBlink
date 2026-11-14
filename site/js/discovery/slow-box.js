@@ -42,7 +42,8 @@ function yearsText(y, source) {
 const num = (v) => (Number.isInteger(v) ? String(v) : String(Math.round(v * 10) / 10));
 
 /** Renders the "moved X arcsec in N years (expected Y)" box for a target. */
-export async function mountSlowBox(container, targetId, { manifestUrl } = {}) {
+/** blink: false leaves out the frame blinker (for pages that already show the frames, like C's viewer). */
+export async function mountSlowBox(container, targetId, { manifestUrl, blink = true } = {}) {
   container.classList.add("sbd", "sbd-slow-box");
   fill(container, h("p", { class: "sbd-muted" }, "Loading slow-mover result…"));
   if (!targetId && !manifestUrl) {
@@ -92,7 +93,7 @@ export async function mountSlowBox(container, targetId, { manifestUrl } = {}) {
       h("div", { class: "sbd-stat" }, h("span", { class: "sbd-stat-val" }, `${fmt(rate, 2)}″`), h("span", { class: "sbd-stat-label" }, "per year")),
       h("div", { class: "sbd-stat" }, h("span", { class: "sbd-stat-val" }, fmt(r.measured / 60, 1)), h("span", { class: "sbd-stat-label" }, "arcmin"))),
     verdict ? h("p", { class: "sbd-slow-verdict" }, verdict) : null,
-    frameBlinker(res.data, (f) => (manifestUrl ? new URL(f, new URL(manifestUrl, location.href)).href : paths.slowMedia(targetId, f))),
+    blink && frameBlinker(res.data, (f) => (manifestUrl ? new URL(f, new URL(manifestUrl, location.href)).href : paths.slowMedia(targetId, f))),
     r.notes ? h("p", { class: "sbd-slow-notes" }, r.notes) : null);
   return r;
 }

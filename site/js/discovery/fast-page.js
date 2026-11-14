@@ -16,7 +16,7 @@ async function renderPicker(root, note) {
       : message("No targets found (data/targets.json is missing or empty).", "warn"));
 }
 
-function candidateCard(c, target, field) {
+export function candidateCard(c, target, field) {
   const href = links.candidate(target, c.id);
   const media = c.animation || c.image;
   return h("article", { class: `sbd-card${c.demo ? " sbd-card-demo" : ""}` },
@@ -33,7 +33,7 @@ function candidateCard(c, target, field) {
       h("a", { href, class: "sbd-btn sbd-btn-primary sbd-card-cta" }, "Open candidate page →")));
 }
 
-function rejectedItem(c, target) {
+export function rejectedItem(c, target) {
   const href = links.candidate(target, c.id);
   const reasons = Array.isArray(c.reasons) && c.reasons.length ? c.reasons : ["(no reason given by the engine)"];
   return h("li", { class: "sbd-rejected-item" },

@@ -16,6 +16,7 @@ import { mountAladin } from "./aladin.js";
 import { mountSlowBox, slowResult } from "./slow-box.js";
 import { mountReviewToolbar, Reviews, exportJSON, exportCSV } from "./review.js";
 import { mountSearch, runSearch, parseQuery, handleCoordinateParams, arrivalNote, distanceArcmin } from "./search.js";
+import { updateViewerSlots } from "./viewer-slots.js";
 
 export async function mountTargetSky(el, targetId, extra = {}) {
   const t = await getTarget(targetId);
@@ -82,14 +83,21 @@ window.SkyBlinkDiscovery = {
   config: CFG, autoInit, links,
   mountAladin, mountTargetSky, mountSlowBox, slowResult,
   mountSearch, runSearch, parseQuery, handleCoordinateParams, updateArrivalNote, distanceArcmin,
-  Reviews, exportJSON, exportCSV,
+  updateViewerSlots, Reviews, exportJSON, exportCSV,
 };
 
 // C's router re-renders #home / #viewer and then fires this event.
 document.addEventListener("skyblink:change", (e) => {
   autoInit();
+  updateViewerSlots(e.detail || {});
   if (e.detail && e.detail.target) updateArrivalNote(e.detail.target);
   else if (document.getElementById("sbd-arrival-slot")) updateArrivalNote(null);
 });
 
-onReady(() => autoInit());
+onReady(() => {
+  autoInit();
+  // C's first "skyblink:change" can fire before this module loads; if the viewer is already shown, catch up.
+  const viewer = document.getElementById("viewer");
+  const target = getParam(CFG.params.target);
+  if (viewer && !viewer.hidden && target) updateViewerSlots({ target, mode: getParam("mode") });
+});
