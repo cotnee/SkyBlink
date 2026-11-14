@@ -578,11 +578,11 @@ function renderBody(t, mode) {
             <button class="btn btn-icon" type="button" id="prev" aria-label="Previous frame">◀</button>
             <button class="btn btn-primary play-btn" type="button" id="play" aria-label="Play">Play</button>
             <button class="btn btn-icon" type="button" id="next" aria-label="Next frame">▶</button>
-            <span class="frame-count" id="frame-count" aria-live="polite"></span>
+            <span class="frame-count" id="frame-count" aria-live="polite" aria-atomic="true"></span>
           </div>
 
           <div class="strip" id="strip" role="group" aria-label="Frames">
-            ${m.frames.map((f, i) => `<button type="button" class="strip-bar" data-i="${i}"
+            ${m.frames.map((f, i) => `<button type="button" class="strip-bar" data-i="${i}" tabindex="${i === 0 ? 0 : -1}"
               aria-label="Frame ${i + 1} of ${n}: ${esc(f.date || "")} ${esc(f.label || "")}" title="${esc(f.date || "")} · ${esc(f.label || "")}"><span></span></button>`).join("")}
           </div>
 
@@ -751,8 +751,7 @@ function timelineSVG(m, W) {
   const X = yr => x0 + ((Math.min(Math.max(yr, Y0), Y1) - Y0) / (Y1 - Y0)) * (x1 - x0);
   const ticks = [2010, 2014, 2018, 2022, 2026];
   const dots = m.frames.map((f, i) => ({ f, i, yr: decimalYear(f.date) })).filter(d => d.yr !== null);
-  // Current frame drawn last so it sits on top.
-  dots.sort((a, b) => (a.i === state.frame) - (b.i === state.frame));
+  const cur = dots.find(d => d.i === state.frame);
   return `<svg viewBox="0 0 ${W} ${H}" class="tl-svg" role="group" aria-label="Timeline of frame dates from 2010 to 2027">
     <line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" class="axis"/>
     ${ticks.map(t => `<line x1="${X(t)}" y1="${y - 4}" x2="${X(t)}" y2="${y + 4}" class="axis"/>
@@ -766,6 +765,7 @@ function timelineSVG(m, W) {
         <circle cx="${X(yr)}" cy="${y}" r="${i === state.frame ? 6 : 5}" class="${cls}"/>
       </g>`;
     }).join("")}
+    ${cur ? `<circle cx="${X(cur.yr)}" cy="${y}" r="6" class="dot-now" aria-hidden="true" pointer-events="none"/>` : ""}
   </svg>`;
 }
 
@@ -1080,8 +1080,19 @@ function showFrame(i) {
     (m.fake ? `<span class="chip chip-mono chip-warn">Sample data</span>` : "");
   $("#frame-count").textContent = `Frame ${state.frame + 1} / ${n}`;
   document.querySelectorAll(".strip-bar").forEach((b, j) => {
-    if (j === state.frame) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current");
+    const on = j === state.frame;
+    if (on) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current");
+    b.tabIndex = on ? 0 : -1;
   });
+  // Keep the current bar visible in a long strip, and keep focus on it if the strip had focus.
+  const strip = $("#strip"), cur = strip && strip.children[state.frame];
+  if (cur) {
+    if (strip.scrollWidth > strip.clientWidth) {
+      const l = cur.offsetLeft - strip.offsetLeft;
+      if (l < strip.scrollLeft || l + cur.offsetWidth > strip.scrollLeft + strip.clientWidth) strip.scrollLeft = l - strip.clientWidth / 2;
+    }
+    if (strip.contains(document.activeElement)) cur.focus({ preventScroll: true });
+  }
   drawStage();
   updateSide();
 }
@@ -1093,6 +1104,9 @@ function togglePlay() {
 }
 
 function setPlayButton(playing) {
+  // Don't announce every frame while the flipbook is playing.
+  const fc = $("#frame-count");
+  if (fc) fc.setAttribute("aria-live", playing ? "off" : "polite");
   const btn = $("#play");
   if (!btn) return;
   btn.textContent = playing ? "Pause" : "Play";
@@ -1128,6 +1142,8 @@ document.addEventListener("keydown", e => {
     e.preventDefault(); stopPlaying(); step(1);
   } else if (e.key === "ArrowLeft") {
     e.preventDefault(); stopPlaying(); step(-1);
+  } else if ((e.key === "Home" || e.key === "End") && e.target.closest && e.target.closest("#strip")) {
+    e.preventDefault(); stopPlaying(); showFrame(e.key === "Home" ? 0 : state.manifest.frames.length - 1);
   }
 });
 

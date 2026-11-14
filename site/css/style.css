@@ -130,18 +130,22 @@ main:focus { outline: none; }
 .ruler-bar { position: relative; display: flex; gap: 2px; height: 22px; }
 .ruler-compact .ruler-bar { height: 14px; }
 .ruler-seg {
-  position: relative; min-width: 0; border-radius: 4px; opacity: .55;
+  position: relative; min-width: 0; border-radius: 4px;
   display: flex; align-items: center; justify-content: center;
 }
-.ruler-seg.is-current { opacity: 1; }
+.ruler-seg.is-current { outline: 2px solid var(--text); outline-offset: 1px; }
 .ruler-seg-label { font-family: var(--font-mono); font-size: 10px; font-weight: 500; color: var(--bg); }
 .ruler-compact .ruler-seg-label { display: none; }
-.ruler-marker {
-  position: absolute; top: -5px; bottom: -5px; width: 3px; margin-left: -1.5px;
-  background: #fff; border-radius: 2px; box-shadow: 0 0 0 1px var(--bg);
+/* Marker: ticks above and below the bar, so it never covers a segment label. */
+.ruler-marker { position: absolute; top: -9px; bottom: -9px; width: 3px; margin-left: -1.5px; }
+.ruler-marker::before, .ruler-marker::after {
+  content: ""; position: absolute; left: 0; width: 3px; height: 7px; background: #fff; border-radius: 2px;
 }
+.ruler-marker::before { top: 0; }
+.ruler-marker::after { bottom: 0; }
+.ruler { padding-top: 9px; }
 .ruler-ends {
-  display: flex; justify-content: space-between; gap: 8px; margin-top: 8px;
+  display: flex; justify-content: space-between; gap: 8px; margin-top: 14px;
   font-family: var(--font-mono); font-size: 12px; color: var(--muted);
 }
 .ruler-now { color: var(--text); }
@@ -164,7 +168,7 @@ main:focus { outline: none; }
 .search input {
   flex: 1 1 240px; min-width: 0; min-height: 48px; padding: 0 16px;
   background: var(--panel); color: var(--text);
-  border: 1px solid var(--line-2); border-radius: 12px;
+  border: 1px solid var(--muted); border-radius: 12px;
   font: 400 16px var(--font-body);
 }
 .search input::placeholder { color: var(--muted); }
@@ -264,8 +268,9 @@ main:focus { outline: none; }
   flex: 1 1 280px; min-width: 0; min-height: 44px;
   display: flex; align-items: center; padding: 0 14px;
   background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+  padding-top: 10px; padding-bottom: 10px;
   font-family: var(--font-mono); font-size: 13px; color: var(--text-2);
-  overflow-x: auto; white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .mode-tabs { margin-bottom: 24px; }
 
@@ -296,7 +301,7 @@ main:focus { outline: none; }
 
 .strip { display: flex; gap: 3px; margin-top: 12px; overflow-x: auto; }
 .strip-bar {
-  flex: 1 1 0; min-width: 12px; max-width: 64px; height: 44px; padding: 0;
+  flex: 1 1 0; min-width: 24px; max-width: 64px; height: 44px; padding: 0;
   background: transparent; border: 0; cursor: pointer;
   display: flex; align-items: center;
 }
