@@ -573,6 +573,22 @@ kbd {
 
 .sb-d-slot { display: flex; flex-direction: column; gap: 24px; max-width: 1280px; margin: 48px auto 0; padding: 0 var(--gut); }
 
+
+/* Colour lens: reddest sources in the field */
+.exp-chip { margin-left: 8px; letter-spacing: .04em; text-transform: none; vertical-align: 1px; }
+.reddest { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.reddest-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 14px; align-items: baseline; }
+.reddest-val { font: 400 24px/1 var(--font-head); color: var(--text); min-width: 3.2ch; }
+.reddest-what { font-size: 14px; color: var(--text-2); }
+.reddest-row.is-red .reddest-val, .reddest-row.is-red .reddest-what { color: var(--accent); }
+.reddest-bar { grid-column: 1 / -1; position: relative; height: 6px; background: var(--line); }
+.reddest-bar span { position: absolute; inset: 0 auto 0 0; background: linear-gradient(90deg, var(--d2), var(--d5) 70%, var(--d6)); }
+.reddest-bar i { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; background: var(--text); }
+.reddest-row.is-target { padding-left: 10px; border-left: 2px solid var(--known); }
+.reddest-what b { color: var(--text); font-weight: 500; }
+.reddest-pos { grid-column: 1 / -1; font: 400 11px/1.4 var(--font-mono); color: var(--muted); }
+.key.key-limit { width: 2px; height: 12px; border-radius: 0; vertical-align: -1px; background: var(--text); }
+
 /* ---------- Right column ---------- */
 .side-sec { padding: 24px 0 28px; border-top: 1px solid var(--line); }
 .side-sec:first-child { padding-top: 0; border-top: 0; }

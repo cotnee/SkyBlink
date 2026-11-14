@@ -2,17 +2,17 @@
  {"id": "barnard", "name": "Barnard's Star", "kind": "test target",
   "ra": 269.448, "dec": 4.770,
   "about": "The fastest-moving star in our sky, only 6 light-years away.",
-  "modes": ["fast", "slow"], "mission": "Find the fastest star in the sky"},
+  "modes": ["fast", "slow", "color"], "mission": "Find the fastest star in the sky"},
  {"id": "wise0855", "name": "WISE 0855", "kind": "test target",
   "ra": 133.781, "dec": -7.244,
   "about": "The coldest known brown dwarf, about as cold as the North Pole.",
-  "modes": ["fast", "slow"], "mission": "Spot the coldest failed star"},
+  "modes": ["fast", "slow", "color"], "mission": "Spot the coldest failed star"},
  {"id": "epsindib", "name": "Epsilon Indi B", "kind": "test target",
   "ra": 331.096, "dec": -56.801,
   "about": "A pair of brown dwarfs orbiting each other near a Sun-like star.",
-  "modes": ["slow"], "mission": "Catch two brown dwarfs on the move"},
+  "modes": ["slow", "color"], "mission": "Catch two brown dwarfs on the move"},
  {"id": "rwaur", "name": "RW Aurigae", "kind": "test target",
   "ra": 76.956, "dec": 30.401,
   "about": "A young star surrounded by a dusty disk that dims and brightens it.",
-  "modes": ["variable"], "mission": "Watch a young star change colour"}
+  "modes": ["variable", "color"], "mission": "Watch a young star change colour"}
 ]

@@ -41,8 +41,10 @@ const jsonCache = new Map();
 // Returns parsed JSON, or null if the file is missing or broken (never throws).
 function fetchJSON(url) {
   if (!jsonCache.has(url)) {
+    // Python's json writes NaN/Infinity, which browsers reject; read them as "no value" (null).
     jsonCache.set(url, fetch(url)
-      .then(r => (r.ok ? r.json() : null))
+      .then(r => (r.ok ? r.text() : null))
+      .then(txt => txt === null ? null : JSON.parse(txt.replace(/(:\s*|[[,]\s*)-?(?:NaN|Infinity)(?=\s*[,}\]])/g, "$1null")))
       .catch(() => null));
   }
   return jsonCache.get(url);
@@ -209,7 +211,11 @@ const LENS = {
 };
 
 // First target that has this lens (for "Open the lens" links).
-const firstTargetWith = mode => state.targets.find(t => (t.modes || []).includes(mode)) || null;
+// Home page examples: the target that shows a lens best, if it has that lens; else the first one that does.
+const SHOWCASE = { color: "wise0855" };
+const firstTargetWith = mode =>
+  state.targets.find(t => t.id === SHOWCASE[mode] && (t.modes || []).includes(mode)) ||
+  state.targets.find(t => (t.modes || []).includes(mode)) || null;
 
 const HOW = [
   { title: "Match the colour", text: "We only blink images taken in the same infrared colour, so a change you see is real, not a trick of the filter." },
@@ -398,7 +404,7 @@ function renderLog() {
 
 // The target whose data illustrates a mode on the home page.
 function exampleTarget(mode) {
-  const t = state.targets.find(x => (x.modes || []).includes(mode));
+  const t = firstTargetWith(mode);
   if (t) return t;
   // Without targets.json, fall back to the hero target (its files are checked when loaded).
   return state.targetsMissing ? { id: HERO_SOURCE.target, name: null } : null;
@@ -453,7 +459,7 @@ async function renderHomeMedia() {
 
   // Blinking stars / strange colours: frames if a target has them, else "coming soon".
   for (const mode of ["variable", "color"]) {
-    const t = state.targets.find(x => (x.modes || []).includes(mode));
+    const t = firstTargetWith(mode);
     if (!t) { emptyOn(mode, "Coming soon"); continue; }
     const dir = modeDir(t.id, mode);
     blinkers.push(...framePlate(mode, t, dir, await fetchJSON(`${dir}/manifest.json`)));
@@ -874,7 +880,7 @@ function renderBody(t, mode) {
           <p class="kbd-hint">Keyboard: <kbd>Space</kbd> play/pause · <kbd>←</kbd> <kbd>→</kbd> step</p>
           ${m.notes ? `<section class="notes-block" aria-labelledby="nt-title"><h2 class="kicker" id="nt-title">Notes</h2><p class="notes">${esc(m.notes)}</p></section>` : ""}
         </div>
-        <div class="side" id="side">${sideStatic(m, mode)}</div>
+        <div class="side" id="side">${sideStatic(m, mode, t)}</div>
       </div>
     </div>`;
 
@@ -920,7 +926,7 @@ function decimalYear(s) {
   return y + (t - start) / (end - start);
 }
 
-function sideStatic(m, mode) {
+function sideStatic(m, mode, t) {
   const anyFlag = m.frames.some(f => typeof f.flagged_fraction === "number" && f.flagged_fraction > 0);
   const hasHl = Array.isArray(m.highlights) && m.highlights.length > 0;
   const hasGaia = Array.isArray(m.gaia) && m.gaia.length > 0;
@@ -937,11 +943,12 @@ function sideStatic(m, mode) {
       <h2 class="kicker" id="tf-title">This frame</h2>
       <div id="this-frame"></div>
     </section>
+    ${mode === "color" ? reddestSection(m, t) : `
     <section class="side-sec" aria-labelledby="tl-title">
       <h2 class="kicker" id="tl-title">Timeline</h2>
       <div class="chart" id="timeline"></div>
       <p class="legend"><span class="key key-wise"></span>WISE <span class="key key-spx"></span>SPHEREx <span class="key key-now"></span>this frame</p>
-    </section>
+    </section>`}
     ${mode === "variable" && lc ? `
     <section class="side-sec" aria-labelledby="bc-title">
       <h2 class="kicker" id="bc-title">Brightness over time</h2>
@@ -966,6 +973,49 @@ function sideStatic(m, mode) {
       </div>
     </section>
 `;
+}
+
+/* Colour lens: sources in the field ranked by how much redder they are than a typical star there.
+   Everything comes from the manifest's "sources" list; "red_limit" is the team's cut for cold brown dwarfs. */
+function reddestSection(m, t) {
+  const src = Array.isArray(m.sources) ? m.sources.filter(x => typeof x.times_redder === "number") : [];
+  const exp = m.experimental ? `<span class="chip chip-mono chip-warn exp-chip">Experimental</span>` : "";
+  if (!src.length) return `
+    <section class="side-sec" aria-labelledby="rd-title">
+      <h2 class="kicker" id="rd-title">Reddest in this field ${exp}</h2>
+      <p class="muted">No colour measurements for this field.</p>
+    </section>`;
+  const limit = typeof m.red_limit === "number" ? m.red_limit : null;
+  const ranked = [...src].sort((a, b) => b.times_redder - a.times_redder);
+  // The target itself: the source under the highlight that carries the target's name (within 4 px).
+  const hl = t && Array.isArray(m.highlights) ? m.highlights.find(h => typeof h.label === "string" && h.label.includes(t.name)) : null;
+  const near = hl ? ranked.map(x => [x, Math.hypot(x.x - hl.x, x.y - hl.y)]).filter(([, d]) => d <= 4).sort((a, b) => a[1] - b[1])[0] : null;
+  const me = near ? near[0] : null;
+  const top = ranked.slice(0, 6);
+  if (me && !top.includes(me)) top.push(me);
+  const maxV = Math.max(ranked[0].times_redder, limit || 0, 2);
+  const pct = v => Math.max(2, Math.min(100, (Math.log10(Math.max(v, 1)) / Math.log10(maxV)) * 100));
+  const fmtX = x => `${x.lower_limit ? "≥ " : ""}${x.times_redder >= 10 ? Math.round(x.times_redder) : x.times_redder.toFixed(1)}×`;
+  const isRed = x => x.strange === true || (limit !== null && x.times_redder >= limit);
+  const coord = x => typeof x.ra === "number" && typeof x.dec === "number" ? `RA ${x.ra.toFixed(4)}° · Dec ${x.dec.toFixed(4)}°` : "";
+  return `
+    <section class="side-sec" aria-labelledby="rd-title">
+      <h2 class="kicker" id="rd-title">Reddest in this field ${exp}</h2>
+      <ol class="reddest">
+        ${top.map(x => `
+        <li class="reddest-row${isRed(x) ? " is-red" : ""}${x === me ? " is-target" : ""}">
+          <span class="reddest-val">${fmtX(x)}</span>
+          <span class="reddest-what">${x === me ? `<b>${esc(t.name)}</b> · ` : ""}${isRed(x) ? (limit !== null && x.times_redder >= limit ? `very red: past the ${limit}× cut` : "flagged as strange") : x.times_redder < 1.2 ? "about a typical colour" : "redder than a typical star"}</span>
+          <span class="reddest-bar" aria-hidden="true"><span style="width:${pct(x.times_redder).toFixed(1)}%"></span>${limit ? `<i style="left:${pct(limit).toFixed(1)}%"></i>` : ""}</span>
+          <span class="reddest-pos">${coord(x)}</span>
+        </li>`).join("")}
+      </ol>
+      <p class="legend">${limit ? `<span class="key key-limit"></span>${limit}× redder: the colour of cold brown dwarfs. ` : ""}Compared with a typical star in the same field (log scale).</p>
+      <details class="table-view"><summary>Show all ${src.length} sources as a table</summary>
+        <table><thead><tr><th scope="col">Times redder</th><th scope="col">RA</th><th scope="col">Dec</th><th scope="col">Signal-to-noise</th></tr></thead>
+        <tbody>${ranked.map(x => `<tr><td>${fmtX(x)}${x === me ? ` (${esc(t.name)})` : ""}</td><td>${typeof x.ra === "number" ? x.ra.toFixed(5) : "–"}</td><td>${typeof x.dec === "number" ? x.dec.toFixed(5) : "–"}</td><td>${typeof x.red_snr === "number" ? x.red_snr : "–"}</td></tr>`).join("")}</tbody></table>
+      </details>
+    </section>`;
 }
 
 function wireSide() {
@@ -1008,7 +1058,7 @@ function updateSide() {
     <p class="frame-sentence">${sentence}</p>`;
 
   const tl = $("#timeline");
-  tl.innerHTML = timelineSVG(m, tl.clientWidth || 320);
+  if (tl) tl.innerHTML = timelineSVG(m, tl.clientWidth || 320);
   const bc = $("#brightness");
   if (bc) bc.innerHTML = brightnessSVG(m, bc.clientWidth || 320);
   const db = $("#det-bars");
