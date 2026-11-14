@@ -1,0 +1,149 @@
+/* SkyBlink theme for Person D's discovery pages and panels.
+ * Loaded AFTER discovery.css; it only restyles (colours, type, corners), never layout logic,
+ * so D's discovery.css and JS stay untouched. Tokens come from style.css :root. */
+
+.sbd-page, .sbd {
+  --sbd-bg: var(--bg);
+  --sbd-panel: var(--panel);
+  --sbd-panel-2: #101829;
+  --sbd-line: var(--line-2);
+  --sbd-text: var(--text);
+  --sbd-muted: var(--muted);
+  --sbd-accent: var(--accent);
+  --sbd-pink: var(--accent);
+  --sbd-primary-bg: var(--accent);
+  --sbd-primary-fg: var(--on-accent);
+  --sbd-radius: 2px;
+}
+
+/* Page: same navy as the core site, with the nebula afterglow. */
+.sbd-page {
+  background:
+    radial-gradient(60% 40% at 100% 0%, rgba(63, 111, 196, .14), transparent 70%),
+    radial-gradient(50% 35% at 0% 100%, rgba(224, 138, 69, .10), transparent 70%),
+    var(--bg);
+  background-attachment: fixed;
+  font: 16px/1.55 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+.sbd-page a { color: var(--text); text-decoration-color: var(--muted); text-underline-offset: 4px; }
+.sbd-page a:hover { text-decoration-color: var(--accent); }
+.sbd-page :focus-visible { outline: 1px solid var(--text); outline-offset: 4px; }
+
+/* Top bar: matches the core site nav (logo, spaced serif wordmark, quiet links). */
+.sbd-topbar {
+  padding: 14px var(--gut); gap: 12px 32px; justify-content: space-between;
+  background: linear-gradient(180deg, rgba(7, 10, 19, .96), rgba(7, 10, 19, .88));
+  border-bottom: 1px solid var(--line);
+}
+.sbd-brand {
+  display: inline-flex; align-items: center; gap: 0; min-height: 44px;
+  font: 400 14px/1 var(--font-head) !important; letter-spacing: .32em; text-transform: uppercase;
+}
+.sbd-brand::before {
+  content: ""; width: 30px; height: 21px; flex: none; margin-right: 12px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 21'%3E%3Ccircle cx='10.5' cy='10.5' r='8.5' fill='none' stroke='%237CC4FF' stroke-width='1.5'/%3E%3Ccircle cx='19.5' cy='10.5' r='8.5' fill='none' stroke='%23F2A25C' stroke-width='1.5'/%3E%3Ccircle cx='19.5' cy='10.5' r='2' fill='%23F2A25C'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.sbd-brand span { color: inherit; }
+.sbd-topbar nav { gap: 4px 28px; }
+.sbd-topbar nav a {
+  display: inline-flex; align-items: center; min-height: 44px;
+  font: 400 15px/1 var(--font-body); color: var(--text-2); text-decoration: none;
+}
+.sbd-topbar nav a:hover { color: var(--text); }
+.sbd-topbar nav a[aria-current="page"] { color: var(--text); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 8px; }
+
+.sbd-main { max-width: 1280px; padding: clamp(32px, 5vw, 64px) var(--gut) clamp(64px, 8vw, 120px); }
+.sbd-footer {
+  text-align: left; padding: 40px var(--gut); font-size: 13px; color: var(--muted);
+  border-top: 1px solid var(--line);
+  background: radial-gradient(60% 120% at 90% 120%, rgba(224, 138, 69, .14), transparent 70%);
+}
+
+/* Type: serif display headings, uppercase kickers. */
+.sbd h1, .sbd h2, .sbd h3 { font-family: var(--font-head); font-weight: 400; letter-spacing: -0.01em; color: var(--text); }
+.sbd h1 { font-size: clamp(44px, 6.4vw, 96px); line-height: .95; letter-spacing: -0.03em; margin: 12px 0 20px; }
+.sbd h2 { font-size: clamp(26px, 2.6vw, 36px); line-height: 1.1; margin: 0 0 14px; }
+.sbd h3 { font-size: 22px; line-height: 1.15; }
+.sbd p { color: var(--text-2); }
+.sbd .sbd-eyebrow, .sbd .sbd-slow-title {
+  font: 500 12px/1.4 var(--font-body); letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
+}
+.sbd-lede { font: 400 clamp(20px, 2vw, 26px)/1.3 var(--font-head); color: var(--text); max-width: 46ch; }
+.sbd-crumbs { font-size: 14px; }
+.sbd-crumbs a { color: var(--text-2); }
+.sbd-muted, .sbd-search-help, .sbd-review-status { color: var(--muted); }
+
+/* Panels: thin rules, square corners, a faint panel tint. */
+.sbd-section { background: rgba(13, 19, 34, .72); border: 1px solid var(--line); padding: clamp(20px, 3vw, 32px); margin: 20px 0; }
+.sbd-stat { border-radius: 2px; background: transparent; border: 0; border-left: 1px solid var(--line-2); padding: 4px 18px; min-width: 110px; }
+.sbd-stat-val { font: 400 30px/1.05 var(--font-head); }
+.sbd-stat-label { font: 500 11px/1.3 var(--font-body); letter-spacing: .18em; }
+
+.sbd-badge { border-radius: 2px; font: 500 11px/1.3 var(--font-mono); letter-spacing: .08em; }
+.sbd-chip { border-radius: 2px; }
+.sbd-demo-banner, .sbd-msg, .sbd-search-error, .sbd-match-banner, .sbd-arrival-note,
+.sbd-check, .sbd-rejected-item, .sbd-aladin-offline, .sbd-snippet, .sbd-img-missing { border-radius: 2px; }
+.sbd-check-icon { border-radius: 50%; }
+.sbd-check-text, .sbd-slow-notes, .sbd-lede + p { color: var(--text-2); }
+.sbd-reasons { color: #F4B9A8; }
+
+/* Buttons: pill outlines like the core "Open the lens" button; primary fills amber. */
+.sbd-btn {
+  border-radius: 999px; background: transparent; border: 1px solid var(--line-2);
+  font: 400 15px/1 var(--font-body); padding: 12px 20px; min-height: 44px;
+  transition: border-color .3s, background .3s, color .3s;
+}
+.sbd-btn:hover:not(:disabled) { border-color: var(--text); }
+.sbd-btn-small { padding: 8px 14px; font-size: 13px; min-height: 36px; }
+.sbd-btn-big { padding: 14px 26px; font-size: 16px; }
+.sbd-btn-primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent) !important; }
+.sbd-btn-primary:hover:not(:disabled) { background: var(--gold); border-color: var(--gold); }
+.sbd-btn[aria-pressed="true"] { border-color: var(--accent); background: rgba(242, 162, 92, .14); }
+
+/* Cards */
+.sbd-card { border-radius: 2px; background: var(--panel); border-color: var(--line); transition: border-color .3s; }
+.sbd-card:hover { border-color: var(--line-2); }
+.sbd-card-media, .sbd-data-img, .sbd img.sbd-data-img { background: #04060C; }
+.sbd .sbd-card-title, .sbd .sbd-rejected-item h4 { font-family: var(--font-mono); font-weight: 500; font-size: 16px; letter-spacing: 0; }
+.sbd-figure img, .sbd-marked .sbd-data-img, .sbd-rejected-thumb img, .sbd-rejected-thumb .sbd-img-missing { border-radius: 0; }
+.sbd-img-missing { background: repeating-linear-gradient(135deg, #070A13, #070A13 10px, #0D1322 10px, #0D1322 20px); }
+
+/* Meters and bars: nebula blue into the result colour. */
+.sbd-sig-track, .sbd-slow-bar-track { background: #04060C; border-color: var(--line); }
+.sbd-sig-fill { background: linear-gradient(90deg, var(--nebula-blue), var(--sbd-ok)); }
+.sbd-sig-low { background: linear-gradient(90deg, var(--nebula-blue), var(--sbd-bad)); }
+.sbd-slow-measured { background: linear-gradient(90deg, var(--nebula-blue), var(--accent)); }
+.sbd-slow-expected { background: var(--line-2); }
+
+.sbd-slow-box {
+  border-radius: 2px; border-color: var(--line-2);
+  background: radial-gradient(90% 80% at 100% 0%, rgba(63, 111, 196, .16), transparent 70%), var(--panel);
+}
+.sbd-slow-headline { font: 400 30px/1.1 var(--font-head); color: var(--text); }
+
+/* Markers on images: amber for finds, blue for known (Gaia) stars, as in the viewer. */
+.sbd-marker-gaia { border-color: var(--known); }
+.sbd-marker-label { font: 500 11px/1.2 var(--font-mono); background: rgba(7, 10, 19, .85); border-radius: 0; }
+
+/* Spectrum chart */
+.sbd-sp-grid { stroke: var(--line); }
+.sbd-sp-axis { stroke: var(--line-2); }
+.sbd-sp-zero { stroke: var(--muted); }
+.sbd-sp-label { fill: var(--text-2); }
+.sbd-sp-line { stroke: var(--text-2); }
+.sbd-sp-pt circle { stroke: var(--bg); }
+
+/* Forms: underline input like the home search. */
+.sbd-search-input {
+  background: transparent; border: 0; border-bottom: 1px solid var(--muted); border-radius: 0;
+  font: 400 clamp(20px, 2.2vw, 28px)/1.2 var(--font-head); padding: 10px 0;
+}
+.sbd-search-input:focus { outline: none; border-bottom-color: var(--text); box-shadow: 0 1px 0 var(--text); }
+.sbd-search-row { align-items: center; gap: 16px; }
+.sbd-note, .sbd-aladin-controls select { background: #04060C; border-color: var(--line-2); border-radius: 2px; }
+.sbd-snippet { background: #04060C; }
+.sbd-snippet-code { font-family: var(--font-mono); color: var(--text-2); }
+.sbd-table th, .sbd-table td { border-bottom-color: var(--line); }
+.sbd-aladin-view { border-radius: 0; border-color: var(--line); }
+.sbd-arrival-note { border-color: rgba(242, 162, 92, .4); background: rgba(242, 162, 92, .06); }
