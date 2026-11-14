@@ -28,17 +28,24 @@
   <header class="nav">
     <a class="wordmark" href="index.html" data-nav aria-label="SkyBlink home">
       <svg class="logo" viewBox="0 0 40 28" aria-hidden="true">
-        <circle cx="14" cy="14" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <circle cx="26" cy="14" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <circle cx="26" cy="14" r="2" fill="currentColor"/>
+        <circle cx="14" cy="14" r="10" fill="none" stroke="var(--known)" stroke-width="1.75"/>
+        <circle cx="26" cy="14" r="10" fill="none" stroke="var(--accent)" stroke-width="1.75"/>
+        <circle cx="26" cy="14" r="2.25" fill="var(--accent)"/>
       </svg>
       <span class="wordmark-text">SkyBlink</span>
     </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="index.html#log" data-nav>Explore</a>
+      <a href="index.html?hunt=fast#log" data-nav>Hidden movers</a>
+      <a href="index.html#how" data-nav>How it works</a>
+      <a href="index.html#data" data-nav>About the data</a>
+    </nav>
+    <span class="nav-tag">NASA Space Apps 2026 · Planet X and SPHEREx</span>
     <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
   </header>
 
   <div class="menu" id="menu" hidden>
-    <nav aria-label="Main">
+    <nav aria-label="Main menu">
       <ol class="menu-list">
         <li><a href="index.html#log" data-nav><span class="menu-num">01</span>Explore</a></li>
         <li><a href="index.html?hunt=fast#log" data-nav><span class="menu-num">02</span>Hidden movers</a></li>

@@ -181,18 +181,22 @@ const MODE_INFO = {
   fast: {
     lead: "Faint objects drifting across the sky, too faint to see in any single photograph until our software stacks them.",
     tag: "Our engine",
+    icon: `<path d="M4 20 L20 4" stroke-dasharray="2 3"/><circle cx="20" cy="4" r="2.5"/><circle cx="6" cy="8" r="1"/><circle cx="16" cy="18" r="1"/>`,
   },
   slow: {
     lead: "Blink a 2010 WISE image against SPHEREx in the same colour, and watch the nearest stars crawl.",
     tag: "2010 → 2026",
+    icon: `<circle cx="7" cy="14" r="3" stroke-dasharray="2 2"/><circle cx="17" cy="10" r="3"/><path d="M10 13 L14 11"/>`,
   },
   variable: {
     lead: "Follow one star's brightness over time, always measured with the same detector.",
     tag: "Same detector only",
+    icon: `<path d="M3 15 L7 15 L9 8 L12 18 L15 6 L17 15 L21 15"/>`,
   },
   color: {
     lead: "Step through SPHEREx's six detectors, from blue to red, and see how an object's colour changes.",
     tag: "Experimental",
+    icon: `<circle cx="12" cy="12" r="8"/><path d="M12 4 V20 M4 12 H20"/>`,
   },
 };
 
@@ -231,9 +235,19 @@ function showHome() {
     <section class="hero grain" aria-labelledby="hero-title">
       <div class="hero-sky" id="hero-sky" aria-hidden="true"></div>
       <div class="hero-inner">
-        <p class="kicker">NASA SPHEREx · the infrared sky</p>
-        <h1 id="hero-title" class="hero-title">Watch the sky <em>change.</em></h1>
-        <p class="hero-sub">Flip through infrared photographs of the same patch of sky, years apart, and spot what moves, blinks or changes colour.</p>
+        <div class="hero-copy">
+          <p class="kicker">SPHEREx · 102 infrared colours · the whole sky every 6 months</p>
+          <h1 id="hero-title" class="hero-title">Watch the sky <em>change.</em></h1>
+          <p class="hero-sub">Flip through NASA infrared images of the same patch of sky, years apart, and spot what moves, blinks or changes colour.</p>
+          <form class="search" id="search" role="search">
+            <label class="visually-hidden" for="search-input">Star name or coordinates</label>
+            <input id="search-input" type="search" placeholder="Star name or coordinates" autocomplete="off" spellcheck="false">
+            <button class="search-go" type="submit">Start exploring <span aria-hidden="true">→</span></button>
+          </form>
+          <p class="search-msg" id="search-msg" role="status"></p>
+          <p class="find-hint">Or start with a mission: <a href="${viewerURL("barnard", "slow")}" data-nav>find the fastest star in the sky</a></p>
+        </div>
+        <figure class="hero-preview" id="hero-preview"></figure>
       </div>
       <div class="hero-foot">
         <a class="ul-link" href="index.html#log" data-nav>Open the observing log</a>
@@ -248,17 +262,6 @@ function showHome() {
     <section class="chapters" id="hunt" aria-labelledby="hunt-title">
       <h2 class="kicker" id="hunt-title">What are you hunting?</h2>
       <div id="mode-grid"></div>
-    </section>
-
-    <section class="find reveal" aria-labelledby="find-title">
-      <h2 class="find-title" id="find-title">Find a star</h2>
-      <form class="search" id="search" role="search">
-        <label class="visually-hidden" for="search-input">Star name or coordinates</label>
-        <input id="search-input" type="search" placeholder="Star name or coordinates" autocomplete="off" spellcheck="false">
-        <button class="ul-link" type="submit">Search</button>
-      </form>
-      <p class="search-msg" id="search-msg" role="status"></p>
-      <p class="find-hint">Or start with a mission: <a href="${viewerURL("barnard", "slow")}" data-nav>find the fastest star in the sky</a>.</p>
     </section>
 
     <section class="log" id="log" aria-labelledby="log-title">
@@ -309,7 +312,7 @@ function renderModeCards() {
     return `<article class="chapter${k % 2 ? " is-flip" : ""} reveal" aria-labelledby="ch-${m}">
       <div class="chapter-media" id="plate-${m}"><div class="plate plate-empty"><span>Loading…</span></div></div>
       <div class="chapter-copy">
-        <p class="chapter-num">${String(k + 1).padStart(2, "0")} / ${n}</p>
+        <p class="chapter-num"><svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">${info.icon}</svg>${String(k + 1).padStart(2, "0")} / ${n}</p>
         <h3 class="chapter-lead" id="ch-${m}">${info.lead}</h3>
         <div class="chapter-links">
           <button type="button" class="ul-link" data-mode="${m}" aria-pressed="${hunt === m}">${MODES[m].name}</button>
@@ -380,8 +383,12 @@ async function renderHomeMedia() {
     const imgs = [...sky.querySelectorAll("img")];
     trackLoader(imgs);
     blinkers.push({ n: heroM.frames.length, set: i => imgs.forEach((im, j) => im.classList.toggle("is-on", j === i)) });
+    const heroT = state.targets.find(t => t.id === HERO_SOURCE.target);
+    blinkers.push(...framePlate("hero-preview", heroT || { id: HERO_SOURCE.target, name: null }, heroDir, heroM, { hero: true }));
   } else {
     trackLoader([]);
+    const pv = $("#hero-preview");
+    if (pv) pv.innerHTML = `<div class="plate plate-empty"><span>Preview coming soon</span></div>${spectralRuler(null)}`;
   }
 
   if (slowT) {
@@ -431,8 +438,8 @@ function emptyOn(mode, text) {
 }
 
 // A blinking plate of a manifest's frames, with the highlight ring on top.
-function framePlate(mode, t, dir, m) {
-  const el = $(`#plate-${mode}`);
+function framePlate(mode, t, dir, m, { hero = false } = {}) {
+  const el = hero ? $("#hero-preview") : $(`#plate-${mode}`);
   if (!el) return [];
   if (!m || !Array.isArray(m.frames) || !m.frames.length) { el.innerHTML = emptyPlate("Coming soon"); return []; }
   const name = t.name || null;
@@ -442,9 +449,10 @@ function framePlate(mode, t, dir, m) {
         ${m.frames.map((f, i) => `<img src="${dir}/${encodeURIComponent(f.file)}" alt="" data-i="${i}"${i ? "" : ` class="is-on"`}>`).join("")}
         <div class="plate-rings"></div>
       </div>
-      ${m.fake ? `<span class="plate-badge">Sample data</span>` : ""}
+      <div class="plate-chips"></div>
     </div>
-    <p class="plate-cap"><span class="plate-now"></span><span class="plate-wl"></span></p>`;
+    ${hero ? `<div class="plate-ruler"></div><figcaption class="plate-cap"><span class="plate-now"></span></figcaption>`
+           : `<p class="plate-cap"><span class="plate-now"></span><span class="plate-wl"></span></p>`}`;
   const imgs = [...el.querySelectorAll("img")];
   const set = i => {
     const f = m.frames[i];
@@ -459,8 +467,16 @@ function framePlate(mode, t, dir, m) {
         `<span class="ring" style="left:${((p.x + 0.5) / w) * 100}%;top:${((p.y + 0.5) / h) * 100}%"></span>`).join("");
     };
     if (im.complete && im.naturalWidth) place(); else im.addEventListener("load", place, { once: true });
-    el.querySelector(".plate-now").textContent = [name, telescopeOf(f), String(f.date || "").slice(0, 4)].filter(Boolean).join(" · ");
-    el.querySelector(".plate-wl").textContent = typeof f.wavelength_um === "number" ? `${f.wavelength_um} µm` : "";
+    el.querySelector(".plate-chips").innerHTML = (hero ? m.frames.map((g, j) =>
+      `<span class="plate-chip${j === i ? " is-on" : ""}">${esc(telescopeOf(g))} · ${esc(String(g.date || "").slice(0, 4))}</span>`).join("") : "") +
+      (m.fake ? `<span class="plate-chip plate-badge">Sample data</span>` : "");
+    if (hero) {
+      el.querySelector(".plate-ruler").innerHTML = spectralRuler(f.wavelength_um);
+      el.querySelector(".plate-now").textContent = `${name || "Target"}, ${f.label || ""}`;
+    } else {
+      el.querySelector(".plate-now").textContent = [name, telescopeOf(f), String(f.date || "").slice(0, 4)].filter(Boolean).join(" · ");
+      el.querySelector(".plate-wl").textContent = typeof f.wavelength_um === "number" ? `${f.wavelength_um} µm` : "";
+    }
   };
   set(0);
   return [{ n: m.frames.length, set }];
