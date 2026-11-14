@@ -668,10 +668,10 @@ async function showViewer(targetId, modeParam) {
     state.target = null;
     state.mode = null;
     document.title = "Unknown target · SkyBlink";
-    $("#viewer-head").innerHTML = `<div class="wrap viewer-head"><a class="back-link" href="index.html#log" data-nav>← Observing log</a></div>`;
-    $("#viewer-body").innerHTML = `<div class="wrap"><div class="card coming-soon">
-      <h1>Unknown target</h1><p>We don't have a target called “${esc(targetId)}”.</p>
-      <a class="btn btn-primary" href="index.html#log" data-nav>Back to the observing log</a></div></div>`;
+    $("#viewer-head").innerHTML = `<div class="wrap viewer-head"><div class="vh-top"><a class="ul-link back-link" href="index.html#log" data-nav>← Observing log</a></div></div>`;
+    $("#viewer-body").innerHTML = `<div class="wrap"><div class="empty-state">
+      <h1>Unknown target.</h1><p>We don't have a target called “${esc(targetId)}”.</p>
+      <a class="ul-link" href="index.html#log" data-nav>Back to the observing log</a></div></div>`;
     setSlots(null);
     announce();
     return;
@@ -710,37 +710,53 @@ async function showViewer(targetId, modeParam) {
 
 function renderHead(t, mode, modes) {
   const url = new URL(viewerURL(t.id, mode), location.href).href;
+  const idx = state.targets.findIndex(x => x.id === t.id);
+  const num = idx >= 0 ? `${String(idx + 1).padStart(2, "0")} / ${String(state.targets.length).padStart(2, "0")}` : "";
+  const coords = typeof t.ra === "number" && typeof t.dec === "number" ? `RA ${fmtCoord(t.ra)}° · Dec ${fmtCoord(t.dec)}°` : "";
   $("#viewer-head").innerHTML = `
     <div class="wrap viewer-head">
-      <a class="back-link" href="index.html#log" data-nav>← Observing log</a>
-      <h1 class="target-name">${esc(t.name)}</h1>
-      ${t.mission ? `<p class="target-mission">Mission: ${esc(t.mission)}</p>` : ""}
-      <div class="share">
-        <output class="share-url" aria-label="Shareable link">${esc(url)}</output>
-        <button class="btn" type="button" id="copy-link">Copy link</button>
+      <div class="vh-top">
+        <a class="ul-link back-link" href="index.html#log" data-nav>← Observing log</a>
+        ${num ? `<span class="vh-num">${num}</span>` : ""}
       </div>
-      <nav class="pills mode-tabs" aria-label="Modes">
-        ${MODE_ORDER.map(m => modes.includes(m)
-          ? `<a class="pill" href="${viewerURL(t.id, m)}" data-nav${m === mode ? ' aria-current="page"' : ""}>${MODES[m].name}</a>`
-          : `<a class="pill" role="link" aria-disabled="true" title="Coming soon for this target">${MODES[m].name}</a>`
-        ).join("")}
+      <div class="vh-grid">
+        <h1 class="target-name">${esc(t.name)}</h1>
+        <div class="vh-meta">
+          ${t.about ? `<p class="target-about">${esc(t.about)}</p>` : ""}
+          ${t.mission ? `<p class="target-mission"><span class="kicker">Mission</span>${esc(t.mission)}</p>` : ""}
+          ${coords ? `<p class="target-coords">${coords}</p>` : ""}
+        </div>
+      </div>
+      <nav class="mode-tabs" aria-label="Modes">
+        ${MODE_ORDER.map((m, k) => {
+          const n = `<span class="tab-num">${String(k + 1).padStart(2, "0")}</span>`;
+          return modes.includes(m)
+            ? `<a class="mode-tab" href="${viewerURL(t.id, m)}" data-nav${m === mode ? ' aria-current="page"' : ""}>${n}${MODES[m].name}</a>`
+            : `<a class="mode-tab" role="link" aria-disabled="true" title="Coming soon for this target">${n}${MODES[m].name}<span class="tab-soon">soon</span></a>`;
+        }).join("")}
       </nav>
+      <div class="share">
+        <span class="kicker share-label">Share</span>
+        <output class="share-url" aria-label="Shareable link">${esc(url)}</output>
+        <button class="ul-link" type="button" id="copy-link">Copy link</button>
+      </div>
     </div>`;
   $("#copy-link").addEventListener("click", async e => {
     const btn = e.currentTarget;
     try {
       await navigator.clipboard.writeText(url);
-      btn.textContent = "Copied!";
+      btn.textContent = "Copied";
     } catch {
-      btn.textContent = "Select the link above";
+      btn.textContent = "Select the link to copy it";
     }
     setTimeout(() => { btn.textContent = "Copy link"; }, 2000);
   });
 }
 
 function comingSoon(t, mode) {
-  return `<div class="wrap"><div class="card coming-soon">
-    <h2>${MODES[mode].name}: coming soon</h2>
+  return `<div class="wrap"><div class="empty-state">
+    <p class="kicker">${MODES[mode].name}</p>
+    <h2>Coming soon.</h2>
     <p>We haven't prepared ${MODES[mode].name.toLowerCase()} images for ${esc(t.name)} yet.</p>
   </div></div>`;
 }
@@ -752,9 +768,10 @@ function renderBody(t, mode) {
     if (!state.candidates) { body.innerHTML = comingSoon(t, mode); return; }
     const n = state.candidates.field && state.candidates.field.exposures;
     body.innerHTML = `<div class="wrap"><div class="intro">
-      <p>Our software stacked ${typeof n === "number" ? n : "~120"} exposures of this patch of sky,
-      shifting them along many possible paths so that something faint and moving adds up while the stars stay put.
-      Each find below was checked automatically. Look at it, then you decide.</p>
+      <p class="kicker">How this works</p>
+      <p class="intro-text">Our software stacked ${typeof n === "number" ? n : "~120"} exposures of this patch of sky,
+      shifting them along many possible paths so that something faint and moving adds up while the stars stay put.</p>
+      <p>Each find below was checked automatically. Look at it, then you decide.</p>
     </div></div>`;
     return;
   }
@@ -767,7 +784,7 @@ function renderBody(t, mode) {
     <div class="wrap">
       <div class="viewer-grid">
         <div class="stage-col">
-          <div class="stage reticle" id="stage">
+          <div class="stage" id="stage">
             <canvas id="stage-canvas" role="img"></canvas>
             <div class="stage-chips" id="stage-chips"></div>
             <div class="stage-chips stage-chips-right" id="stage-chips-right"></div>
@@ -775,9 +792,9 @@ function renderBody(t, mode) {
           </div>
 
           <div class="controls">
-            <button class="btn btn-icon" type="button" id="prev" aria-label="Previous frame">◀</button>
-            <button class="btn btn-primary play-btn" type="button" id="play" aria-label="Play">Play</button>
-            <button class="btn btn-icon" type="button" id="next" aria-label="Next frame">▶</button>
+            <button class="ctl" type="button" id="prev" aria-label="Previous frame">← Prev</button>
+            <button class="play-btn" type="button" id="play" aria-label="Play">Play</button>
+            <button class="ctl" type="button" id="next" aria-label="Next frame">Next →</button>
             <span class="frame-count" id="frame-count" aria-live="polite" aria-atomic="true"></span>
           </div>
 
@@ -788,15 +805,16 @@ function renderBody(t, mode) {
 
           <div class="control-row">
             <span class="control-label" id="speed-label">Speed</span>
-            <div class="pills" role="group" aria-labelledby="speed-label">
-              ${[0.5, 1, 2].map(s => `<button type="button" class="pill pill-sm" data-speed="${s}" aria-pressed="${s === state.speed}">${s}×</button>`).join("")}
+            <div class="opts" role="group" aria-labelledby="speed-label">
+              ${[0.5, 1, 2].map(s => `<button type="button" class="opt" data-speed="${s}" aria-pressed="${s === state.speed}">${s}×</button>`).join("")}
             </div>
           </div>
           <div class="control-row" id="fov-row" hidden>
             <span class="control-label" id="fov-label">Field</span>
-            <div class="pills" role="group" aria-labelledby="fov-label"></div>
+            <div class="opts" role="group" aria-labelledby="fov-label"></div>
           </div>
           <p class="kbd-hint">Keyboard: <kbd>Space</kbd> play/pause · <kbd>←</kbd> <kbd>→</kbd> step</p>
+          ${m.notes ? `<section class="notes-block" aria-labelledby="nt-title"><h2 class="kicker" id="nt-title">Notes</h2><p class="notes">${esc(m.notes)}</p></section>` : ""}
         </div>
         <div class="side" id="side">${sideStatic(m, mode)}</div>
       </div>
@@ -857,18 +875,18 @@ function sideStatic(m, mode) {
   const lc = Array.isArray(m.lightcurve) && m.lightcurve.length ? m.lightcurve : null;
 
   return `
-    <section class="card" aria-labelledby="tf-title">
-      <h2 id="tf-title">This frame</h2>
+    <section class="side-sec" aria-labelledby="tf-title">
+      <h2 class="kicker" id="tf-title">This frame</h2>
       <div id="this-frame"></div>
     </section>
-    <section class="card" aria-labelledby="tl-title">
-      <h2 id="tl-title">Timeline</h2>
+    <section class="side-sec" aria-labelledby="tl-title">
+      <h2 class="kicker" id="tl-title">Timeline</h2>
       <div class="chart" id="timeline"></div>
       <p class="legend"><span class="key key-wise"></span>WISE <span class="key key-spx"></span>SPHEREx <span class="key key-now"></span>this frame</p>
     </section>
     ${mode === "variable" && lc ? `
-    <section class="card" aria-labelledby="bc-title">
-      <h2 id="bc-title">Brightness over time</h2>
+    <section class="side-sec" aria-labelledby="bc-title">
+      <h2 class="kicker" id="bc-title">Brightness over time</h2>
       <div class="chart" id="brightness"></div>
       <details class="table-view"><summary>Show as table</summary>
         <table><thead><tr><th scope="col">Date</th><th scope="col">Flux</th><th scope="col">Detector</th></tr></thead>
@@ -876,12 +894,12 @@ function sideStatic(m, mode) {
       </details>
     </section>` : ""}
     ${mode === "color" ? `
-    <section class="card" aria-labelledby="db-title">
-      <h2 id="db-title">Detectors</h2>
+    <section class="side-sec" aria-labelledby="db-title">
+      <h2 class="kicker" id="db-title">Detectors</h2>
       <div class="det-bars" id="det-bars"></div>
     </section>` : ""}
-    <section class="card" aria-labelledby="ly-title">
-      <h2 id="ly-title">Layers</h2>
+    <section class="side-sec" aria-labelledby="ly-title">
+      <h2 class="kicker" id="ly-title">Layers</h2>
       <div class="layers">
         ${layer("highlights", "Highlights", hasHl, "none for this target", "hl")}
         ${layer("gaia", "Known stars (Gaia DR3)", hasGaia, "none in this field", "gaia")}
@@ -889,7 +907,7 @@ function sideStatic(m, mode) {
         ${layer("diff", "Difference view", m.frames.length > 1, "needs 2+ frames", "diff")}
       </div>
     </section>
-    ${m.notes ? `<section class="card" aria-labelledby="nt-title"><h2 id="nt-title">Notes</h2><p class="notes">${esc(m.notes)}</p></section>` : ""}`;
+`;
 }
 
 function wireSide() {
@@ -1116,9 +1134,9 @@ function renderFovPills() {
   const fits = FOV_CHOICES.filter(v => v < full - 0.05);
   if (state.fov && !fits.includes(state.fov)) state.fov = null;
   row.hidden = false;
-  row.querySelector(".pills").innerHTML =
-    fits.map(v => `<button type="button" class="pill pill-sm" data-fov="${v}" aria-pressed="${state.fov === v}">${v}′</button>`).join("") +
-    `<button type="button" class="pill pill-sm" data-fov="" aria-pressed="${!state.fov}">${full.toFixed(1)}′ full</button>`;
+  row.querySelector(".opts").innerHTML =
+    fits.map(v => `<button type="button" class="opt" data-fov="${v}" aria-pressed="${state.fov === v}">${v}′</button>`).join("") +
+    `<button type="button" class="opt" data-fov="" aria-pressed="${!state.fov}">${full.toFixed(1)}′ full</button>`;
 }
 
 function drawStage() {
@@ -1239,7 +1257,7 @@ function label(ctx, text, cx, cy, r, color, dpr) {
   let x = cx + r * 0.75, y = cy - r - h / 2;
   if (x + tw + pad * 2 > W - 4 * dpr) x = cx - r * 0.75 - tw - pad * 2;
   if (y < 4 * dpr) y = cy + r + 4 * dpr;
-  ctx.fillStyle = "rgba(7,10,18,.85)";
+  ctx.fillStyle = "rgba(10,10,11,.85)";
   ctx.fillRect(x, y, tw + pad * 2, h);
   ctx.fillStyle = color;
   ctx.textBaseline = "middle"; ctx.textAlign = "left";
