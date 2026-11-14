@@ -1,0 +1,607 @@
+{
+ "frames": [
+  {
+   "file": "f01.png",
+   "date": "2026-03-08",
+   "label": "SPHEREx detector D4, faintest",
+   "wavelength_um": 3.12
+  },
+  {
+   "file": "f02.png",
+   "date": "2026-03-08",
+   "label": "SPHEREx detector D4, brightest",
+   "wavelength_um": 3.12
+  }
+ ],
+ "highlights": [
+  {
+   "x": 10.0,
+   "y": 10.0,
+   "label": "RW Aurigae"
+  }
+ ],
+ "image_size": [
+  21,
+  21
+ ],
+ "lightcurve": [
+  {
+   "date": "2026-03-04",
+   "flux": 1.1475,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-04",
+   "flux": 0.8884,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-04",
+   "flux": 0.8283,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-04",
+   "flux": 0.8744,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-06",
+   "flux": 0.9505,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-06",
+   "flux": 0.9915,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-06",
+   "flux": 0.9908,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-06",
+   "flux": 1.0923,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-08",
+   "flux": 0.7986,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-08",
+   "flux": 0.7768,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-08",
+   "flux": 0.9796,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-08",
+   "flux": 1.0531,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-08",
+   "flux": 1.0769,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-08",
+   "flux": 1.0538,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-10",
+   "flux": 0.7698,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-10",
+   "flux": 0.7986,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-10",
+   "flux": 0.8245,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-10",
+   "flux": 0.8628,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-12",
+   "flux": 1.3363,
+   "detector": "D1"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 0.9418,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 0.9478,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 0.9833,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 0.9741,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-02",
+   "flux": 1.0979,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-02",
+   "flux": 1.144,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-02",
+   "flux": 1.1659,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-02",
+   "flux": 1.2655,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-05",
+   "flux": 1.3308,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-05",
+   "flux": 1.404,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-05",
+   "flux": 1.508,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-05",
+   "flux": 1.6211,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-05",
+   "flux": 0.8705,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-07",
+   "flux": 0.6962,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-07",
+   "flux": 0.7575,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-07",
+   "flux": 0.821,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-07",
+   "flux": 0.811,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-03-09",
+   "flux": 0.7646,
+   "detector": "D2"
+  },
+  {
+   "date": "2026-02-20",
+   "flux": 0.8868,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-02-20",
+   "flux": 0.933,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-02-20",
+   "flux": 0.9894,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-02-20",
+   "flux": 1.0401,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-02-21",
+   "flux": 1.1086,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-02-21",
+   "flux": 1.2479,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-02-21",
+   "flux": 1.2398,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-02-21",
+   "flux": 1.3121,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-02-27",
+   "flux": 0.5515,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-02-27",
+   "flux": 0.5923,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-02-27",
+   "flux": 0.6232,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-02-27",
+   "flux": 1.4279,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-02-27",
+   "flux": 1.4548,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-02-27",
+   "flux": 1.5804,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 0.8198,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 0.8499,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 0.8905,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 1.0142,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-03-02",
+   "flux": 0.9586,
+   "detector": "D3"
+  },
+  {
+   "date": "2026-03-04",
+   "flux": 0.7753,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-04",
+   "flux": 0.8162,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-04",
+   "flux": 0.8845,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-04",
+   "flux": 1.2158,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-06",
+   "flux": 1.0961,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-06",
+   "flux": 1.2398,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-06",
+   "flux": 1.3192,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-06",
+   "flux": 1.4092,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-08",
+   "flux": 0.5325,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-08",
+   "flux": 0.5684,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-08",
+   "flux": 1.4588,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-08",
+   "flux": 1.6053,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-08",
+   "flux": 1.7048,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-08",
+   "flux": 1.9647,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-10",
+   "flux": 0.5708,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-10",
+   "flux": 0.5877,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-10",
+   "flux": 0.6334,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-10",
+   "flux": 0.6431,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-12",
+   "flux": 0.9737,
+   "detector": "D4"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 0.8316,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 0.9433,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 0.948,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 0.9361,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-02",
+   "flux": 1.0657,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-02",
+   "flux": 1.132,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-02",
+   "flux": 1.1736,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-02",
+   "flux": 1.0713,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-05",
+   "flux": 1.204,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-05",
+   "flux": 1.2266,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-05",
+   "flux": 1.3302,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-05",
+   "flux": 1.331,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-05",
+   "flux": 0.8538,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-05",
+   "flux": 0.8074,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-07",
+   "flux": 0.8571,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-07",
+   "flux": 0.9127,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-07",
+   "flux": 0.9301,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-07",
+   "flux": 0.8608,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-03-09",
+   "flux": 0.9083,
+   "detector": "D5"
+  },
+  {
+   "date": "2026-02-20",
+   "flux": 1.0398,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-02-20",
+   "flux": 0.9502,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-02-20",
+   "flux": 1.0161,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-02-20",
+   "flux": 0.9243,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-02-21",
+   "flux": 1.0771,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-02-21",
+   "flux": 1.1307,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-02-21",
+   "flux": 1.0285,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-02-21",
+   "flux": 1.0786,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-02-27",
+   "flux": 0.83,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-02-27",
+   "flux": 0.7817,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-02-27",
+   "flux": 0.8267,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-02-27",
+   "flux": 1.0846,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-02-27",
+   "flux": 1.0274,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-02-27",
+   "flux": 1.0762,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 1.0728,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 1.0039,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 1.0704,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-03-01",
+   "flux": 1.2384,
+   "detector": "D6"
+  },
+  {
+   "date": "2026-03-02",
+   "flux": 1.0964,
+   "detector": "D6"
+  }
+ ],
+ "variability_ratio": {
+  "D1": 3.37,
+  "D2": 6.48,
+  "D3": 10.45,
+  "D4": 11.38,
+  "D5": 0.36,
+  "D6": 0.8
+ },
+ "brightest_to_faintest": 3.69,
+ "calibrated_with_comparison_stars": true,
+ "photometry": "aperture",
+ "best_detector": "D4",
+ "notes": "RW Aurigae over 19 days, SPHEREx detector D4: its brightness changes 11.4 times more than nearby steady stars (brightest/faintest = 3.69x). Measured from light inside a small circle around the star. Only images from the same detector are compared, since each detector sees a different color."
+}
