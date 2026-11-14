@@ -10,7 +10,7 @@
  {"id": "epsindib", "name": "Epsilon Indi B", "kind": "test target",
   "ra": 331.096, "dec": -56.801,
   "about": "A pair of brown dwarfs orbiting each other near a Sun-like star.",
-  "modes": ["fast", "slow"], "mission": "Catch two brown dwarfs on the move"},
+  "modes": ["slow"], "mission": "Catch two brown dwarfs on the move"},
  {"id": "rwaur", "name": "RW Aurigae", "kind": "test target",
   "ra": 76.956, "dec": 30.401,
   "about": "A young star surrounded by a dusty disk that dims and brightens it.",
