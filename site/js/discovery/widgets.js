@@ -86,18 +86,47 @@ window.SkyBlinkDiscovery = {
   updateViewerSlots, Reviews, exportJSON, exportCSV,
 };
 
+// C's hero search box (form#search) keeps handling names. Valid coordinates go through D's search,
+// so coordinates far from every target open search.html instead of a dead end. Capture phase runs
+// before C's own submit handler on the form.
+const C_SEARCH_FORM = "search";
+document.addEventListener("submit", (e) => {
+  const form = e.target;
+  if (!(form instanceof HTMLFormElement) || form.id !== C_SEARCH_FORM) return;
+  const text = form.querySelector("input")?.value || "";
+  if (parseQuery(text).kind !== "coords") return;
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  runSearch(text);
+}, true);
+
+function showCSearchError(q) {
+  const msg = document.getElementById("search-msg");
+  if (msg && q?.message) msg.textContent = q.message;
+}
+window.addEventListener("sbd-search-error", (e) => showCSearchError(e.detail));
+
+function onHome() {
+  if (document.getElementById(C_SEARCH_FORM)) handleCoordinateParams();
+}
+
 // C's router re-renders #home / #viewer and then fires this event.
 document.addEventListener("skyblink:change", (e) => {
   autoInit();
   updateViewerSlots(e.detail || {});
   if (e.detail && e.detail.target) updateArrivalNote(e.detail.target);
-  else if (document.getElementById("sbd-arrival-slot")) updateArrivalNote(null);
+  else {
+    if (document.getElementById("sbd-arrival-slot")) updateArrivalNote(null);
+    onHome();
+  }
 });
 
 onReady(() => {
   autoInit();
   // C's first "skyblink:change" can fire before this module loads; if the viewer is already shown, catch up.
   const viewer = document.getElementById("viewer");
+  const home = document.getElementById("home");
   const target = getParam(CFG.params.target);
   if (viewer && !viewer.hidden && target) updateViewerSlots({ target, mode: getParam("mode") });
+  else if (home && !home.hidden) onHome();
 });

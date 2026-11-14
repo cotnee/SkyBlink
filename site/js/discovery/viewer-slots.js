@@ -20,10 +20,10 @@ let generation = 0;
 
 const slot = (key) => document.getElementById(SLOT_IDS[key]);
 
-// Slots sit outside C's .wrap, so give each the same page width.
+// C's .sb-d-slot container sets the page width and padding.
 function section(el, ...children) {
   el.classList.add("sbd", "sbd-viewer-slot");
-  return fill(el, h("div", { class: "wrap" }, h("section", { class: "sbd-section" }, ...children)));
+  return fill(el, h("section", { class: "sbd-section" }, ...children));
 }
 
 function clear(el) {
