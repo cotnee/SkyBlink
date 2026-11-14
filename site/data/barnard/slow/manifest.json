@@ -1,0 +1,38 @@
+{
+ "frames": [
+  {
+   "file": "f01.png",
+   "date": "2010",
+   "label": "WISE W2 (4.6 µm)",
+   "wavelength_um": 4.6
+  },
+  {
+   "file": "f02.png",
+   "date": "2026-08-22",
+   "label": "SPHEREx detector D6 (~4.71 µm)",
+   "wavelength_um": 4.71
+  }
+ ],
+ "highlights": [
+  {
+   "x": 38.4,
+   "y": 53.1,
+   "label": "2010 position"
+  },
+  {
+   "x": 40.7,
+   "y": 25.9,
+   "label": "2026 position"
+  }
+ ],
+ "image_size": [
+  80,
+  80
+ ],
+ "measured_shift_arcsec": 167.4,
+ "expected_shift_arcsec": 167.7,
+ "epoch_from": 2010.5,
+ "epoch_to": 2026.6,
+ "years": 16.1,
+ "notes": "Barnard's Star moved 167 arcseconds in 16 years, between 2010 and 2026 (expected 168 from its known motion). Only positions are compared: the two telescopes measure brightness differently."
+}

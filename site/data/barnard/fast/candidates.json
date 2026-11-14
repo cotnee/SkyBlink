@@ -1,0 +1,218 @@
+{
+ "field": {
+  "name": "barnard",
+  "ra": 269.448,
+  "dec": 4.77,
+  "exposures": 119,
+  "threshold": 7.7,
+  "dates": [
+   "2026-08-16",
+   "2026-09-22"
+  ]
+ },
+ "candidates": [
+  {
+   "id": "barnard_cand_1",
+   "demo": true,
+   "ra": 269.45571,
+   "dec": 4.74694,
+   "date_ref": "2026-08-16",
+   "x": 25,
+   "y": 16,
+   "vx": -0.2,
+   "vy": 0.05,
+   "sig": 12.4,
+   "speed_arcsec_day": 1.27,
+   "halves": [
+    5.2,
+    12.2
+   ],
+   "verdict": "candidate",
+   "reasons": [],
+   "sed": {
+    "D1": 0.1281,
+    "D2": 0.0,
+    "D3": -0.034,
+    "D4": 0.1018,
+    "D5": 0.0427,
+    "D6": 0.0262
+   },
+   "sed_wave_um": {
+    "D1": 0.93,
+    "D2": 1.37,
+    "D3": 2.03,
+    "D4": 3.12,
+    "D5": 4.13,
+    "D6": 4.71
+   },
+   "color_class": "normal color: similar to an asteroid in reflected sunlight, or a star",
+   "image": "barnard_cand_1.png",
+   "animation": "barnard_cand_1.gif"
+  },
+  {
+   "id": "barnard_cand_2",
+   "demo": false,
+   "ra": 269.44886,
+   "dec": 4.75548,
+   "date_ref": "2026-08-16",
+   "x": 29,
+   "y": 21,
+   "vx": -0.5,
+   "vy": -0.2,
+   "sig": 8.2,
+   "speed_arcsec_day": 3.31,
+   "halves": [
+    1.5,
+    4.9
+   ],
+   "verdict": "rejected",
+   "reasons": [
+    "next to a bright-star mask: likely a star residual",
+    "signal present in only one half of the observations",
+    "barely above the noise threshold: likely noise"
+   ],
+   "sed": {
+    "D1": 0.1707,
+    "D2": -0.0511,
+    "D3": -0.1334,
+    "D4": 0.0968,
+    "D5": -0.003,
+    "D6": -0.011
+   },
+   "sed_wave_um": {
+    "D1": 0.93,
+    "D2": 1.37,
+    "D3": 2.03,
+    "D4": 3.12,
+    "D5": 4.13,
+    "D6": 4.71
+   },
+   "color_class": "normal color: similar to an asteroid in reflected sunlight, or a star",
+   "image": "barnard_cand_2.png",
+   "animation": "barnard_cand_2.gif"
+  },
+  {
+   "id": "barnard_cand_3",
+   "demo": true,
+   "ra": 269.47286,
+   "dec": 4.75206,
+   "date_ref": "2026-08-16",
+   "x": 15,
+   "y": 19,
+   "vx": 0.4,
+   "vy": -0.05,
+   "sig": 8.0,
+   "speed_arcsec_day": 2.48,
+   "halves": [
+    5.6,
+    5.8
+   ],
+   "verdict": "rejected",
+   "reasons": [
+    "barely above the noise threshold: likely noise"
+   ],
+   "sed": {
+    "D1": 0.0976,
+    "D2": -0.0048,
+    "D3": 0.0269,
+    "D4": 0.1191,
+    "D5": 0.0332,
+    "D6": 0.0453
+   },
+   "sed_wave_um": {
+    "D1": 0.93,
+    "D2": 1.37,
+    "D3": 2.03,
+    "D4": 3.12,
+    "D5": 4.13,
+    "D6": 4.71
+   },
+   "color_class": "normal color: similar to an asteroid in reflected sunlight, or a star",
+   "image": "barnard_cand_3.png",
+   "animation": "barnard_cand_3.gif"
+  },
+  {
+   "id": "barnard_cand_4",
+   "demo": false,
+   "ra": 269.42829,
+   "dec": 4.76915,
+   "date_ref": "2026-08-16",
+   "x": 41,
+   "y": 29,
+   "vx": 0.1,
+   "vy": -0.2,
+   "sig": 7.9,
+   "speed_arcsec_day": 1.38,
+   "halves": [
+    3.3,
+    4.7
+   ],
+   "verdict": "rejected",
+   "reasons": [
+    "next to a bright-star mask: likely a star residual",
+    "barely above the noise threshold: likely noise"
+   ],
+   "sed": {
+    "D1": 0.0968,
+    "D2": 0.026,
+    "D3": 0.0725,
+    "D4": -0.033,
+    "D5": -0.0904,
+    "D6": 0.0286
+   },
+   "sed_wave_um": {
+    "D1": 0.93,
+    "D2": 1.37,
+    "D3": 2.03,
+    "D4": 3.12,
+    "D5": 4.13,
+    "D6": 4.71
+   },
+   "color_class": "normal color: similar to an asteroid in reflected sunlight, or a star",
+   "image": "barnard_cand_4.png",
+   "animation": "barnard_cand_4.gif"
+  },
+  {
+   "id": "barnard_cand_5",
+   "demo": false,
+   "ra": 269.43171,
+   "dec": 4.7589,
+   "date_ref": "2026-08-16",
+   "x": 39,
+   "y": 23,
+   "vx": 0.2,
+   "vy": 0.5,
+   "sig": 7.7,
+   "speed_arcsec_day": 3.31,
+   "halves": [
+    8.5,
+    0.2
+   ],
+   "verdict": "rejected",
+   "reasons": [
+    "next to a bright-star mask: likely a star residual",
+    "signal present in only one half of the observations",
+    "barely above the noise threshold: likely noise"
+   ],
+   "sed": {
+    "D1": 0.113,
+    "D2": -0.0813,
+    "D3": -0.0754,
+    "D4": -0.066,
+    "D5": -0.0041,
+    "D6": -0.0221
+   },
+   "sed_wave_um": {
+    "D1": 0.93,
+    "D2": 1.37,
+    "D3": 2.03,
+    "D4": 3.12,
+    "D5": 4.13,
+    "D6": 4.71
+   },
+   "color_class": "normal color: similar to an asteroid in reflected sunlight, or a star",
+   "image": "barnard_cand_5.png",
+   "animation": "barnard_cand_5.gif"
+  }
+ ]
+}
