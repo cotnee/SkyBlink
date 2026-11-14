@@ -97,7 +97,7 @@ function navigate(url, { replace = false } = {}) {
 
 async function route() {
   stopPlaying();
-  clearInterval(heroTimer);
+  clearHome();
   const { target, mode } = params();
   if (!state.targets.length && !state.targetsMissing) await loadTargets();
   if (target) await showViewer(target, mode);
@@ -179,24 +179,20 @@ function highlightsForFrame(m, i) {
 
 const MODE_INFO = {
   fast: {
-    desc: "Faint objects drifting across the sky, too faint to see in a single photo until our software stacks them.",
-    pill: "Our engine",
-    icon: `<path d="M4 20 L20 4" stroke-dasharray="2 3"/><circle cx="20" cy="4" r="2.5"/><circle cx="6" cy="8" r="1"/><circle cx="16" cy="18" r="1"/>`,
+    lead: "Faint objects drifting across the sky, too faint to see in any single photograph until our software stacks them.",
+    tag: "Our engine",
   },
   slow: {
-    desc: "Blink a 2010 WISE image against SPHEREx in the same colour and watch nearby stars crawl.",
-    pill: "2010 → 2026",
-    icon: `<circle cx="7" cy="14" r="3" stroke-dasharray="2 2"/><circle cx="17" cy="10" r="3"/><path d="M10 13 L14 11"/>`,
+    lead: "Blink a 2010 WISE image against SPHEREx in the same colour, and watch the nearest stars crawl.",
+    tag: "2010 → 2026",
   },
   variable: {
-    desc: "Follow one star's brightness over time, always with the same detector.",
-    pill: "same detector only",
-    icon: `<path d="M3 15 L7 15 L9 8 L12 18 L15 6 L17 15 L21 15"/>`,
+    lead: "Follow one star's brightness over time, always measured with the same detector.",
+    tag: "Same detector only",
   },
   color: {
-    desc: "Step through SPHEREx's 6 detectors from blue to red and see how an object's colour changes.",
-    pill: "experimental",
-    icon: `<circle cx="12" cy="12" r="8"/><path d="M12 4 V20 M4 12 H20"/>`,
+    lead: "Step through SPHEREx's six detectors, from blue to red, and see how an object's colour changes.",
+    tag: "Experimental",
   },
 };
 
@@ -208,59 +204,82 @@ const HOW = [
 
 const HERO_SOURCE = { target: "barnard", mode: "slow" };
 let heroTimer = null;
+let homeCleanup = [];
+const reduceMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function clearHome() {
+  clearInterval(heroTimer);
+  homeCleanup.forEach(fn => fn());
+  homeCleanup = [];
+  document.body.classList.remove("is-home");
+}
 
 function showHome() {
   state.target = null;
   state.mode = null;
   state.manifest = null;
   state.candidates = null;
+  clearHome();
   document.title = "SkyBlink · Watch the sky change";
+  document.body.classList.add("is-home");
   $("#viewer").hidden = true;
   setSlots(null);
   const home = $("#home");
   home.hidden = false;
 
   home.innerHTML = `
-    <div class="wrap">
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow">SPHEREx · 102 infrared colours · the whole sky every 6 months</p>
-          <h1 id="hero-title" class="hero-title">Watch the sky change.</h1>
-          <p class="hero-sub">Flip through NASA infrared images of the same patch of sky, years apart, and spot what moves, blinks or changes colour.</p>
-          <form class="search" id="search" role="search">
-            <label class="visually-hidden" for="search-input">Star name or coordinates</label>
-            <input id="search-input" type="search" placeholder="Star name or coordinates" autocomplete="off" spellcheck="false">
-            <button class="btn btn-primary" type="submit">Start exploring</button>
-          </form>
-          <p class="search-msg" id="search-msg" role="status"></p>
-          <p class="hero-mission">Or start with a mission: <a href="${viewerURL("barnard", "slow")}" data-nav>find the fastest star in the sky</a></p>
-        </div>
-        <figure class="hero-preview" id="hero-preview"></figure>
-      </section>
+    <section class="hero grain" aria-labelledby="hero-title">
+      <div class="hero-sky" id="hero-sky" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <p class="kicker">NASA SPHEREx · the infrared sky</p>
+        <h1 id="hero-title" class="hero-title">Watch the sky <em>change.</em></h1>
+        <p class="hero-sub">Flip through infrared photographs of the same patch of sky, years apart, and spot what moves, blinks or changes colour.</p>
+      </div>
+      <div class="hero-foot">
+        <a class="ul-link" href="index.html#log" data-nav>Open the observing log</a>
+        <span class="hero-scroll" aria-hidden="true">Scroll down</span>
+      </div>
+    </section>
 
-      <section class="section" id="hunt" aria-labelledby="hunt-title">
-        <h2 class="section-title" id="hunt-title">What are you hunting?</h2>
-        <div class="mode-grid" id="mode-grid"></div>
-      </section>
+    <section class="statement" aria-label="What SkyBlink does">
+      <p class="statement-text" id="statement">SPHEREx photographs the whole sky in 102 infrared colours, every six months. Lay two photographs of the same stars side by side, flip between them, and anything that moves gives itself away.</p>
+    </section>
 
-      <section class="section" id="log" aria-labelledby="log-title">
-        <h2 class="section-title" id="log-title">Observing log</h2>
-        <div id="log-body"></div>
-      </section>
+    <section class="chapters" id="hunt" aria-labelledby="hunt-title">
+      <h2 class="kicker" id="hunt-title">What are you hunting?</h2>
+      <div id="mode-grid"></div>
+    </section>
 
-      <section class="section" id="how" aria-labelledby="how-title">
-        <h2 class="section-title" id="how-title">How it works, in 30 seconds</h2>
-        <ol class="how-grid">
-          ${HOW.map((h, i) => `<li class="card how-card">
-            <span class="how-num">${String(i + 1).padStart(2, "0")}</span>
-            <h3>${h.title}</h3><p>${h.text}</p></li>`).join("")}
-        </ol>
-      </section>
-    </div>`;
+    <section class="find reveal" aria-labelledby="find-title">
+      <h2 class="find-title" id="find-title">Find a star</h2>
+      <form class="search" id="search" role="search">
+        <label class="visually-hidden" for="search-input">Star name or coordinates</label>
+        <input id="search-input" type="search" placeholder="Star name or coordinates" autocomplete="off" spellcheck="false">
+        <button class="ul-link" type="submit">Search</button>
+      </form>
+      <p class="search-msg" id="search-msg" role="status"></p>
+      <p class="find-hint">Or start with a mission: <a href="${viewerURL("barnard", "slow")}" data-nav>find the fastest star in the sky</a>.</p>
+    </section>
+
+    <section class="log" id="log" aria-labelledby="log-title">
+      <h2 class="kicker" id="log-title">Observing log</h2>
+      <div id="log-body"></div>
+    </section>
+
+    <section class="how" id="how" aria-labelledby="how-title">
+      <h2 class="kicker" id="how-title">How it works, in 30 seconds</h2>
+      <ol class="how-grid">
+        ${HOW.map((h, i) => `<li class="reveal">
+          <span class="how-num">${String(i + 1).padStart(2, "0")}</span>
+          <h3>${h.title}</h3><p>${h.text}</p></li>`).join("")}
+      </ol>
+    </section>`;
 
   renderModeCards();
   renderLog();
-  renderHeroPreview();
+  renderHomeMedia();
+  setupStatement();
+  setupReveal(home);
   $("#search").addEventListener("submit", onSearch);
 
   // Honour #log / #how after re-render.
@@ -277,29 +296,34 @@ function currentHunt() {
 function setHunt(mode) {
   const url = mode ? `index.html?hunt=${mode}#log` : "index.html#log";
   history.replaceState(null, "", url);
-  renderModeCards();
+  document.querySelectorAll("#mode-grid [data-mode]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.mode === mode)));
   renderLog();
 }
 
 function renderModeCards() {
   const hunt = currentHunt();
-  const grid = $("#mode-grid");
-  grid.innerHTML = MODE_ORDER.map(m => {
+  const n = String(MODE_ORDER.length).padStart(2, "0");
+  $("#mode-grid").innerHTML = MODE_ORDER.map((m, k) => {
     const info = MODE_INFO[m];
     const examples = state.targets.filter(t => (t.modes || []).includes(m)).map(t => t.name);
-    return `<button type="button" class="card mode-card" data-mode="${m}" aria-pressed="${hunt === m}">
-      <span class="mode-card-top">
-        <svg class="mode-icon" viewBox="0 0 24 24" aria-hidden="true">${info.icon}</svg>
-        <span class="chip chip-mono${m === "fast" ? " chip-accent" : ""}">${info.pill}</span>
-      </span>
-      <span class="mode-name">${MODES[m].name}</span>
-      <span class="mode-desc">${info.desc}</span>
-      <span class="mode-examples">${examples.length ? esc(examples.join(" · ")) : "Targets coming soon"}</span>
-    </button>`;
+    return `<article class="chapter${k % 2 ? " is-flip" : ""} reveal" aria-labelledby="ch-${m}">
+      <div class="chapter-media" id="plate-${m}"><div class="plate plate-empty"><span>Loading…</span></div></div>
+      <div class="chapter-copy">
+        <p class="chapter-num">${String(k + 1).padStart(2, "0")} / ${n}</p>
+        <h3 class="chapter-lead" id="ch-${m}">${info.lead}</h3>
+        <div class="chapter-links">
+          <button type="button" class="ul-link" data-mode="${m}" aria-pressed="${hunt === m}">${MODES[m].name}</button>
+          <span class="chapter-tag">${info.tag}</span>
+        </div>
+        <p class="chapter-ex">${examples.length ? esc(examples.join(" · ")) : "Targets coming soon"}</p>
+      </div>
+    </article>`;
   }).join("");
-  grid.querySelectorAll(".mode-card").forEach(b => b.addEventListener("click", () => {
+  $("#mode-grid").querySelectorAll("[data-mode]").forEach(b => b.addEventListener("click", () => {
     const m = b.dataset.mode;
-    setHunt(currentHunt() === m ? null : m);
+    const next = currentHunt() === m ? null : m;
+    setHunt(next);
+    if (next) $("#log").scrollIntoView({ behavior: reduceMotion() ? "auto" : "smooth" });
   }));
 }
 
@@ -310,73 +334,136 @@ function renderLog() {
   const body = $("#log-body");
 
   if (state.targetsMissing) {
-    body.innerHTML = `<div class="notice"><p>The target list (<code>data/targets.json</code>) hasn't been published yet.</p></div>`;
+    body.innerHTML = `<p class="log-empty">The target list (<code>data/targets.json</code>) hasn't been published yet.</p>`;
     return;
   }
-  const clear = hunt ? `<p class="log-filter">Showing targets with ${MODES[hunt].name.toLowerCase()}. <button type="button" class="link-btn" id="clear-hunt">Show all targets</button></p>` : "";
+  const clear = hunt ? `<p class="log-filter">Showing targets with ${MODES[hunt].name.toLowerCase()}. <button type="button" class="ul-link" id="clear-hunt">Show all targets</button></p>` : "";
   body.innerHTML = clear + (list.length ? `<ol class="log-list">${list.map((t, i) => `
-      <li class="card log-row">
+      <li class="log-row">
         <span class="log-num">${String(i + 1).padStart(2, "0")}</span>
         <div class="log-main">
           <h3 class="log-name"><a href="${viewerURL(t.id, hunt || (t.modes || [])[0] || "slow")}" data-nav>${esc(t.name)}</a></h3>
           ${t.mission ? `<p class="log-mission">${esc(t.mission)}</p>` : ""}
           <div class="mode-chips">${(t.modes || []).filter(m => MODES[m]).map(m =>
-            `<a class="chip mode-chip${m === hunt ? " is-on" : ""}" href="${viewerURL(t.id, m)}" data-nav>${MODES[m].name}</a>`).join("")}</div>
+            `<a class="mode-chip${m === hunt ? " is-on" : ""}" href="${viewerURL(t.id, m)}" data-nav>${MODES[m].name}</a>`).join("")}</div>
         </div>
         <span class="log-coords">RA ${fmtCoord(t.ra)}°<br>Dec ${fmtCoord(t.dec)}°</span>
-      </li>`).join("")}</ol>` : `<p>No targets for this mode yet.</p>`);
+      </li>`).join("")}</ol>` : `<p class="log-empty">No targets for this mode yet.</p>`);
   const c = $("#clear-hunt");
   if (c) c.addEventListener("click", () => setHunt(null));
 }
 
-async function renderHeroPreview() {
-  clearInterval(heroTimer);
-  const fig = $("#hero-preview");
-  const dir = modeDir(HERO_SOURCE.target, HERO_SOURCE.mode);
-  const m = await fetchJSON(`${dir}/manifest.json`);
-  if (!fig.isConnected) return;
-  if (!m || !Array.isArray(m.frames) || !m.frames.length) {
-    fig.innerHTML = `<div class="hero-stage reticle"></div>${spectralRuler(null)}`;
-    return;
-  }
-  fig.innerHTML = `
-    <div class="hero-stage reticle">
-      ${m.frames.map((f, i) => `<img src="${dir}/${encodeURIComponent(f.file)}" alt="" data-i="${i}"${i ? " hidden" : ""}>`).join("")}
-      <div class="hero-rings" id="hero-rings"></div>
-      <div class="stage-chips" id="hero-chips"></div>
-    </div>
-    <figcaption id="hero-cap"></figcaption>`;
+// The target whose data illustrates a mode on the home page.
+function exampleTarget(mode) {
+  const t = state.targets.find(x => (x.modes || []).includes(mode));
+  if (t) return t;
+  // Without targets.json, fall back to the hero target (its files are checked when loaded).
+  return state.targetsMissing ? { id: HERO_SOURCE.target, name: null } : null;
+}
 
-  const imgs = fig.querySelectorAll("img");
-  const show = i => {
+const emptyPlate = text => `<div class="plate plate-empty"><span>${text}</span></div>`;
+
+/* Hero background and the four chapter plates. Everything shown is read from site/data. */
+async function renderHomeMedia() {
+  const blinkers = [];   // {m, set(i)} - all blink together, so the hero and slow plate agree.
+
+  // Hero + slow plate: the slow-mover frames.
+  const slowT = state.targets.find(t => t.id === HERO_SOURCE.target && (t.modes || []).includes("slow")) || exampleTarget("slow");
+  const heroDir = modeDir(HERO_SOURCE.target, HERO_SOURCE.mode);
+  const heroM = await fetchJSON(`${heroDir}/manifest.json`);
+  if (!$("#hero-sky")) return;
+  const okFrames = m => m && Array.isArray(m.frames) && m.frames.length;
+
+  if (okFrames(heroM)) {
+    const sky = $("#hero-sky");
+    sky.innerHTML = heroM.frames.map((f, i) => `<img src="${heroDir}/${encodeURIComponent(f.file)}" alt="" data-i="${i}"${i ? "" : ` class="is-on"`}>`).join("");
+    const imgs = [...sky.querySelectorAll("img")];
+    trackLoader(imgs);
+    blinkers.push({ n: heroM.frames.length, set: i => imgs.forEach((im, j) => im.classList.toggle("is-on", j === i)) });
+  } else {
+    trackLoader([]);
+  }
+
+  if (slowT) {
+    const dir = modeDir(slowT.id, "slow");
+    const m = slowT.id === HERO_SOURCE.target ? heroM : await fetchJSON(`${dir}/manifest.json`);
+    blinkers.push(...framePlate("slow", slowT, dir, m));
+  } else emptyOn("slow", "Coming soon");
+
+  // Hidden movers: the number of exposures the pipeline stacked.
+  const fastT = exampleTarget("fast");
+  const cand = fastT ? await fetchJSON(`${modeDir(fastT.id, "fast")}/candidates.json`) : null;
+  const fastEl = $("#plate-fast");
+  if (fastEl) {
+    if (cand && cand.field && typeof cand.field.exposures === "number") {
+      const where = fastT.name ? `for ${esc(fastT.name)}` : "for one field";
+      fastEl.innerHTML = `<div class="plate plate-type">
+          <span class="plate-big">${cand.field.exposures}</span>
+          <span class="plate-note">exposures stacked ${where}</span>
+        </div>
+        <p class="plate-cap"><span>${Array.isArray(cand.candidates) ? `${cand.candidates.length} detections checked` : ""}</span><span>${esc((cand.field.dates || []).join(" → "))}</span></p>`;
+    } else fastEl.innerHTML = emptyPlate("Coming soon");
+  }
+
+  // Blinking stars / strange colours: frames if a target has them, else "coming soon".
+  for (const mode of ["variable", "color"]) {
+    const t = state.targets.find(x => (x.modes || []).includes(mode));
+    if (!t) { emptyOn(mode, "Coming soon"); continue; }
+    const dir = modeDir(t.id, mode);
+    blinkers.push(...framePlate(mode, t, dir, await fetchJSON(`${dir}/manifest.json`)));
+  }
+
+  if (!$("#hero-sky")) return;
+  const n = Math.max(0, ...blinkers.map(b => b.n));
+  if (n > 1 && !reduceMotion()) {
+    let i = 0;
+    heroTimer = setInterval(() => {
+      if (!$("#hero-sky")) { clearInterval(heroTimer); return; }
+      i = (i + 1) % n;
+      blinkers.forEach(b => b.set(i % b.n));
+    }, 1600);
+  }
+}
+
+function emptyOn(mode, text) {
+  const el = $(`#plate-${mode}`);
+  if (el) el.innerHTML = emptyPlate(text);
+}
+
+// A blinking plate of a manifest's frames, with the highlight ring on top.
+function framePlate(mode, t, dir, m) {
+  const el = $(`#plate-${mode}`);
+  if (!el) return [];
+  if (!m || !Array.isArray(m.frames) || !m.frames.length) { el.innerHTML = emptyPlate("Coming soon"); return []; }
+  const name = t.name || null;
+  el.innerHTML = `
+    <div class="plate">
+      <div class="plate-sq">
+        ${m.frames.map((f, i) => `<img src="${dir}/${encodeURIComponent(f.file)}" alt="" data-i="${i}"${i ? "" : ` class="is-on"`}>`).join("")}
+        <div class="plate-rings"></div>
+      </div>
+      ${m.fake ? `<span class="plate-badge">Sample data</span>` : ""}
+    </div>
+    <p class="plate-cap"><span class="plate-now"></span><span class="plate-wl"></span></p>`;
+  const imgs = [...el.querySelectorAll("img")];
+  const set = i => {
     const f = m.frames[i];
-    imgs.forEach((im, j) => { im.hidden = j !== i; });
-    // Rings sit at pixel positions; convert to % of the image's natural size.
+    imgs.forEach((im, j) => {
+      im.classList.toggle("is-on", j === i);
+      im.alt = j === i ? `Infrared image${name ? ` around ${name}` : ""}: ${f.label || ""}, ${f.date || ""}` : "";
+    });
     const im = imgs[i];
     const place = () => {
       const w = im.naturalWidth || 1, h = im.naturalHeight || 1;
-      $("#hero-rings").innerHTML = highlightsForFrame(m, i).map(p =>
+      el.querySelector(".plate-rings").innerHTML = highlightsForFrame(m, i).map(p =>
         `<span class="ring" style="left:${((p.x + 0.5) / w) * 100}%;top:${((p.y + 0.5) / h) * 100}%"></span>`).join("");
     };
-    if (im.complete) place(); else im.onload = place;
-    $("#hero-chips").innerHTML = m.frames.map((g, j) =>
-      `<span class="chip chip-mono${j === i ? " is-on" : ""}">${esc(telescopeOf(g))} · ${esc(String(g.date || "").slice(0, 4))}</span>`).join("") +
-      (m.fake ? `<span class="chip chip-mono chip-warn">Sample data</span>` : "");
-    $("#hero-cap").innerHTML = spectralRuler(f.wavelength_um) +
-      `<span class="hero-cap-text">Barnard's Star, ${esc(f.label || "")}</span>`;
-    imgs.forEach(x => { x.alt = ""; });
-    im.alt = `Infrared image of the sky around Barnard's Star: ${f.label || ""}, ${f.date || ""}`;
+    if (im.complete && im.naturalWidth) place(); else im.addEventListener("load", place, { once: true });
+    el.querySelector(".plate-now").textContent = [name, telescopeOf(f), String(f.date || "").slice(0, 4)].filter(Boolean).join(" · ");
+    el.querySelector(".plate-wl").textContent = typeof f.wavelength_um === "number" ? `${f.wavelength_um} µm` : "";
   };
-  let i = 0;
-  show(0);
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (m.frames.length > 1 && !reduce) {
-    heroTimer = setInterval(() => {
-      if (!fig.isConnected) { clearInterval(heroTimer); return; }
-      i = (i + 1) % m.frames.length;
-      show(i);
-    }, 1400);
-  }
+  set(0);
+  return [{ n: m.frames.length, set }];
 }
 
 // "WISE" / "SPHEREx" from the frame label (e.g. "WISE W2 (4.6 µm)").
@@ -385,6 +472,119 @@ function telescopeOf(f) {
   if (/wise/i.test(s)) return "WISE";
   if (/spherex/i.test(s)) return "SPHEREx";
   return s.split(" ")[0] || "Frame";
+}
+
+/* Statement: words light up as the paragraph scrolls through the screen. */
+function setupStatement() {
+  const p = $("#statement");
+  if (!p || reduceMotion()) return;
+  const words = p.textContent.split(" ");
+  p.innerHTML = words.map(w => `<span class="w">${esc(w)}</span>`).join(" ");
+  const spans = [...p.querySelectorAll(".w")];
+  let raf = 0;
+  const update = () => {
+    raf = 0;
+    const r = p.getBoundingClientRect(), vh = window.innerHeight;
+    const prog = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (r.height + vh * 0.3)));
+    const lit = Math.round(prog * spans.length);
+    spans.forEach((s, i) => s.classList.toggle("is-lit", i < lit));
+  };
+  const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  homeCleanup.push(() => {
+    window.removeEventListener("scroll", onScroll);
+    window.removeEventListener("resize", onScroll);
+  });
+  update();
+}
+
+/* Fade sections in once as they enter the screen. */
+function setupReveal(root) {
+  const els = root.querySelectorAll(".reveal");
+  if (reduceMotion() || !("IntersectionObserver" in window)) { els.forEach(e => e.classList.add("is-in")); return; }
+  const io = new IntersectionObserver(entries => entries.forEach(en => {
+    if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); }
+  }), { rootMargin: "0px 0px -10% 0px" });
+  els.forEach(e => io.observe(e));
+  homeCleanup.push(() => io.disconnect());
+}
+
+/* ---------- Loader (first home visit per session) ---------- */
+
+let loaderState = null;
+
+function startLoader() {
+  const el = $("#loader");
+  if (!el) return;
+  let seen = false;
+  try { seen = sessionStorage.getItem("sb-loaded") === "1"; sessionStorage.setItem("sb-loaded", "1"); } catch (e) { /* storage blocked */ }
+  if (seen || reduceMotion() || params().target) { el.remove(); return; }
+  const count = $("#loader-count");
+  loaderState = { target: 0.15, shown: 0 };
+  const tick = () => {
+    if (!loaderState) return;
+    loaderState.shown += Math.max(0.6, (loaderState.target * 100 - loaderState.shown) * 0.12);
+    loaderState.shown = Math.min(loaderState.shown, loaderState.target * 100);
+    count.textContent = Math.floor(loaderState.shown);
+    if (loaderState.shown >= 100) { endLoader(); return; }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+  setTimeout(() => { if (loaderState) loaderState.target = 1; }, 3000); // never wait forever
+}
+
+// Progress follows the hero images actually loading.
+function trackLoader(imgs) {
+  if (!loaderState) return;
+  if (!imgs.length) { loaderState.target = 1; return; }
+  let done = 0;
+  const one = () => { done++; if (loaderState) loaderState.target = 0.15 + 0.85 * (done / imgs.length); };
+  imgs.forEach(im => { if (im.complete) one(); else { im.addEventListener("load", one, { once: true }); im.addEventListener("error", one, { once: true }); } });
+}
+
+function endLoader() {
+  loaderState = null;
+  const el = $("#loader");
+  if (!el) return;
+  el.classList.add("is-done");
+  setTimeout(() => el.remove(), 900);
+}
+
+/* ---------- Menu ---------- */
+
+function setupMenu() {
+  const btn = $("#menu-btn"), menu = $("#menu");
+  if (!btn || !menu) return;
+  const focusables = () => [btn, ...menu.querySelectorAll("a")];
+  const open = () => {
+    menu.hidden = false;
+    btn.setAttribute("aria-expanded", "true");
+    btn.textContent = "Close";
+    document.body.classList.add("menu-open");
+    requestAnimationFrame(() => menu.classList.add("is-open"));
+    menu.querySelector("a").focus();
+  };
+  const close = (refocus = true) => {
+    if (menu.hidden) return;
+    menu.classList.remove("is-open");
+    menu.hidden = true;
+    btn.setAttribute("aria-expanded", "false");
+    btn.textContent = "Menu";
+    document.body.classList.remove("menu-open");
+    if (refocus) btn.focus();
+  };
+  btn.addEventListener("click", () => (menu.hidden ? open() : close()));
+  menu.addEventListener("click", e => { if (e.target.closest("a")) close(false); });
+  document.addEventListener("keydown", e => {
+    if (menu.hidden) return;
+    if (e.key === "Escape") { e.preventDefault(); close(); }
+    else if (e.key === "Tab") {
+      const f = focusables(), first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
 }
 
 /* ---------- Search ---------- */
@@ -1149,4 +1349,6 @@ document.addEventListener("keydown", e => {
 
 /* ---------- Start ---------- */
 
+setupMenu();
+startLoader();
 route();
