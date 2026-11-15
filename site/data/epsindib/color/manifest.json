@@ -4,37 +4,43 @@
    "file": "f01.png",
    "date": "2026-04-25",
    "label": "SPHEREx detector D1 (~0.93 µm)",
-   "wavelength_um": 0.93
+   "wavelength_um": 0.93,
+   "flagged_fraction": 0.0
   },
   {
    "file": "f02.png",
    "date": "2026-04-25",
    "label": "SPHEREx detector D2 (~1.37 µm)",
-   "wavelength_um": 1.37
+   "wavelength_um": 1.37,
+   "flagged_fraction": 0.0
   },
   {
    "file": "f03.png",
    "date": "2026-04-25",
    "label": "SPHEREx detector D3 (~2.03 µm)",
-   "wavelength_um": 2.03
+   "wavelength_um": 2.03,
+   "flagged_fraction": 0.0
   },
   {
    "file": "f04.png",
    "date": "2026-04-25",
    "label": "SPHEREx detector D4 (~3.12 µm)",
-   "wavelength_um": 3.12
+   "wavelength_um": 3.12,
+   "flagged_fraction": 0.0011
   },
   {
    "file": "f05.png",
    "date": "2026-04-25",
    "label": "SPHEREx detector D5 (~4.13 µm)",
-   "wavelength_um": 4.13
+   "wavelength_um": 4.13,
+   "flagged_fraction": 0.0
   },
   {
    "file": "f06.png",
    "date": "2026-04-25",
    "label": "SPHEREx detector D6 (~4.71 µm)",
-   "wavelength_um": 4.71
+   "wavelength_um": 4.71,
+   "flagged_fraction": 0.0
   }
  ],
  "highlights": [
