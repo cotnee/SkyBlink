@@ -1,0 +1,3365 @@
+{
+ "target": "epsindib",
+ "object": "Epsilon Indi B",
+ "unit": "µJy (aperture flux, not PSF-corrected)",
+ "n_points": 326,
+ "n_outliers": 9,
+ "wavelength_range_um": [
+  0.7499,
+  4.9898
+ ],
+ "methane_ratio": 0.33,
+ "points": [
+  {
+   "um": 0.7499,
+   "width": 0.0174,
+   "flux": 83.646,
+   "err": 102.609,
+   "det": "D1",
+   "date": "2025-10-11",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.7564,
+   "width": 0.0177,
+   "flux": 216.436,
+   "err": 104.609,
+   "det": "D1",
+   "date": "2025-04-25",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 0.7565,
+   "width": 0.0177,
+   "flux": 147.349,
+   "err": 98.558,
+   "det": "D1",
+   "date": "2026-04-20",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 0.7674,
+   "width": 0.0182,
+   "flux": -14.295,
+   "err": 94.244,
+   "det": "D1",
+   "date": "2025-10-10",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.7674,
+   "width": 0.0182,
+   "flux": -58.652,
+   "err": 91.098,
+   "det": "D1",
+   "date": "2025-10-16",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.7737,
+   "width": 0.0187,
+   "flux": 285.104,
+   "err": 95.492,
+   "det": "D1",
+   "date": "2026-04-20",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 0.776,
+   "width": 0.0192,
+   "flux": 158.595,
+   "err": 97.329,
+   "det": "D1",
+   "date": "2025-10-20",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.776,
+   "width": 0.0192,
+   "flux": 31.318,
+   "err": 108.429,
+   "det": "D1",
+   "date": "2025-11-11",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.7761,
+   "width": 0.0192,
+   "flux": 306.532,
+   "err": 98.55,
+   "det": "D1",
+   "date": "2025-10-13",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.7921,
+   "width": 0.0194,
+   "flux": 2.519,
+   "err": 101.952,
+   "det": "D1",
+   "date": "2026-04-20",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 0.7946,
+   "width": 0.0197,
+   "flux": -1.479,
+   "err": 97.371,
+   "det": "D1",
+   "date": "2025-11-11",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.7948,
+   "width": 0.0197,
+   "flux": 342.177,
+   "err": 97.745,
+   "det": "D1",
+   "date": "2025-10-07",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.8109,
+   "width": 0.02,
+   "flux": 531.948,
+   "err": 103.531,
+   "det": "D1",
+   "date": "2026-04-20",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 0.8134,
+   "width": 0.0202,
+   "flux": 238.998,
+   "err": 103.909,
+   "det": "D1",
+   "date": "2025-10-07",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.8301,
+   "width": 0.0205,
+   "flux": 591.178,
+   "err": 95.869,
+   "det": "D1",
+   "date": "2026-04-20",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 0.8328,
+   "width": 0.0208,
+   "flux": 958.461,
+   "err": 260.676,
+   "det": "D1",
+   "date": "2025-11-12",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.8329,
+   "width": 0.0208,
+   "flux": 611.452,
+   "err": 100.952,
+   "det": "D1",
+   "date": "2025-10-07",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.8497,
+   "width": 0.021,
+   "flux": 1173.182,
+   "err": 108.509,
+   "det": "D1",
+   "date": "2026-04-20",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 0.8524,
+   "width": 0.0215,
+   "flux": 935.15,
+   "err": 119.299,
+   "det": "D1",
+   "date": "2025-11-12",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.8525,
+   "width": 0.0215,
+   "flux": 1546.219,
+   "err": 109.687,
+   "det": "D1",
+   "date": "2025-10-13",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.8695,
+   "width": 0.0216,
+   "flux": 1999.157,
+   "err": 131.116,
+   "det": "D1",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 0.8695,
+   "width": 0.0216,
+   "flux": 1769.36,
+   "err": 101.76,
+   "det": "D1",
+   "date": "2026-04-27",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 0.8727,
+   "width": 0.0223,
+   "flux": 2150.174,
+   "err": 107.575,
+   "det": "D1",
+   "date": "2025-10-13",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.8903,
+   "width": 0.0226,
+   "flux": 2892.839,
+   "err": 108.644,
+   "det": "D1",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 0.8934,
+   "width": 0.0231,
+   "flux": 44233.605,
+   "err": 983.24,
+   "det": "D1",
+   "date": "2025-10-07",
+   "outlier": true,
+   "pass": 2
+  },
+  {
+   "um": 0.9112,
+   "width": 0.0235,
+   "flux": 4558.095,
+   "err": 127.082,
+   "det": "D1",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 0.9146,
+   "width": 0.0237,
+   "flux": 4536.153,
+   "err": 121.707,
+   "det": "D1",
+   "date": "2025-10-08",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.933,
+   "width": 0.0239,
+   "flux": 5015.311,
+   "err": 131.833,
+   "det": "D1",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 0.9365,
+   "width": 0.024,
+   "flux": 43986.536,
+   "err": 953.724,
+   "det": "D1",
+   "date": "2025-10-08",
+   "outlier": true,
+   "pass": 2
+  },
+  {
+   "um": 0.9549,
+   "width": 0.0244,
+   "flux": 6673.918,
+   "err": 132.506,
+   "det": "D1",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 0.9587,
+   "width": 0.0246,
+   "flux": 6849.668,
+   "err": 137.047,
+   "det": "D1",
+   "date": "2025-10-05",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 0.9779,
+   "width": 0.0253,
+   "flux": 9033.119,
+   "err": 141.149,
+   "det": "D1",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 0.9818,
+   "width": 0.0257,
+   "flux": 9513.776,
+   "err": 145.586,
+   "det": "D1",
+   "date": "2025-10-05",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.0012,
+   "width": 0.0264,
+   "flux": 11034.713,
+   "err": 150.994,
+   "det": "D1",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.0049,
+   "width": 0.0269,
+   "flux": 11809.958,
+   "err": 157.678,
+   "det": "D1",
+   "date": "2025-10-05",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.025,
+   "width": 0.0273,
+   "flux": 14784.199,
+   "err": 165.986,
+   "det": "D1",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.0291,
+   "width": 0.0273,
+   "flux": 15533.395,
+   "err": 172.492,
+   "det": "D1",
+   "date": "2025-10-10",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.0493,
+   "width": 0.0281,
+   "flux": 19024.211,
+   "err": 169.2,
+   "det": "D1",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.0535,
+   "width": 0.0278,
+   "flux": 19639.531,
+   "err": 204.682,
+   "det": "D1",
+   "date": "2025-10-10",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.0664,
+   "width": 0.0287,
+   "flux": 21102.753,
+   "err": 260.362,
+   "det": "D1",
+   "date": "2025-04-27",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.0665,
+   "width": 0.0287,
+   "flux": 21315.345,
+   "err": 213.6,
+   "det": "D1",
+   "date": "2026-04-18",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.0666,
+   "width": 0.0287,
+   "flux": 21681.025,
+   "err": 232.196,
+   "det": "D1",
+   "date": "2026-05-03",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.0789,
+   "width": 0.0287,
+   "flux": 21327.329,
+   "err": 425.896,
+   "det": "D1",
+   "date": "2025-10-03",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.0921,
+   "width": 0.0294,
+   "flux": 50925.898,
+   "err": 938.588,
+   "det": "D1",
+   "date": "2025-04-27",
+   "outlier": true,
+   "pass": 1
+  },
+  {
+   "um": 1.0922,
+   "width": 0.0294,
+   "flux": 19655.782,
+   "err": 256.638,
+   "det": "D1",
+   "date": "2026-04-18",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.1045,
+   "width": 0.0296,
+   "flux": 15738.386,
+   "err": 171.942,
+   "det": "D1",
+   "date": "2025-10-03",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.107,
+   "width": 0.0254,
+   "flux": 14503.536,
+   "err": 163.112,
+   "det": "D2",
+   "date": "2025-04-24",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.107,
+   "width": 0.0254,
+   "flux": 14224.277,
+   "err": 160.101,
+   "det": "D2",
+   "date": "2026-04-24",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.1071,
+   "width": 0.0254,
+   "flux": 14198.769,
+   "err": 153.079,
+   "det": "D2",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.1087,
+   "width": 0.0259,
+   "flux": 13903.127,
+   "err": 155.033,
+   "det": "D2",
+   "date": "2025-10-03",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.1087,
+   "width": 0.0259,
+   "flux": 13963.367,
+   "err": 156.69,
+   "det": "D2",
+   "date": "2025-10-10",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.1098,
+   "width": 0.0259,
+   "flux": 13973.634,
+   "err": 160.322,
+   "det": "D2",
+   "date": "2025-10-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.1327,
+   "width": 0.0266,
+   "flux": 13420.053,
+   "err": 148.464,
+   "det": "D2",
+   "date": "2025-04-24",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.1328,
+   "width": 0.0266,
+   "flux": 12950.297,
+   "err": 157.451,
+   "det": "D2",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.1343,
+   "width": 0.0271,
+   "flux": 12983.086,
+   "err": 152.228,
+   "det": "D2",
+   "date": "2025-10-10",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.1354,
+   "width": 0.0272,
+   "flux": 13331.173,
+   "err": 147.876,
+   "det": "D2",
+   "date": "2025-10-06",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.1599,
+   "width": 0.0277,
+   "flux": 14350.61,
+   "err": 193.283,
+   "det": "D2",
+   "date": "2025-04-26",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.1602,
+   "width": 0.0277,
+   "flux": 13799.619,
+   "err": 146.369,
+   "det": "D2",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.1608,
+   "width": 0.0279,
+   "flux": 13775.116,
+   "err": 167.909,
+   "det": "D2",
+   "date": "2025-11-06",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.1609,
+   "width": 0.0278,
+   "flux": 13961.668,
+   "err": 160.93,
+   "det": "D2",
+   "date": "2025-10-09",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.1612,
+   "width": 0.0281,
+   "flux": 13838.434,
+   "err": 183.004,
+   "det": "D2",
+   "date": "2025-10-03",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.1612,
+   "width": 0.0281,
+   "flux": 13745.142,
+   "err": 206.009,
+   "det": "D2",
+   "date": "2025-10-10",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.1626,
+   "width": 0.0281,
+   "flux": 13703.409,
+   "err": 149.398,
+   "det": "D2",
+   "date": "2025-10-06",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.1628,
+   "width": 0.0281,
+   "flux": 15421.014,
+   "err": 175.171,
+   "det": "D2",
+   "date": "2025-10-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.1875,
+   "width": 0.0287,
+   "flux": 19049.545,
+   "err": 172.076,
+   "det": "D2",
+   "date": "2025-04-26",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.1877,
+   "width": 0.0287,
+   "flux": 20574.751,
+   "err": 266.286,
+   "det": "D2",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.1884,
+   "width": 0.0287,
+   "flux": 18894.559,
+   "err": 175.338,
+   "det": "D2",
+   "date": "2025-11-07",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.1887,
+   "width": 0.0287,
+   "flux": 16678.074,
+   "err": 528.362,
+   "det": "D2",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.216,
+   "width": 0.0293,
+   "flux": 28846.532,
+   "err": 201.894,
+   "det": "D2",
+   "date": "2025-04-26",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.2161,
+   "width": 0.0293,
+   "flux": 27246.256,
+   "err": 196.45,
+   "det": "D2",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.217,
+   "width": 0.0292,
+   "flux": 29030.498,
+   "err": 736.053,
+   "det": "D2",
+   "date": "2025-11-07",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.2171,
+   "width": 0.0292,
+   "flux": 28476.465,
+   "err": 198.742,
+   "det": "D2",
+   "date": "2025-10-06",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.245,
+   "width": 0.0299,
+   "flux": 35146.938,
+   "err": 217.808,
+   "det": "D2",
+   "date": "2025-04-26",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.2452,
+   "width": 0.03,
+   "flux": 33532.604,
+   "err": 213.801,
+   "det": "D2",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.246,
+   "width": 0.0299,
+   "flux": 25136.454,
+   "err": 195.536,
+   "det": "D2",
+   "date": "2025-11-08",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.2463,
+   "width": 0.0299,
+   "flux": 33216.944,
+   "err": 211.121,
+   "det": "D2",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.2745,
+   "width": 0.0308,
+   "flux": 40609.916,
+   "err": 235.073,
+   "det": "D2",
+   "date": "2025-04-27",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.2749,
+   "width": 0.0308,
+   "flux": 41393.512,
+   "err": 228.352,
+   "det": "D2",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.2759,
+   "width": 0.0307,
+   "flux": 41268.219,
+   "err": 227.723,
+   "det": "D2",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.305,
+   "width": 0.0315,
+   "flux": 37621.0,
+   "err": 213.9,
+   "det": "D2",
+   "date": "2025-04-27",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.3051,
+   "width": 0.0315,
+   "flux": 37277.409,
+   "err": 221.997,
+   "det": "D2",
+   "date": "2026-04-25",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.3063,
+   "width": 0.0315,
+   "flux": 37407.505,
+   "err": 238.626,
+   "det": "D2",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.3358,
+   "width": 0.0321,
+   "flux": 14305.416,
+   "err": 151.086,
+   "det": "D2",
+   "date": "2025-04-27",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.3359,
+   "width": 0.0321,
+   "flux": 13587.235,
+   "err": 146.787,
+   "det": "D2",
+   "date": "2026-04-25",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.3369,
+   "width": 0.0322,
+   "flux": 12936.253,
+   "err": 142.244,
+   "det": "D2",
+   "date": "2025-10-06",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.3371,
+   "width": 0.0322,
+   "flux": 12722.4,
+   "err": 139.32,
+   "det": "D2",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.3679,
+   "width": 0.0327,
+   "flux": 6108.507,
+   "err": 112.495,
+   "det": "D2",
+   "date": "2025-04-27",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.3679,
+   "width": 0.0327,
+   "flux": 5666.903,
+   "err": 113.004,
+   "det": "D2",
+   "date": "2026-04-25",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.3692,
+   "width": 0.0328,
+   "flux": 5467.754,
+   "err": 222.313,
+   "det": "D2",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.4003,
+   "width": 0.0334,
+   "flux": 5832.887,
+   "err": 115.514,
+   "det": "D2",
+   "date": "2026-04-25",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.4016,
+   "width": 0.0336,
+   "flux": 5221.831,
+   "err": 112.547,
+   "det": "D2",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.4341,
+   "width": 0.0345,
+   "flux": 7514.188,
+   "err": 117.834,
+   "det": "D2",
+   "date": "2025-06-07",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.4687,
+   "width": 0.0357,
+   "flux": 13041.635,
+   "err": 136.354,
+   "det": "D2",
+   "date": "2025-06-07",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.4695,
+   "width": 0.0362,
+   "flux": 12950.69,
+   "err": 154.224,
+   "det": "D2",
+   "date": "2025-10-16",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.4695,
+   "width": 0.0362,
+   "flux": 12598.706,
+   "err": 138.418,
+   "det": "D2",
+   "date": "2025-10-23",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.5043,
+   "width": 0.0369,
+   "flux": 18978.877,
+   "err": 164.585,
+   "det": "D2",
+   "date": "2025-06-07",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.5053,
+   "width": 0.0373,
+   "flux": 21652.143,
+   "err": 296.895,
+   "det": "D2",
+   "date": "2025-10-16",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.5053,
+   "width": 0.0373,
+   "flux": 20251.362,
+   "err": 164.789,
+   "det": "D2",
+   "date": "2025-10-23",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.5407,
+   "width": 0.0377,
+   "flux": 32476.606,
+   "err": 196.324,
+   "det": "D2",
+   "date": "2026-04-25",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.5423,
+   "width": 0.0379,
+   "flux": 32323.859,
+   "err": 194.688,
+   "det": "D2",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.5617,
+   "width": 0.0381,
+   "flux": 38139.386,
+   "err": 210.696,
+   "det": "D2",
+   "date": "2025-04-24",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.5622,
+   "width": 0.0381,
+   "flux": 36236.624,
+   "err": 202.439,
+   "det": "D2",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.5756,
+   "width": 0.0382,
+   "flux": 41913.344,
+   "err": 234.403,
+   "det": "D2",
+   "date": "2025-05-04",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.5757,
+   "width": 0.0382,
+   "flux": 39693.808,
+   "err": 217.989,
+   "det": "D2",
+   "date": "2025-04-26",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.5794,
+   "width": 0.0384,
+   "flux": 41805.905,
+   "err": 220.595,
+   "det": "D2",
+   "date": "2025-10-09",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.5992,
+   "width": 0.0389,
+   "flux": 38518.319,
+   "err": 210.922,
+   "det": "D2",
+   "date": "2025-04-24",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.5997,
+   "width": 0.0389,
+   "flux": 38106.68,
+   "err": 207.231,
+   "det": "D2",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.6133,
+   "width": 0.0388,
+   "flux": 36170.769,
+   "err": 203.55,
+   "det": "D2",
+   "date": "2025-04-26",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.6133,
+   "width": 0.0388,
+   "flux": 36011.833,
+   "err": 201.87,
+   "det": "D2",
+   "date": "2025-05-04",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.6177,
+   "width": 0.0391,
+   "flux": 35804.424,
+   "err": 214.797,
+   "det": "D2",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.6373,
+   "width": 0.0396,
+   "flux": 32893.003,
+   "err": 198.359,
+   "det": "D2",
+   "date": "2025-04-26",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.6379,
+   "width": 0.0396,
+   "flux": 32492.025,
+   "err": 192.79,
+   "det": "D2",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.6383,
+   "width": 0.0389,
+   "flux": 31954.496,
+   "err": 202.803,
+   "det": "D3",
+   "date": "2025-09-28",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.6437,
+   "width": 0.0392,
+   "flux": 31679.805,
+   "err": 207.506,
+   "det": "D3",
+   "date": "2026-05-01",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.647,
+   "width": 0.0394,
+   "flux": 32379.689,
+   "err": 208.214,
+   "det": "D3",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.6471,
+   "width": 0.0394,
+   "flux": 31974.033,
+   "err": 245.983,
+   "det": "D3",
+   "date": "2025-05-01",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.6513,
+   "width": 0.0394,
+   "flux": 34364.835,
+   "err": 200.292,
+   "det": "D2",
+   "date": "2025-05-04",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.6514,
+   "width": 0.0394,
+   "flux": 32944.244,
+   "err": 194.448,
+   "det": "D2",
+   "date": "2025-04-26",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.676,
+   "width": 0.0399,
+   "flux": 30992.073,
+   "err": 201.504,
+   "det": "D3",
+   "date": "2025-09-28",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.6848,
+   "width": 0.0401,
+   "flux": 30834.74,
+   "err": 196.388,
+   "det": "D3",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.6849,
+   "width": 0.0401,
+   "flux": 31102.826,
+   "err": 197.609,
+   "det": "D3",
+   "date": "2025-05-07",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.685,
+   "width": 0.0401,
+   "flux": 31077.167,
+   "err": 196.808,
+   "det": "D3",
+   "date": "2025-05-01",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.7144,
+   "width": 0.0411,
+   "flux": 28679.823,
+   "err": 194.913,
+   "det": "D3",
+   "date": "2025-10-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.724,
+   "width": 0.0414,
+   "flux": 25125.96,
+   "err": 182.765,
+   "det": "D3",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.7241,
+   "width": 0.0414,
+   "flux": 27429.318,
+   "err": 188.218,
+   "det": "D3",
+   "date": "2025-05-01",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.7241,
+   "width": 0.0414,
+   "flux": 25862.891,
+   "err": 183.506,
+   "det": "D3",
+   "date": "2025-05-07",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.74,
+   "width": 0.0418,
+   "flux": 22676.329,
+   "err": 176.866,
+   "det": "D3",
+   "date": "2025-11-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.7403,
+   "width": 0.0418,
+   "flux": 21467.738,
+   "err": 181.348,
+   "det": "D3",
+   "date": "2025-10-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.7635,
+   "width": 0.043,
+   "flux": 17892.78,
+   "err": 154.09,
+   "det": "D3",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.7637,
+   "width": 0.043,
+   "flux": 17690.15,
+   "err": 156.031,
+   "det": "D3",
+   "date": "2025-05-20",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.78,
+   "width": 0.0432,
+   "flux": 14135.915,
+   "err": 140.792,
+   "det": "D3",
+   "date": "2025-11-03",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.7802,
+   "width": 0.0433,
+   "flux": 15244.778,
+   "err": 146.589,
+   "det": "D3",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.805,
+   "width": 0.0445,
+   "flux": 12445.986,
+   "err": 142.975,
+   "det": "D3",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.805,
+   "width": 0.0445,
+   "flux": 11916.984,
+   "err": 139.017,
+   "det": "D3",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.8221,
+   "width": 0.0444,
+   "flux": 11347.024,
+   "err": 128.622,
+   "det": "D3",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.8473,
+   "width": 0.0459,
+   "flux": 9701.437,
+   "err": 126.764,
+   "det": "D3",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.8475,
+   "width": 0.0459,
+   "flux": 9661.172,
+   "err": 124.123,
+   "det": "D3",
+   "date": "2025-06-10",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.8643,
+   "width": 0.0455,
+   "flux": 10000.329,
+   "err": 127.044,
+   "det": "D3",
+   "date": "2025-11-04",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.8646,
+   "width": 0.0455,
+   "flux": 10049.678,
+   "err": 124.148,
+   "det": "D3",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.8905,
+   "width": 0.047,
+   "flux": 12483.3,
+   "err": 134.516,
+   "det": "D3",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.8907,
+   "width": 0.047,
+   "flux": 12815.971,
+   "err": 135.044,
+   "det": "D3",
+   "date": "2025-06-10",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.9078,
+   "width": 0.0465,
+   "flux": 13631.659,
+   "err": 169.437,
+   "det": "D3",
+   "date": "2025-11-04",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.9081,
+   "width": 0.0465,
+   "flux": 14022.938,
+   "err": 137.029,
+   "det": "D3",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.9341,
+   "width": 0.0478,
+   "flux": 12414.962,
+   "err": 134.282,
+   "det": "D3",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.9345,
+   "width": 0.0478,
+   "flux": 12640.244,
+   "err": 133.966,
+   "det": "D3",
+   "date": "2025-06-10",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.9518,
+   "width": 0.0475,
+   "flux": 12128.166,
+   "err": 130.362,
+   "det": "D3",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 1.9789,
+   "width": 0.0489,
+   "flux": 14795.692,
+   "err": 159.754,
+   "det": "D3",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 1.9789,
+   "width": 0.0489,
+   "flux": 13377.406,
+   "err": 265.848,
+   "det": "D3",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.9789,
+   "width": 0.0489,
+   "flux": 14720.036,
+   "err": 143.271,
+   "det": "D3",
+   "date": "2026-05-04",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 1.997,
+   "width": 0.049,
+   "flux": 17275.339,
+   "err": 146.28,
+   "det": "D3",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.0245,
+   "width": 0.0502,
+   "flux": 21646.044,
+   "err": 163.137,
+   "det": "D3",
+   "date": "2025-04-30",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 2.0246,
+   "width": 0.0502,
+   "flux": 21711.959,
+   "err": 163.295,
+   "det": "D3",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.0429,
+   "width": 0.0509,
+   "flux": 24871.773,
+   "err": 169.425,
+   "det": "D3",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.0715,
+   "width": 0.0517,
+   "flux": 27930.798,
+   "err": 179.853,
+   "det": "D3",
+   "date": "2025-04-30",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 2.0716,
+   "width": 0.0517,
+   "flux": 28183.204,
+   "err": 179.197,
+   "det": "D3",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.0905,
+   "width": 0.0525,
+   "flux": 29400.126,
+   "err": 180.637,
+   "det": "D3",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.12,
+   "width": 0.0533,
+   "flux": 29075.774,
+   "err": 180.927,
+   "det": "D3",
+   "date": "2025-04-30",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 2.12,
+   "width": 0.0533,
+   "flux": 28922.681,
+   "err": 179.806,
+   "det": "D3",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.139,
+   "width": 0.0539,
+   "flux": 28565.822,
+   "err": 182.28,
+   "det": "D3",
+   "date": "2025-09-30",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.169,
+   "width": 0.0546,
+   "flux": 26079.554,
+   "err": 176.549,
+   "det": "D3",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.1691,
+   "width": 0.0546,
+   "flux": 25821.046,
+   "err": 173.991,
+   "det": "D3",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.1692,
+   "width": 0.0546,
+   "flux": 25103.909,
+   "err": 174.631,
+   "det": "D3",
+   "date": "2025-04-30",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 2.1886,
+   "width": 0.055,
+   "flux": 23231.489,
+   "err": 174.991,
+   "det": "D3",
+   "date": "2025-10-06",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.1889,
+   "width": 0.055,
+   "flux": 23272.196,
+   "err": 170.852,
+   "det": "D3",
+   "date": "2025-10-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.2196,
+   "width": 0.0555,
+   "flux": 19135.684,
+   "err": 162.582,
+   "det": "D3",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.2397,
+   "width": 0.0558,
+   "flux": 18383.455,
+   "err": 153.836,
+   "det": "D3",
+   "date": "2025-10-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.2707,
+   "width": 0.0565,
+   "flux": 14933.906,
+   "err": 140.895,
+   "det": "D3",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.2913,
+   "width": 0.0568,
+   "flux": 14400.503,
+   "err": 136.734,
+   "det": "D3",
+   "date": "2025-10-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.3232,
+   "width": 0.0577,
+   "flux": 12174.379,
+   "err": 130.684,
+   "det": "D3",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.3435,
+   "width": 0.0579,
+   "flux": 12065.784,
+   "err": 126.863,
+   "det": "D3",
+   "date": "2025-10-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.376,
+   "width": 0.0593,
+   "flux": 12152.793,
+   "err": 134.749,
+   "det": "D3",
+   "date": "2025-04-30",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 2.376,
+   "width": 0.0593,
+   "flux": 12276.104,
+   "err": 229.897,
+   "det": "D3",
+   "date": "2025-05-01",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 2.3761,
+   "width": 0.0593,
+   "flux": 12267.664,
+   "err": 133.628,
+   "det": "D3",
+   "date": "2025-05-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 2.3962,
+   "width": 0.0581,
+   "flux": 12664.789,
+   "err": 156.344,
+   "det": "D3",
+   "date": "2025-10-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.4138,
+   "width": 0.0456,
+   "flux": 15512.124,
+   "err": 357.688,
+   "det": "D4",
+   "date": "2025-04-25",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 2.4139,
+   "width": 0.0456,
+   "flux": 14638.243,
+   "err": 319.822,
+   "det": "D4",
+   "date": "2026-04-20",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.4417,
+   "width": 0.0539,
+   "flux": 14292.762,
+   "err": 156.925,
+   "det": "D4",
+   "date": "2025-10-11",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.4577,
+   "width": 0.0673,
+   "flux": 12885.886,
+   "err": 131.381,
+   "det": "D4",
+   "date": "2025-04-25",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 2.4578,
+   "width": 0.0673,
+   "flux": 12707.938,
+   "err": 128.921,
+   "det": "D4",
+   "date": "2026-04-20",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.4984,
+   "width": 0.0729,
+   "flux": 10718.255,
+   "err": 114.024,
+   "det": "D4",
+   "date": "2025-10-16",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.4985,
+   "width": 0.0729,
+   "flux": 11096.381,
+   "err": 119.952,
+   "det": "D4",
+   "date": "2025-10-10",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.5228,
+   "width": 0.0727,
+   "flux": 9314.405,
+   "err": 109.711,
+   "det": "D4",
+   "date": "2026-04-20",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.5316,
+   "width": 0.072,
+   "flux": 9600.811,
+   "err": 292.345,
+   "det": "D4",
+   "date": "2025-10-20",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.5316,
+   "width": 0.0719,
+   "flux": 8917.036,
+   "err": 107.273,
+   "det": "D4",
+   "date": "2025-11-11",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.591,
+   "width": 0.0738,
+   "flux": 8818.477,
+   "err": 106.627,
+   "det": "D4",
+   "date": "2026-04-20",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.5997,
+   "width": 0.0725,
+   "flux": 9224.566,
+   "err": 128.249,
+   "det": "D4",
+   "date": "2025-11-11",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.6003,
+   "width": 0.0726,
+   "flux": 9127.264,
+   "err": 106.525,
+   "det": "D4",
+   "date": "2025-10-07",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.661,
+   "width": 0.0762,
+   "flux": 9380.412,
+   "err": 106.487,
+   "det": "D4",
+   "date": "2026-04-20",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.6716,
+   "width": 0.0751,
+   "flux": 8799.565,
+   "err": 107.123,
+   "det": "D4",
+   "date": "2025-10-07",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.7329,
+   "width": 0.0795,
+   "flux": 8835.336,
+   "err": 104.861,
+   "det": "D4",
+   "date": "2026-04-20",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.7436,
+   "width": 0.0771,
+   "flux": 9529.661,
+   "err": 481.441,
+   "det": "D4",
+   "date": "2025-11-12",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.744,
+   "width": 0.0771,
+   "flux": 8946.515,
+   "err": 106.187,
+   "det": "D4",
+   "date": "2025-10-07",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.8067,
+   "width": 0.0835,
+   "flux": 10087.146,
+   "err": 109.687,
+   "det": "D4",
+   "date": "2026-04-20",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.8179,
+   "width": 0.0788,
+   "flux": 10890.264,
+   "err": 115.62,
+   "det": "D4",
+   "date": "2025-11-12",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.8183,
+   "width": 0.0789,
+   "flux": 10646.455,
+   "err": 113.95,
+   "det": "D4",
+   "date": "2025-10-13",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.8834,
+   "width": 0.0841,
+   "flux": 12906.309,
+   "err": 119.299,
+   "det": "D4",
+   "date": "2026-04-27",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.8947,
+   "width": 0.0807,
+   "flux": 14212.148,
+   "err": 127.247,
+   "det": "D4",
+   "date": "2025-10-13",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 2.962,
+   "width": 0.0871,
+   "flux": 17477.042,
+   "err": 140.44,
+   "det": "D4",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 2.9755,
+   "width": 0.086,
+   "flux": 18361.261,
+   "err": 135.202,
+   "det": "D4",
+   "date": "2025-10-07",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.0431,
+   "width": 0.0909,
+   "flux": 19546.961,
+   "err": 137.722,
+   "det": "D4",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 3.0568,
+   "width": 0.0893,
+   "flux": 19099.461,
+   "err": 136.294,
+   "det": "D4",
+   "date": "2025-10-08",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.1269,
+   "width": 0.0936,
+   "flux": 13373.893,
+   "err": 116.969,
+   "det": "D4",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 3.1411,
+   "width": 0.0919,
+   "flux": 12292.119,
+   "err": 114.648,
+   "det": "D4",
+   "date": "2025-10-08",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.2124,
+   "width": 0.0917,
+   "flux": 10009.54,
+   "err": 105.497,
+   "det": "D4",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 3.2278,
+   "width": 0.094,
+   "flux": 10514.375,
+   "err": 105.449,
+   "det": "D4",
+   "date": "2025-10-05",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.3001,
+   "width": 0.0944,
+   "flux": 11157.167,
+   "err": 108.767,
+   "det": "D4",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 3.3142,
+   "width": 0.0946,
+   "flux": 10282.714,
+   "err": 149.207,
+   "det": "D4",
+   "date": "2025-10-05",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.3897,
+   "width": 0.0972,
+   "flux": 11632.145,
+   "err": 111.722,
+   "det": "D4",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 3.405,
+   "width": 0.0956,
+   "flux": 10537.846,
+   "err": 178.73,
+   "det": "D4",
+   "date": "2025-10-05",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.481,
+   "width": 0.0996,
+   "flux": 14101.933,
+   "err": 119.372,
+   "det": "D4",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 3.4969,
+   "width": 0.0971,
+   "flux": 71423.217,
+   "err": 1121.292,
+   "det": "D4",
+   "date": "2025-10-10",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.5741,
+   "width": 0.1029,
+   "flux": 21065.277,
+   "err": 142.253,
+   "det": "D4",
+   "date": "2026-04-21",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 3.5912,
+   "width": 0.0996,
+   "flux": 22523.385,
+   "err": 145.123,
+   "det": "D4",
+   "date": "2025-10-10",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.6418,
+   "width": 0.1,
+   "flux": 28775.578,
+   "err": 163.884,
+   "det": "D4",
+   "date": "2025-04-27",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 3.6423,
+   "width": 0.1,
+   "flux": 29085.518,
+   "err": 165.533,
+   "det": "D4",
+   "date": "2026-04-18",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 3.6426,
+   "width": 0.1,
+   "flux": 29702.231,
+   "err": 165.438,
+   "det": "D4",
+   "date": "2026-05-03",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 3.6882,
+   "width": 0.1036,
+   "flux": 40369.628,
+   "err": 709.241,
+   "det": "D4",
+   "date": "2025-10-03",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.7403,
+   "width": 0.1016,
+   "flux": 41574.675,
+   "err": 202.765,
+   "det": "D4",
+   "date": "2025-04-27",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 3.7407,
+   "width": 0.1016,
+   "flux": 41721.44,
+   "err": 200.169,
+   "det": "D4",
+   "date": "2026-04-18",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 3.787,
+   "width": 0.1027,
+   "flux": 47508.569,
+   "err": 202.469,
+   "det": "D4",
+   "date": "2025-10-03",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.829,
+   "width": 0.0356,
+   "flux": 49822.142,
+   "err": 414.703,
+   "det": "D5",
+   "date": "2026-04-24",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 3.8291,
+   "width": 0.0356,
+   "flux": 51946.112,
+   "err": 432.001,
+   "det": "D5",
+   "date": "2025-04-24",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 3.8313,
+   "width": 0.0355,
+   "flux": 645207.034,
+   "err": 6793.904,
+   "det": "D5",
+   "date": "2025-10-10",
+   "outlier": true,
+   "pass": 2
+  },
+  {
+   "um": 3.8623,
+   "width": 0.0357,
+   "flux": 51711.636,
+   "err": 418.999,
+   "det": "D5",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 3.8642,
+   "width": 0.0356,
+   "flux": 50887.531,
+   "err": 418.536,
+   "det": "D5",
+   "date": "2025-10-10",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.8653,
+   "width": 0.0357,
+   "flux": 51596.904,
+   "err": 416.459,
+   "det": "D5",
+   "date": "2025-10-06",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.8958,
+   "width": 0.0357,
+   "flux": 54911.681,
+   "err": 431.262,
+   "det": "D5",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 3.8966,
+   "width": 0.036,
+   "flux": 53991.668,
+   "err": 430.316,
+   "det": "D5",
+   "date": "2025-11-06",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.8967,
+   "width": 0.036,
+   "flux": 54243.718,
+   "err": 428.692,
+   "det": "D5",
+   "date": "2025-10-09",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.8975,
+   "width": 0.0359,
+   "flux": 53276.723,
+   "err": 510.144,
+   "det": "D5",
+   "date": "2025-10-10",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.8988,
+   "width": 0.036,
+   "flux": 52343.565,
+   "err": 758.685,
+   "det": "D5",
+   "date": "2025-10-06",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.9293,
+   "width": 0.0359,
+   "flux": 57715.191,
+   "err": 595.99,
+   "det": "D5",
+   "date": "2025-04-26",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 3.9303,
+   "width": 0.0361,
+   "flux": 57449.742,
+   "err": 437.873,
+   "det": "D5",
+   "date": "2025-11-07",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.9306,
+   "width": 0.0361,
+   "flux": 54894.892,
+   "err": 417.709,
+   "det": "D5",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.9635,
+   "width": 0.0362,
+   "flux": 57637.455,
+   "err": 641.557,
+   "det": "D5",
+   "date": "2025-04-26",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 3.9637,
+   "width": 0.0362,
+   "flux": 57766.245,
+   "err": 440.358,
+   "det": "D5",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 3.9646,
+   "width": 0.0363,
+   "flux": 60512.01,
+   "err": 465.551,
+   "det": "D5",
+   "date": "2025-11-07",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.9647,
+   "width": 0.0363,
+   "flux": 58922.116,
+   "err": 449.759,
+   "det": "D5",
+   "date": "2025-10-06",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.9981,
+   "width": 0.0363,
+   "flux": 58651.092,
+   "err": 673.93,
+   "det": "D5",
+   "date": "2025-04-26",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 3.9983,
+   "width": 0.0363,
+   "flux": 396772.669,
+   "err": 5001.032,
+   "det": "D5",
+   "date": "2025-06-06",
+   "outlier": true,
+   "pass": 1
+  },
+  {
+   "um": 3.9992,
+   "width": 0.0365,
+   "flux": 60952.223,
+   "err": 458.176,
+   "det": "D5",
+   "date": "2025-11-08",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 3.9995,
+   "width": 0.0365,
+   "flux": 73606.002,
+   "err": 900.297,
+   "det": "D5",
+   "date": "2025-10-02",
+   "outlier": true,
+   "pass": 2
+  },
+  {
+   "um": 4.0327,
+   "width": 0.0363,
+   "flux": 61151.759,
+   "err": 458.886,
+   "det": "D5",
+   "date": "2025-04-27",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.0332,
+   "width": 0.0363,
+   "flux": 61568.75,
+   "err": 453.206,
+   "det": "D5",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.0345,
+   "width": 0.0366,
+   "flux": 60652.749,
+   "err": 460.704,
+   "det": "D5",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.0681,
+   "width": 0.0364,
+   "flux": 60100.84,
+   "err": 461.02,
+   "det": "D5",
+   "date": "2025-04-27",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.0682,
+   "width": 0.0364,
+   "flux": 61353.185,
+   "err": 464.888,
+   "det": "D5",
+   "date": "2026-04-25",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.0696,
+   "width": 0.0367,
+   "flux": 275032.691,
+   "err": 5370.787,
+   "det": "D5",
+   "date": "2025-10-02",
+   "outlier": true,
+   "pass": 2
+  },
+  {
+   "um": 4.1035,
+   "width": 0.0364,
+   "flux": 60718.372,
+   "err": 460.608,
+   "det": "D5",
+   "date": "2025-04-27",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.1036,
+   "width": 0.0364,
+   "flux": 59765.031,
+   "err": 458.061,
+   "det": "D5",
+   "date": "2026-04-25",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.1047,
+   "width": 0.0367,
+   "flux": 58045.346,
+   "err": 450.858,
+   "det": "D5",
+   "date": "2025-10-06",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.1392,
+   "width": 0.0366,
+   "flux": 58761.18,
+   "err": 459.115,
+   "det": "D5",
+   "date": "2025-04-27",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.1392,
+   "width": 0.0366,
+   "flux": 57703.564,
+   "err": 454.896,
+   "det": "D5",
+   "date": "2026-04-25",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.1407,
+   "width": 0.0368,
+   "flux": 56425.209,
+   "err": 454.179,
+   "det": "D5",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.1749,
+   "width": 0.0367,
+   "flux": 53173.055,
+   "err": 439.67,
+   "det": "D5",
+   "date": "2026-04-25",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.1766,
+   "width": 0.0368,
+   "flux": 53400.382,
+   "err": 438.661,
+   "det": "D5",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.211,
+   "width": 0.0364,
+   "flux": 42267.407,
+   "err": 392.353,
+   "det": "D5",
+   "date": "2025-06-07",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.2126,
+   "width": 0.0367,
+   "flux": 41814.503,
+   "err": 392.469,
+   "det": "D5",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.2473,
+   "width": 0.0365,
+   "flux": 37618.154,
+   "err": 376.75,
+   "det": "D5",
+   "date": "2025-06-07",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.2485,
+   "width": 0.0369,
+   "flux": 36756.006,
+   "err": 378.06,
+   "det": "D5",
+   "date": "2025-10-23",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.2837,
+   "width": 0.037,
+   "flux": 38704.538,
+   "err": 380.094,
+   "det": "D5",
+   "date": "2025-06-07",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.285,
+   "width": 0.0374,
+   "flux": 37734.272,
+   "err": 384.785,
+   "det": "D5",
+   "date": "2025-10-23",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.3202,
+   "width": 0.0375,
+   "flux": 35948.054,
+   "err": 387.055,
+   "det": "D5",
+   "date": "2026-04-30",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.3219,
+   "width": 0.0377,
+   "flux": 36580.055,
+   "err": 385.926,
+   "det": "D5",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.3408,
+   "width": 0.0377,
+   "flux": 34564.774,
+   "err": 377.399,
+   "det": "D5",
+   "date": "2025-04-24",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.3414,
+   "width": 0.0377,
+   "flux": 33767.044,
+   "err": 379.514,
+   "det": "D5",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.3546,
+   "width": 0.038,
+   "flux": 35226.394,
+   "err": 378.711,
+   "det": "D5",
+   "date": "2025-04-26",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.3546,
+   "width": 0.038,
+   "flux": 1384452.626,
+   "err": 9642.956,
+   "det": "D5",
+   "date": "2025-05-04",
+   "outlier": true,
+   "pass": 1
+  },
+  {
+   "um": 4.3586,
+   "width": 0.0379,
+   "flux": 39216.388,
+   "err": 1025.841,
+   "det": "D5",
+   "date": "2025-10-09",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.378,
+   "width": 0.0377,
+   "flux": 31576.022,
+   "err": 366.869,
+   "det": "D5",
+   "date": "2025-04-24",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.3784,
+   "width": 0.0377,
+   "flux": 32579.641,
+   "err": 363.795,
+   "det": "D5",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.3898,
+   "width": 0.0381,
+   "flux": 30436.662,
+   "err": 397.504,
+   "det": "D5",
+   "date": "2025-05-04",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.3899,
+   "width": 0.0381,
+   "flux": 30507.583,
+   "err": 449.507,
+   "det": "D5",
+   "date": "2025-04-26",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.3962,
+   "width": 0.038,
+   "flux": 30955.334,
+   "err": 361.043,
+   "det": "D5",
+   "date": "2025-10-02",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.415,
+   "width": 0.0374,
+   "flux": 27657.58,
+   "err": 345.493,
+   "det": "D5",
+   "date": "2025-04-26",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.4156,
+   "width": 0.0374,
+   "flux": 27589.549,
+   "err": 332.42,
+   "det": "D5",
+   "date": "2025-06-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.4234,
+   "width": 0.0373,
+   "flux": 28440.614,
+   "err": 394.131,
+   "det": "D6",
+   "date": "2025-09-28",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.4236,
+   "width": 0.0381,
+   "flux": 26920.764,
+   "err": 350.316,
+   "det": "D5",
+   "date": "2025-04-26",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.4236,
+   "width": 0.0381,
+   "flux": 27042.83,
+   "err": 343.914,
+   "det": "D5",
+   "date": "2025-05-04",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.4281,
+   "width": 0.0361,
+   "flux": 27343.792,
+   "err": 394.888,
+   "det": "D6",
+   "date": "2026-05-01",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.4309,
+   "width": 0.0366,
+   "flux": 25495.567,
+   "err": 408.355,
+   "det": "D6",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.431,
+   "width": 0.0366,
+   "flux": 25313.847,
+   "err": 403.726,
+   "det": "D6",
+   "date": "2025-05-01",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.455,
+   "width": 0.0365,
+   "flux": 23739.424,
+   "err": 359.164,
+   "det": "D6",
+   "date": "2025-09-28",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.4626,
+   "width": 0.0358,
+   "flux": 21763.047,
+   "err": 497.881,
+   "det": "D6",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.4626,
+   "width": 0.0358,
+   "flux": 20858.248,
+   "err": 616.257,
+   "det": "D6",
+   "date": "2025-05-07",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.4627,
+   "width": 0.0358,
+   "flux": 19781.235,
+   "err": 424.553,
+   "det": "D6",
+   "date": "2025-05-01",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.4867,
+   "width": 0.0361,
+   "flux": 20911.233,
+   "err": 359.887,
+   "det": "D6",
+   "date": "2025-10-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.4949,
+   "width": 0.0356,
+   "flux": 19690.912,
+   "err": 359.764,
+   "det": "D6",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.4949,
+   "width": 0.0356,
+   "flux": 19912.655,
+   "err": 348.037,
+   "det": "D6",
+   "date": "2025-05-07",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.495,
+   "width": 0.0356,
+   "flux": 20682.025,
+   "err": 352.532,
+   "det": "D6",
+   "date": "2025-05-01",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.5082,
+   "width": 0.0356,
+   "flux": 19334.381,
+   "err": 360.054,
+   "det": "D6",
+   "date": "2025-11-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.5085,
+   "width": 0.0356,
+   "flux": 21134.027,
+   "err": 363.717,
+   "det": "D6",
+   "date": "2025-10-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.5275,
+   "width": 0.0357,
+   "flux": 16705.64,
+   "err": 330.743,
+   "det": "D6",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.5276,
+   "width": 0.0356,
+   "flux": 18003.795,
+   "err": 333.15,
+   "det": "D6",
+   "date": "2025-05-20",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.5408,
+   "width": 0.0356,
+   "flux": 18133.813,
+   "err": 416.82,
+   "det": "D6",
+   "date": "2025-11-03",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.5409,
+   "width": 0.0356,
+   "flux": 20136.873,
+   "err": 363.22,
+   "det": "D6",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.5605,
+   "width": 0.0359,
+   "flux": 16890.053,
+   "err": 557.46,
+   "det": "D6",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.5605,
+   "width": 0.0359,
+   "flux": 18065.803,
+   "err": 580.249,
+   "det": "D6",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.5739,
+   "width": 0.0356,
+   "flux": 18957.735,
+   "err": 350.353,
+   "det": "D6",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.5938,
+   "width": 0.0364,
+   "flux": 18581.687,
+   "err": 351.371,
+   "det": "D6",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.5939,
+   "width": 0.0364,
+   "flux": 18366.234,
+   "err": 341.186,
+   "det": "D6",
+   "date": "2025-06-10",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.607,
+   "width": 0.0358,
+   "flux": 20221.333,
+   "err": 794.973,
+   "det": "D6",
+   "date": "2025-11-04",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.6072,
+   "width": 0.0358,
+   "flux": 20877.552,
+   "err": 367.718,
+   "det": "D6",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.6272,
+   "width": 0.0369,
+   "flux": 17808.295,
+   "err": 1291.255,
+   "det": "D6",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.6273,
+   "width": 0.0369,
+   "flux": 19456.212,
+   "err": 347.239,
+   "det": "D6",
+   "date": "2025-06-10",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.6406,
+   "width": 0.036,
+   "flux": 19993.21,
+   "err": 382.265,
+   "det": "D6",
+   "date": "2025-11-04",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.6409,
+   "width": 0.036,
+   "flux": 22736.093,
+   "err": 475.743,
+   "det": "D6",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.6609,
+   "width": 0.0372,
+   "flux": 24679.783,
+   "err": 423.098,
+   "det": "D6",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.6612,
+   "width": 0.0372,
+   "flux": 24105.994,
+   "err": 380.801,
+   "det": "D6",
+   "date": "2025-06-10",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.6749,
+   "width": 0.0362,
+   "flux": 24986.435,
+   "err": 421.986,
+   "det": "D6",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.6947,
+   "width": 0.0375,
+   "flux": 22841.774,
+   "err": 381.139,
+   "det": "D6",
+   "date": "2026-05-04",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.6948,
+   "width": 0.0375,
+   "flux": 23758.716,
+   "err": 393.785,
+   "det": "D6",
+   "date": "2025-04-29",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.7091,
+   "width": 0.0364,
+   "flux": 22176.023,
+   "err": 386.085,
+   "det": "D6",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.7292,
+   "width": 0.0367,
+   "flux": 19344.008,
+   "err": 401.498,
+   "det": "D6",
+   "date": "2025-04-30",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.7293,
+   "width": 0.0367,
+   "flux": 19341.028,
+   "err": 388.386,
+   "det": "D6",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.7433,
+   "width": 0.0365,
+   "flux": 24303.093,
+   "err": 1440.789,
+   "det": "D6",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.7639,
+   "width": 0.0359,
+   "flux": 20498.731,
+   "err": 570.687,
+   "det": "D6",
+   "date": "2025-04-30",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.7639,
+   "width": 0.0359,
+   "flux": 19316.012,
+   "err": 404.152,
+   "det": "D6",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.7776,
+   "width": 0.0367,
+   "flux": 19061.296,
+   "err": 384.44,
+   "det": "D6",
+   "date": "2025-09-29",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.7984,
+   "width": 0.0358,
+   "flux": 24221.443,
+   "err": 1624.555,
+   "det": "D6",
+   "date": "2025-04-30",
+   "outlier": true,
+   "pass": 1
+  },
+  {
+   "um": 4.7984,
+   "width": 0.0357,
+   "flux": 20453.145,
+   "err": 402.999,
+   "det": "D6",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.8121,
+   "width": 0.0371,
+   "flux": 20645.553,
+   "err": 387.943,
+   "det": "D6",
+   "date": "2025-09-30",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.8328,
+   "width": 0.0358,
+   "flux": 20847.927,
+   "err": 410.312,
+   "det": "D6",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.8328,
+   "width": 0.0358,
+   "flux": 20124.897,
+   "err": 402.508,
+   "det": "D6",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.8329,
+   "width": 0.0358,
+   "flux": 20170.971,
+   "err": 505.439,
+   "det": "D6",
+   "date": "2025-04-30",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.8465,
+   "width": 0.0376,
+   "flux": 22137.695,
+   "err": 568.617,
+   "det": "D6",
+   "date": "2025-10-06",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.868,
+   "width": 0.0363,
+   "flux": 22099.36,
+   "err": 438.349,
+   "det": "D6",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.8823,
+   "width": 0.0376,
+   "flux": 21892.495,
+   "err": 422.998,
+   "det": "D6",
+   "date": "2025-10-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.9039,
+   "width": 0.0372,
+   "flux": 23346.927,
+   "err": 429.099,
+   "det": "D6",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.9181,
+   "width": 0.0372,
+   "flux": 23087.643,
+   "err": 422.084,
+   "det": "D6",
+   "date": "2025-10-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.9399,
+   "width": 0.0376,
+   "flux": 21834.117,
+   "err": 437.247,
+   "det": "D6",
+   "date": "2026-04-29",
+   "outlier": false,
+   "pass": 3
+  },
+  {
+   "um": 4.9538,
+   "width": 0.0372,
+   "flux": 22110.194,
+   "err": 436.331,
+   "det": "D6",
+   "date": "2025-10-01",
+   "outlier": false,
+   "pass": 2
+  },
+  {
+   "um": 4.9755,
+   "width": 0.0367,
+   "flux": 25391.995,
+   "err": 619.601,
+   "det": "D6",
+   "date": "2025-04-30",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.9756,
+   "width": 0.0367,
+   "flux": 25795.519,
+   "err": 479.643,
+   "det": "D6",
+   "date": "2025-05-06",
+   "outlier": false,
+   "pass": 1
+  },
+  {
+   "um": 4.9898,
+   "width": 0.0374,
+   "flux": 25825.614,
+   "err": 463.66,
+   "det": "D6",
+   "date": "2025-10-01",
+   "outlier": false,
+   "pass": 2
+  }
+ ],
+ "method": "One point per SPHEREx exposure. Wavelength from the spectral WCS at the star's pixel; aperture radius 3.0 px, background ring 5.0-8.0 px. Outliers (5 MAD from a running median) are kept but marked."
+}
