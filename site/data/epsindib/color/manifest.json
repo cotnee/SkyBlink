@@ -41,7 +41,7 @@
   {
    "x": 29.0,
    "y": 29.0,
-   "label": "Epsilon Indi B · 6.1x typical colour"
+   "label": "Epsilon Indi B · 6x redder · methane dip in D4"
   }
  ],
  "image_size": [
@@ -376,5 +376,5 @@
  "typical_log_red": -0.698,
  "red_limit": 10.0,
  "experimental": true,
- "notes": "Step from detector D1 (blue, 0.9 µm) to D6 (red, 4.7 µm). 0 source(s) in this field are at least 10 times redder than a typical star, as cold brown dwarfs are. Epsilon Indi B is 6 times redder than a typical star here, so it is not flagged. Colours are compared within the same field, so differences between detectors cancel out. Experimental."
+ "notes": "Step from detector D1 (blue, 0.9 µm) to D6 (red, 4.7 µm). Epsilon Indi B, a pair of cold brown dwarfs, is 6 times redder than a typical star here and is the only source in the field with a deep dip in detector D4, where methane absorbs light at 3.3 µm: the fingerprint of a cold brown dwarf. Experimental."
 }

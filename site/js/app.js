@@ -212,7 +212,7 @@ const LENS = {
 
 // First target that has this lens (for "Open the lens" links).
 // Home page examples: the target that shows a lens best, if it has that lens; else the first one that does.
-const SHOWCASE = { color: "wise0855" };
+const SHOWCASE = { color: "epsindib" };
 const firstTargetWith = mode =>
   state.targets.find(t => t.id === SHOWCASE[mode] && (t.modes || []).includes(mode)) ||
   state.targets.find(t => (t.modes || []).includes(mode)) || null;

@@ -41,7 +41,7 @@
   {
    "x": 29.0,
    "y": 29.0,
-   "label": "RW Aurigae · 23x redder"
+   "label": "RW Aurigae · 23x redder · warm dust"
   }
  ],
  "image_size": [
@@ -433,5 +433,5 @@
  "typical_log_red": -0.734,
  "red_limit": 10.0,
  "experimental": true,
- "notes": "Step from detector D1 (blue, 0.9 µm) to D6 (red, 4.7 µm). 1 source(s) in this field are at least 10 times redder than a typical star, as cold brown dwarfs are. RW Aurigae is 23 times redder than a typical star here and is flagged as strange. Colours are compared within the same field, so differences between detectors cancel out. Experimental."
+ "notes": "Step from detector D1 (blue, 0.9 µm) to D6 (red, 4.7 µm). RW Aurigae is 23 times redder than a typical star here, not because it is cold, but because warm dust in the disk around this young star glows in the infrared. Very red does not always mean cold: the methane dip is what points to a brown dwarf. Experimental."
 }
